@@ -1,0 +1,77 @@
+project:
+  type: website
+  output-dir: docs
+  
+website:
+  page-footer: Copyright 2026 | <a href="https://marce10.github.io">Marcelo Araya-Salas</a>
+  title: "Aprendizaje Estadístico, SEP-UCR 2026"
+  search: true
+  site-url: https://marce10.github.io/aprendizaje_estadistico_2026/
+  repo-url: https://github.com/maRce10/aprendizaje_estadistico_2026/
+  navbar:
+    background: white
+    right:
+      - icon: github
+        href: https://github.com/maRce10/aprendizaje_estadistico_2026
+        aria-label: GitHub
+    left:
+      - href: index.qmd
+        text: " "
+      # - text: "Programa"
+      #   href: program.qmd
+      - text: "Manuales"
+        menu:
+        - text: "Introducción al curso"
+          href: intro_curso.qmd
+        - text: "Fundamentos de R"
+          href: fundamentos_de_r.qmd
+        - text: "Importar y exportar datos de R"
+          href: importar_datos.qmd
+        - text: "Como simular datos"
+          href: como_simular_datos.qmd
+        - text: "Modelos de regresión"
+          href: modelos_de_regresion.qmd
+        - text: "Regresión logística y multinomial"
+          href: regresion_logística_y_multinomial.qmd
+        - text: "Evaluación de modelos"
+          href: evaluacion_de_modelos.qmd
+        - text: "Sobreajuste y entrenamiento"
+          href: sobreajuste_y_entrenamiento.qmd
+        - text: "Modelos de árboles"
+          href: modelos_de_arboles.qmd
+        - text: "Gráficos con ggplot2"
+          href: ggplot2.qmd
+        - text: "Reportes dinámicos"
+          href: reportes_dinamicos.qmd
+      - text: "Preparación para el curso"
+        href: preparacion_curso.qmd
+      - text: "Compartir código"
+        href: https://codefile.io/f/inMsojTFoN
+      - text: "Programa"
+        href: programa.qmd
+      - text: "Profesor"
+        href: instructor.qmd
+
+toc: true
+toc-depth: 2
+toc-location: left
+toc-title: Contenidos
+number-sections: true
+code-line-numbers: false
+highlight-style: pygments
+code-overflow: wrap
+code-copy: true
+embed-resources: true
+date: today
+lang: es
+format:
+  html:
+    css: styles.css
+    toc: true
+    df-print: kable
+    code-fold: show
+    code-tools: true
+    link-external-icon: false
+    link-external-newwindow: true  
+      
+editor: visual

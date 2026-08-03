@@ -1,0 +1,512 @@
+x3[y != 3] <- rnorm(n = sum(y != 3), mean = 0)
+# Crear un dataframe con las variables simuladas
+datos_multin <- data.frame(y = factor(y, labels = c("a", "b", "c")), x1 = x1, x2 = x2, x3 = x3)
+# Visualizar las primeras filas de los datos simulados
+head(datos_multin)
+# Ajustar el modelo de regresión multinomial
+modelo_multinom <- multinom(y ~ x1 + x2 + x3, data = datos_multin)
+# Crear una secuencia de valores para x1
+x1_nuevo <- seq(min(datos_multin$x1), max(datos_multin$x1), length.out = 100)
+# Generar un nuevo conjunto de datos con x1 variando y x2 fijo
+nuevo_data <- data.frame(x1 = x1_nuevo, x2 = 0, x3 = 0)
+# Obtener las probabilidades predichas para el nuevo conjunto de datos
+prob_predichas <- predict(modelo_multinom, newdata = nuevo_data, type = "probs")
+# definir colores
+cols <- mako(3, begin = 0.4, end = 0.9)
+# Graficar las probabilidades predichas
+matplot(x1_nuevo, prob_predichas, type = "l", lty = 1, col = cols,
+xlab = "x1", ylab = "Probabilidad predicha",
+main = "Probabilidades predichas para cada categoría")
+legend("topright", legend = levels(datos_multin$y), col = cols, lty = 1)
+# Crear una secuencia de valores para x2
+x2_nuevo <- seq(min(datos_multin$x2), max(datos_multin$x2), length.out = 100)
+# Generar un nuevo conjunto de datos con x1 variando y x2 fijo
+nuevo_data <- data.frame(x2 = x2_nuevo, x1 = 0)
+# Obtener las probabilidades predichas para el nuevo conjunto de datos
+prob_predichas2 <- predict(modelo_multinom, newdata = nuevo_data, type = "probs")
+# instalar/cargar paquetes
+sketchy::load_packages(
+c("ggplot2",
+"viridis",
+"nnet",
+"caret"
+)
+)
+# Establecer una semilla para reproducibilidad
+set.seed(123)
+# Simular variables predictoras
+n <- 500  # número de observaciones
+x1 <- rnorm(n)
+x2 <- rnorm(n)
+# Probabilidades para cada categoría
+p_y1 <- exp(1 + 2 * x1 - 5 * x2) / (1 + exp(1 + 2 * x1 - 5 * x2) + exp(-2 + x1 + 10 * x2))
+p_y2 <- exp(-2 + x1 + 10 * x2) / (1 + exp(1 + 2 * x1 - 5 * x2) + exp(-2 + x1 + 10 * x2))
+p_y3 <- 1 - p_y1 - p_y2  # Probabilidad de la tercera categoría
+# Asignar categorías de acuerdo con las probabilidades
+y <- sapply(1:n, function(i) sample(1:3, size = 1, prob = c(p_y1[i], p_y2[i], p_y3[i])))
+# x3 <- ifelse(y == 3, rnorm(1, mean = 2), rnorm(1, mean = 0))
+x3 <- rep(NA, length(y))
+x3[y == 3] <- rnorm(n = sum(y == 3), mean = 2)
+x3[y != 3] <- rnorm(n = sum(y != 3), mean = 0)
+# Crear un dataframe con las variables simuladas
+datos_multin <- data.frame(y = factor(y, labels = c("a", "b", "c")), x1 = x1, x2 = x2, x3 = x3)
+# Visualizar las primeras filas de los datos simulados
+head(datos_multin)
+# Ajustar el modelo de regresión multinomial
+modelo_multinom <- multinom(y ~ x1 + x2 + x3, data = datos_multin)
+# Crear una secuencia de valores para x1
+x1_nuevo <- seq(min(datos_multin$x1), max(datos_multin$x1), length.out = 100)
+# Generar un nuevo conjunto de datos con x1 variando y x2 fijo
+nuevo_data <- data.frame(x1 = x1_nuevo, x2 = 0, x3 = 0)
+# Obtener las probabilidades predichas para el nuevo conjunto de datos
+prob_predichas <- predict(modelo_multinom, newdata = nuevo_data, type = "probs")
+# definir colores
+cols <- mako(3, begin = 0.4, end = 0.9)
+# Graficar las probabilidades predichas
+matplot(x1_nuevo, prob_predichas, type = "l", lty = 1, col = cols,
+xlab = "x1", ylab = "Probabilidad predicha",
+main = "Probabilidades predichas para cada categoría")
+legend("topright", legend = levels(datos_multin$y), col = cols, lty = 1)
+# Crear una secuencia de valores para x2
+x2_nuevo <- seq(min(datos_multin$x2), max(datos_multin$x2), length.out = 100)
+# Generar un nuevo conjunto de datos con x1 variando y x2 fijo
+nuevo_data <- data.frame(x2 = x2_nuevo, x1 = 0)
+# Obtener las probabilidades predichas para el nuevo conjunto de datos
+# prob_predichas2 <- predict(modelo_multinom, newdata = nuevo_data, type = "probs")
+#
+# # definir colores
+# cols <- mako(3, begin = 0.4, end = 0.9)
+#
+# # Graficar las probabilidades predichas
+# par(mfrow = c(2, 1))
+# matplot(x2_nuevo, prob_predichas2, type = "l", lty = 1, col = cols,
+#         xlab = "x2", ylab = "Probabilidad predicha",
+#         main = "Probabilidades predichas para cada categoría")
+# legend("topright", legend = levels(datos_multin$y), col = cols, lty = 1)
+#
+#
+# matplot(x1_nuevo, prob_predichas, type = "l", lty = 1, col = cols,
+#         xlab = "x1", ylab = "Probabilidad predicha",
+#         main = "Probabilidades predichas para cada categoría")
+# legend("topright", legend = levels(datos_multin$y), col = cols, lty = 1)
+#
+# predecir valores
+pred_cat <- predict(modelo_multinom, datos_multin, type = "class")
+# hacer la matriz de confusion
+mat_conf <-
+confusionMatrix(factor(pred_cat), factor(datos_multin$y))
+# imprimir resultado
+mat_conf$table
+mat_conf$overall["Accuracy"]
+# convertir a data frame
+conf_df <- as.data.frame(mat_conf$table)
+# agregar totales por categoria
+conf_df$total <-
+sapply(conf_df$Reference, function(x)
+sum(datos_multin$y ==
+x))
+# calcular proporciones
+conf_df$proportion <- conf_df$Freq / conf_df$total
+ggplot(conf_df, aes(x = Reference, y = Prediction, fill = proportion)) +
+geom_tile() +
+coord_equal() +
+scale_fill_distiller(palette = "Greens", direction = 1) +
+geom_text(aes(label = round(proportion, 2)), color = "black", size = 3) +
+labs(x = "Observado", y = "Predicho", fill = "Proporción")
+summary(modelo_multinom)
+ggplot(datos_multin, aes(x = x1, y = x3, color = y)) +
+geom_point() +
+scale_color_viridis_d(option = "G", begin = 0.4, end = 0.9) +
+labs(x = "x1", y = "x3", color = "Categoría")
+# instalar/cargar paquetes
+sketchy::load_packages(
+c("ggplot2",
+"viridis",
+"nnet",
+"caret"
+)
+)
+# Establecer una semilla para reproducibilidad
+set.seed(123)
+# Simular variables predictoras
+n <- 500  # número de observaciones
+x1 <- rnorm(n)
+x2 <- rnorm(n)
+# Probabilidades para cada categoría
+p_y1 <- exp(1 + 2 * x1 - 5 * x2) / (1 + exp(1 + 2 * x1 - 5 * x2) + exp(-2 + x1 + 10 * x2))
+p_y2 <- exp(-2 + x1 + 10 * x2) / (1 + exp(1 + 2 * x1 - 5 * x2) + exp(-2 + x1 + 10 * x2))
+p_y3 <- 1 - p_y1 - p_y2  # Probabilidad de la tercera categoría
+# Asignar categorías de acuerdo con las probabilidades
+y <- sapply(1:n, function(i) sample(1:3, size = 1, prob = c(p_y1[i], p_y2[i], p_y3[i])))
+# x3 <- ifelse(y == 3, rnorm(1, mean = 2), rnorm(1, mean = 0))
+x3 <- rep(NA, length(y))
+x3[y == 3] <- rnorm(n = sum(y == 3), mean = 4)
+x3[y != 3] <- rnorm(n = sum(y != 3), mean = 0)
+# Crear un dataframe con las variables simuladas
+datos_multin <- data.frame(y = factor(y, labels = c("a", "b", "c")), x1 = x1, x2 = x2, x3 = x3)
+# Visualizar las primeras filas de los datos simulados
+head(datos_multin)
+# Ajustar el modelo de regresión multinomial
+modelo_multinom <- multinom(y ~ x1 + x2 + x3, data = datos_multin)
+# Crear una secuencia de valores para x1
+x1_nuevo <- seq(min(datos_multin$x1), max(datos_multin$x1), length.out = 100)
+# Generar un nuevo conjunto de datos con x1 variando y x2 fijo
+nuevo_data <- data.frame(x1 = x1_nuevo, x2 = 0, x3 = 0)
+# Obtener las probabilidades predichas para el nuevo conjunto de datos
+prob_predichas <- predict(modelo_multinom, newdata = nuevo_data, type = "probs")
+# definir colores
+cols <- mako(3, begin = 0.4, end = 0.9)
+# Graficar las probabilidades predichas
+matplot(x1_nuevo, prob_predichas, type = "l", lty = 1, col = cols,
+xlab = "x1", ylab = "Probabilidad predicha",
+main = "Probabilidades predichas para cada categoría")
+legend("topright", legend = levels(datos_multin$y), col = cols, lty = 1)
+# Crear una secuencia de valores para x2
+x2_nuevo <- seq(min(datos_multin$x2), max(datos_multin$x2), length.out = 100)
+# Generar un nuevo conjunto de datos con x1 variando y x2 fijo
+nuevo_data <- data.frame(x2 = x2_nuevo, x1 = 0)
+# Obtener las probabilidades predichas para el nuevo conjunto de datos
+# prob_predichas2 <- predict(modelo_multinom, newdata = nuevo_data, type = "probs")
+#
+# # definir colores
+# cols <- mako(3, begin = 0.4, end = 0.9)
+#
+# # Graficar las probabilidades predichas
+# par(mfrow = c(2, 1))
+# matplot(x2_nuevo, prob_predichas2, type = "l", lty = 1, col = cols,
+#         xlab = "x2", ylab = "Probabilidad predicha",
+#         main = "Probabilidades predichas para cada categoría")
+# legend("topright", legend = levels(datos_multin$y), col = cols, lty = 1)
+#
+#
+# matplot(x1_nuevo, prob_predichas, type = "l", lty = 1, col = cols,
+#         xlab = "x1", ylab = "Probabilidad predicha",
+#         main = "Probabilidades predichas para cada categoría")
+# legend("topright", legend = levels(datos_multin$y), col = cols, lty = 1)
+#
+# predecir valores
+pred_cat <- predict(modelo_multinom, datos_multin, type = "class")
+# hacer la matriz de confusion
+mat_conf <-
+confusionMatrix(factor(pred_cat), factor(datos_multin$y))
+# imprimir resultado
+mat_conf$table
+mat_conf$overall["Accuracy"]
+# convertir a data frame
+conf_df <- as.data.frame(mat_conf$table)
+# agregar totales por categoria
+conf_df$total <-
+sapply(conf_df$Reference, function(x)
+sum(datos_multin$y ==
+x))
+# calcular proporciones
+conf_df$proportion <- conf_df$Freq / conf_df$total
+ggplot(conf_df, aes(x = Reference, y = Prediction, fill = proportion)) +
+geom_tile() +
+coord_equal() +
+scale_fill_distiller(palette = "Greens", direction = 1) +
+geom_text(aes(label = round(proportion, 2)), color = "black", size = 3) +
+labs(x = "Observado", y = "Predicho", fill = "Proporción")
+summary(modelo_multinom)
+ggplot(datos_multin, aes(x = x1, y = x3, color = y)) +
+geom_point() +
+scale_color_viridis_d(option = "G", begin = 0.4, end = 0.9) +
+labs(x = "x1", y = "x3", color = "Categoría")
+View(iris)
+table(iris$Species)
+# Chunk 1
+options("digits"=5)
+options("digits.secs"=3)
+# Chunk 2
+library(knitr)
+library(ggplot2)
+library(viridis)
+library(nnet)
+# ggplot settings
+geom_histogram <- function(...) ggplot2::geom_histogram(..., fill = viridis(10, alpha = 0.5)[8], show.legend = FALSE, bins = 20, color = "black")
+geom_smooth <- function(...) ggplot2::geom_smooth(..., color = viridis(10,  alpha = 0.5)[8])
+geom_boxplot <- function(...) ggplot2::geom_boxplot(..., fill = viridis(10, alpha = 0.5)[7])
+geom_pointrange <- function(...) ggplot2::geom_pointrange(..., show.legend = FALSE, color = viridis(10, alpha = 0.5)[7], size = 2)
+theme_set(theme_classic(base_size = 20))
+fill <- list(alert = "#cff4fc", success = "#d1e7dd")
+# Chunk 3
+# instalar/cargar paquetes
+sketchy::load_packages(
+c("ggplot2",
+"viridis",
+"nnet",
+"caret"
+)
+)
+# Chunk 4
+# Simulación de datos
+set.seed(123)  # Para reproducibilidad
+n <- 100  # Número de observaciones
+x1 <- rnorm(n)  # Predictor 1: variable normal
+x2 <- rnorm(n)  # Predictor 2: variable normal
+# Coeficientes reales para la simulación
+b0 <- -0.5  # Intercepto
+b1 <- 3.4  # Coeficiente de x1
+b2 <- -3  # Coeficiente de x2
+# Calcular la probabilidad usando la función logística
+logit_p <- b0 + b1 * x1 + b2 * x2
+p <- 1 / (1 + exp(-logit_p))
+# Generar la respuesta binaria
+y <- rbinom(n, 1, p)
+# Crear un data frame
+datos <- data.frame(x1 = x1, x2 = x2, y = y)
+# explorar datos
+head(datos)
+# Chunk 5
+# graficar
+ggplot(datos, aes(x = x1, y = y)) +
+geom_point(color = "#3E4A89FF")
+ggplot(datos, aes(x = x2, y = y)) +
+geom_point(color =  "#1F9E89FF")
+# Chunk 6
+# Ajustar el modelo de regresión logística
+modelo_log <- glm(y ~ x1 + x2, data = datos, family = binomial)
+# Resumen del modelo
+summary(modelo_log)
+# Chunk 7
+# Crear un nuevo data frame con las predicciones para x1
+nuevos_datos <-
+expand.grid(
+x1 = seq(min(datos$x1), max(datos$x1), length.out = 100),
+x2 = seq(min(datos$x2), max(datos$x2), length.out = 100)
+)
+# anadir predicciones
+nuevos_datos$pred_prob <-
+predict(object = modelo_log,
+newdata = nuevos_datos,
+type = "response")
+# Crear el gráfico de puntos y la curva de mejor ajuste para x1
+ggplot(datos, aes(x = x1, y = y)) +
+geom_point(alpha = 0.5, color = "#3E4A89FF") +  # Datos crudos
+geom_smooth(data = nuevos_datos, aes(y = pred_prob, x = x1), method = "glm", method.args = list(family = "binomial"), se = FALSE) +
+labs(y = "Probabilidad de y = 1")
+# Crear el gráfico de puntos y la curva de mejor ajuste para x2
+ggplot(datos, aes(x = x2, y = y)) +
+geom_point(alpha = 0.5, color = "#1F9E89FF") +  # Datos crudos
+geom_smooth(data = nuevos_datos, aes(y = pred_prob, x = x2), method = "glm", method.args = list(family = "binomial"), se = FALSE) +
+labs(y = "Probabilidad de y = 1")
+# Chunk 8
+# Obtener los log-chances
+coefs <- coef(modelo_log)
+coefs
+# Chunk 9
+# Obtener las razones de probabilidades
+exp_coefs <- exp(coefs)
+exp_coefs
+# Chunk 10
+# predecir valores
+pred_vals <- predict(modelo_log, datos, type = "response")
+# binarizar
+pred_cat <- ifelse(pred_vals > 0.5, 1, 0)
+# hacer la matriz de confusion
+mat_conf <-
+confusionMatrix(factor(pred_cat), factor(datos$y))
+# imprimir resultado
+mat_conf$table
+# Chunk 11
+mat_conf$overall["Accuracy"]
+# Chunk 12
+# convertir a data frame
+conf_df <- as.data.frame(mat_conf$table)
+# agregar totales por categoria
+conf_df$total <-
+sapply(conf_df$Reference, function(x)
+sum(datos$y ==
+x))
+# calcular proporciones
+conf_df$proportion <- conf_df$Freq / conf_df$total
+ggplot(conf_df, aes(x = Reference, y = Prediction, fill = proportion)) +
+geom_tile() +
+coord_equal() +
+scale_fill_distiller(palette = "Greens", direction = 1) +
+geom_text(aes(label = round(proportion, 2)), color = "black", size = 3) +
+labs(x = "Observado", y = "Predicho", fill = "Proporción")
+# Chunk 13
+# Simulación de datos
+set.seed(123)  # Para reproducibilidad
+n <- 100  # Número de observaciones
+x1 <- rnorm(n)  # Predictor 1: variable normal
+x2 <- rnorm(n)  # Predictor 2: variable normal
+# Coeficientes reales para la simulación
+b0 <- -0.5  # Intercepto
+b1 <- 1.5  # Coeficiente de x1
+b2 <- -2  # Coeficiente de x2
+b3 <- 3 # interaccion
+# Calcular la probabilidad usando la función logística
+logit_p <- b0 + b1 * x1 + b2 * x2 + b3 * x1 * x2
+p <- 1 / (1 + exp(-logit_p))
+# Generar la respuesta binaria
+y <- rbinom(n, 1, p)
+# Crear un data frame
+datos <- data.frame(x1 = x1, x2 = x2, y = y)
+# explorar datos
+head(datos)
+# Chunk 14
+# graficar
+ggplot(datos, aes(x = x1, y = y)) +
+geom_point(color = "#3E4A89FF")
+ggplot(datos, aes(x = x2, y = y)) +
+geom_point(color =  "#1F9E89FF")
+# Chunk 15
+# Ajustar el modelo de regresión logística
+modelo_log_int <- glm(y ~ x1 * x2, data = datos, family = binomial)
+# Resumen del modelo
+summary(modelo_log_int)
+# Chunk 16
+# predecir valores
+pred_vals <- predict(object = modelo_log_int, newdata = datos, type = "response")
+# binarizar
+pred_cat <- ifelse(pred_vals > 0.5, 1, 0)
+# hacer la matriz de confusion
+mat_conf <-
+confusionMatrix(factor(pred_cat), factor(datos$y))
+# imprimir resultado
+mat_conf$table
+mat_conf$overall["Accuracy"]
+# convertir a data frame
+conf_df <- as.data.frame(mat_conf$table)
+# agregar totales por categoria
+conf_df$total <-
+sapply(conf_df$Reference, function(x)
+sum(datos$y ==
+x))
+# calcular proporciones
+conf_df$proportion <- conf_df$Freq / conf_df$total
+ggplot(conf_df, aes(x = Reference, y = Prediction, fill = proportion)) +
+geom_tile() +
+coord_equal() +
+scale_fill_distiller(palette = "Greens", direction = 1) +
+geom_text(aes(label = round(proportion, 2)), color = "black", size = 3) +
+labs(x = "Observado", y = "Predicho", fill = "Proporción")
+# Chunk 17
+# cargar datos
+data("Titanic")
+# dar formato con una observacion por fila
+datos_titanic <- as.data.frame(Titanic)
+datos_titanic <- datos_titanic[datos_titanic$Freq > 0, ]
+datos_tab_titanic <- do.call(rbind, lapply(1:nrow(datos_titanic), function(x) datos_titanic[rep(x, datos_titanic$Freq[x]),]))
+datos_tab_titanic$Freq <- NULL
+# explorar datos
+head(datos_tab_titanic, 10)
+# Chunk 18
+# Ajustar el modelo de regresión logística
+modelo_log <- glm(Survived ~ Class, data = datos_tab_titanic, family = binomial)
+# Resumen del modelo
+summary(modelo_log)
+# Chunk 19
+# predecir valores
+pred_vals <- predict(object = modelo_log, newdata = datos_tab_titanic, type = "response")
+# binarizar
+pred_cat <- ifelse(pred_vals > 0.5, "Yes", "No")
+# hacer la matriz de confusion
+mat_conf <-
+confusionMatrix(factor(pred_cat), factor(datos_tab_titanic$Survived))
+# imprimir resultado
+mat_conf$table
+# Chunk 21
+# convertir a data frame
+conf_df <- as.data.frame(mat_conf$table)
+# agregar totales por categoria
+conf_df$total <-
+sapply(conf_df$Reference, function(x)
+sum(datos_tab_titanic$Survived ==
+x))
+# calcular proporciones
+conf_df$proportion <- conf_df$Freq / conf_df$total
+ggplot(conf_df, aes(x = Reference, y = Prediction, fill = proportion)) +
+geom_tile() +
+coord_equal() +
+scale_fill_distiller(palette = "Greens", direction = 1) +
+geom_text(aes(label = round(proportion, 2)), color = "black", size = 3) +
+labs(x = "Observado", y = "Predicho", fill = "Proporción") + theme(
+panel.background = element_rect(fill = "#cff4fc", color = "#cff4fc"),  # Panel background color
+plot.background = element_rect(fill = "#cff4fc", color = "#cff4fc"),    # Plot background color
+legend.background = element_rect(fill = "#cff4fc", color = "#cff4fc"), # Change legend background color
+panel.border = element_rect(color = "#cff4fc", fill = NA, linewidth = 0),  # Border of the plot area
+)
+# Chunk 22
+# precision
+mat_conf$overall["Accuracy"]
+# Chunk 23
+# Establecer una semilla para reproducibilidad
+set.seed(123)
+# Simular variables predictoras
+n <- 500  # número de observaciones
+x1 <- rnorm(n)
+x2 <- rnorm(n)
+# Probabilidades para cada categoría
+p_y1 <- exp(1 + 2 * x1 - 5 * x2) / (1 + exp(1 + 2 * x1 - 5 * x2) + exp(-2 + x1 + 10 * x2))
+p_y2 <- exp(-2 + x1 + 10 * x2) / (1 + exp(1 + 2 * x1 - 5 * x2) + exp(-2 + x1 + 10 * x2))
+p_y3 <- 1 - p_y1 - p_y2  # Probabilidad de la tercera categoría
+# Asignar categorías de acuerdo con las probabilidades
+y <- sapply(1:n, function(i) sample(1:3, size = 1, prob = c(p_y1[i], p_y2[i], p_y3[i])))
+# Crear un dataframe con las variables simuladas
+datos_multin <- data.frame(y = factor(y, labels = c("a", "b", "c")), x1 = x1, x2 = x2)
+# Visualizar las primeras filas de los datos simulados
+head(datos_multin)
+# Chunk 24
+ggplot(datos_multin, aes(x = x1, y = x2, color = y)) +
+geom_point() +
+scale_color_viridis_d(option = "G", begin = 0.4, end = 0.9) +
+labs(x = "x1", y = "x2", color = "Categoría")
+coefs
+summ_modelo_multinom <- summary(modelo_multinom)
+coefs <- summ_modelo_multinom$coefficients
+coefs
+coefs
+coefs
+coefs[1, 2:3]
+summ_modelo_multinom <- summary(modelo_multinom)
+coefs <- summ_modelo_multinom$coefficients
+# anadir valores de p
+p_x1 <- (1 - pnorm(abs(coefs[1:2, 2]), 0, 1)) * 2
+p_x2 <- (1 - pnorm(abs(coefs[1:2, 3]), 0, 1)) * 2
+coefs <- cbind(coefs, p_x1, p_x2)
+coefs
+summ_modelo_multinom <- summary(modelo_multinom)
+coefs <- summ_modelo_multinom$coefficients
+# anadir valores de p
+p_x1 <- (1 - pnorm(abs(coefs[1:2, 2]), 0, 1)) * 2
+p_x2 <- (1 - pnorm(abs(coefs[1:2, 3]), 0, 1)) * 2
+coefs <- cbind(coefs, p_x1, p_x2)
+coefs```
+summ_modelo_multinom <- summary(modelo_multinom)
+coefs <- summ_modelo_multinom$coefficients
+# anadir valores de p
+p_x1 <- (1 - pnorm(abs(coefs[, 2]), 0, 1)) * 2
+p_x2 <- (1 - pnorm(abs(coefs[, 3]), 0, 1)) * 2
+coefs <- cbind(coefs, p_x1, p_x2)
+coefs
+summ_modelo_multinom <- summary(modelo_multinom)
+coefs <- summ_modelo_multinom$coefficients
+# anadir valores de p
+p_x1 <- (1 - pnorm(abs(coefs[1:2, 2]), 0, 1)) * 2
+p_x2 <- (1 - pnorm(abs(coefs[1:2, 3]), 0, 1)) * 2
+coefs <- cbind(coefs, p_x1, p_x2)
+coefs```
+summ_modelo_multinom <- summary(modelo_multinom)
+coefs <- summ_modelo_multinom$coefficients
+# anadir valores de p
+p_x1 <- (1 - pnorm(abs(coefs[1:2, 2]), 0, 1)) * 2
+p_x2 <- (1 - pnorm(abs(coefs[1:2, 3]), 0, 1)) * 2
+coefs <- cbind(coefs, p_x1, p_x2)
+coefs```
+summ_modelo_multinom <- summary(modelo_multinom)
+coefs <- summ_modelo_multinom$coefficients
+# anadir valores de p
+p_x1 <- (1 - pnorm(abs(coefs[1:2, 2]), 0, 1)) * 2
+p_x2 <- (1 - pnorm(abs(coefs[1:2, 3]), 0, 1)) * 2
+coefs <- cbind(coefs, p_x1, p_x2)
+coefs```
+summ_modelo_multinom <- summary(modelo_multinom)
+coefs <- summ_modelo_multinom$coefficients
+# anadir valores de p
+p_x1 <- (1 - pnorm(abs(coefs[, 2]), 0, 1)) * 2
+p_x2 <- (1 - pnorm(abs(coefs[, 3]), 0, 1)) * 2
+coefs <- cbind(coefs, p_x1, p_x2)
+coefs

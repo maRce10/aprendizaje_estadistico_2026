@@ -1,0 +1,384 @@
+---
+number-sections: false
+format:
+  html:
+    code-tools: false
+---
+
+<font size="4">
+
+------------------------------------------------------------------------
+
+::: {.alert .alert-info}
+[Programa del curso en PDF](https://github.com/maRce10/aprendizaje_estadistico_2026/blob/master/additional_files/programa_SP_3068_aprendizaje_de_maquinas.pdf)
+:::
+
+::: {.alert .alert-success}
+# Antes de empezar el curso {.unnumbered .unlisted}
+
+-   Asegurese de instalar los paquetes necesarios para el curso detallados [aqui](../preparacion_curso.html).
+:::
+
+# Día 1
+
+**Introducción a R (Parte I)** <a href="fundamentos_de_r.qmd" class="btn btn-warning btn-xs" role="button">tutorial</a>
+
+-   Introducción al aprendizaje estadístico
+-   Instalación de R y RStudio
+-   Navegación en el entorno de RStudio
+-   Estructuras de datos básicas: vectores, matrices y listas
+-   Operaciones básicas y funciones en R
+
+::: {.alert .alert-warning}
+## Recursos adicionales
+
+-   Lectura: Badillo et al (2020). [An introduction to machine learning](https://ascpt.onlinelibrary.wiley.com/doi/full/10.1002/cpt.1796)
+:::
+
+# Día 2
+
+**Introducción a R (Parte II)** <a href="fundamentos_de_r.qmd" class="btn btn-warning btn-xs" role="button">tutorial</a>
+
+-   Manejo de data frames y matrices
+-   Filtrado, ordenamiento y resumen de datos
+-   Visualización básica de datos con gráficos base
+-   Creación de gráficos personalizados
+
+# Día 3
+
+**Simulación de Datos con Patrones Predefinidos**<a href="como_simular_datos.qmd" class="btn btn-warning btn-xs" role="button">tutorial</a>
+
+-   Introducción a la simulación de datos y su importancia
+-   Generación de datos con distribuciones específicas (normal, uniforme, etc.)
+-   Creación de datos con correlaciones y estructuras de dependencia
+-   Generación de datos categóricos y con ruido controlado
+
+::: {.alert .alert-warning}
+## Recursos adicionales
+
+-   Lectura: Roediger et al (2001). [Factors that determine false recall: A multiple regression analysis](https://link.springer.com/content/pdf/10.3758/bf03196177.pdf)
+:::
+
+::: {.alert .alert-info}
+# Tarea 1
+
+**Fecha de entrega: 10 de septiembre**
+
+*Deben subir a mediación virtual el código con las respuestas en un archivo .R, .Rmd o .qmd*
+
+1.  Genere un conjunto de datos con 100 observaciones y 5 variables, donde una de ellas sea una variable categórica con 3 niveles. Cada variable cuantitativa debe ser generada con una distriución diferente (e.g. normal,log-normal, gamma, etc)
+
+2.  Cree 100 replicas aleatorias del conjunto de datos del punto 1.
+
+*Pista:*
+
+```{r, eval = FALSE}
+
+replicate(n = 3, expr = {
+  v1 <- sample(letters, 2)
+  v2 <- runif(3)
+  l1 <- list(v1, v2)
+},
+simplify = FALSE)
+
+```
+:::
+
+# Día 4
+
+**Regresión lineal simple** <a href="modelos_de_regresion.qmd" class="btn btn-warning btn-xs" role="button">tutorial</a>
+
+-   Conceptos básicos de regresión lineal simple
+-   Ajuste de modelos y interpretación de coeficientes
+-   Evaluación del modelo: R² y error cuadrático medio (MSE)
+-   Diagnóstico de supuestos y multicolinealidad
+-   Tamaño de muestra y poder estadístico
+
+# Día 5
+
+**Regresión Múltiple e Interacciones** <a href="modelos_de_regresion.qmd" class="btn btn-warning btn-xs" role="button">tutorial</a>
+
+-   Introducción a la regresión múltiple
+-   Modelado con variables categóricas mediante variables ficticias
+-   Interacciones entre variables y su interpretación
+-   Evaluación y diagnóstico de modelos avanzados
+
+# Día 6
+
+**Regresión Logística** <a href="regresion_logística_y_multinomial.qmd" class="btn btn-warning btn-xs" role="button">tutorial</a>
+
+-   Introducción a la clasificación y problemas de clasificación
+-   Regresión logística, uso e interpretación
+-   Predicciones a partir de un modelo
+-   Regresión multinomial
+-   Análisis de función discriminante
+
+::: {.alert .alert-warning}
+## Recursos adicionales
+
+-   Lectura: Chen et al (2023). [Identifying the top determinants of psychological resilience among community older adults during COVID-19 in Taiwan: A random forest approach](https://www.sciencedirect.com/science/article/pii/S2666827023000476)
+:::
+
+::: {.alert .alert-info}
+# Tarea 2
+
+1.  Investigue el efecto del tamaño de muestra en la estimación de parámetros de un modelo de regresión lineal simple. ¿Qué sucede con la precisión de los coeficientes a medida que aumenta el tamaño de muestra?. Genere gŕaficos de tamano de muestra (de 5 a 100 observaciones) vs. la distancia entre coeficientes estimados y simulados y explique sus observaciones.
+
+2.  Investigue el efecto de la multicolinealidad en la estimación de parámetros de un modelo de regresión lineal múltiple. ¿Qué sucede con la precisión de los coeficientes a medida que aumenta la correlación entre variables?. Genere gŕaficos de correlación (de 0 a 0.9) vs. la distancia entre coeficientes estimados y simulados y explique sus observaciones.
+
+3.  Haga el mismo ejercicio para un modelo de regresión logística y evalúe el efecto de la multicolinealidad en la estimación de coeficientes y la precisión del modelo.
+:::
+
+# Día 7
+
+**Métodos de Remuestreo y Evaluación de Modelos (Parte I)** <a href="sobreajuste_y_entrenamiento.qmd" class="btn btn-warning btn-xs" role="button">tutorial</a>
+
+-   Validación cruzada y técnicas de remuestreo
+-   Uso de validación cruzada para evaluar modelos
+-   Medidas de evaluación: matriz de confusión, precisión, recall, índice F1
+
+# Día 8
+
+**Evaluación de Modelos (Parte II)** <a href="sobreajuste_y_entrenamiento.qmd" class="btn btn-warning btn-xs" role="button">tutorial</a>
+
+-   Validación cruzada y división de conjuntos de datos
+-   Curvas ROC y AUC: interpretación y uso
+-   Análisis de errores y ajuste de modelos
+-   Comparación y selección de modelos
+
+# Día 9
+
+**Métodos Basados en Árboles** <a href="modelos_de_arboles.qmd" class="btn btn-warning btn-xs" role="button">tutorial</a>
+
+-   Árboles de decisión: construcción e interpretación
+-   Random forest: fundamentos y aplicaciones
+-   Evaluación de modelos de árboles y comparación con otros métodos
+
+::: {.alert .alert-warning}
+## Recursos adicionales
+
+-   Lectura: Choi et al. (2020). [Introduction to machine learning, neural networks, and deep learning](https://tvst.arvojournals.org/article.aspx?articleid=2762344)
+-   Video: [Random Forest Algorithm Clearly Explained](https://www.youtube.com/watch?v=v6VJ2RO66Ag)
+:::
+
+# Día 10
+
+**Explorar Espacios Multidimensionales: Reducción de Dimensionalidad** 
+<!-- <a href="" class="btn btn-warning btn-xs" role="button">tutorial</a> -->
+
+-   Introducción a la reducción de dimensionalidad y su necesidad
+-   Análisis de Componentes Principales (PCA): teoría y aplicación
+-   Visualización de datos en espacios reducidos
+-   Comparación con otros métodos como t-SNE
+
+::: {.alert .alert-info}
+# Tarea 3
+
+Usaremos los datos de Cortez y Silva (2008) sobre el desempeño académico de estudiantes en la clase de matemáticas. Los datos contienen 395 observaciones y 31 variables. La variable respuesta es `G3` (calificación final), y las variables predictoras son las demás variables del conjunto de datos. Pueden econtrar una [descripción detallada de los datos aqui](https://archive.ics.uci.edu/dataset/320/student+performance). El siguiente código carga los datos y remueve las variables `G1` y `G2` (calificaciones parciales) para evitar multicolinealidad:
+
+```{r}
+
+# leer datos
+datos_mate <- read.csv("https://raw.githubusercontent.com/maRce10/aprendizaje_estadistico_2026/refs/heads/master/data/student/student-mat.csv", sep = ";")
+
+# remover G1 y G2 (calificaciones parciales)
+datos_mate$G1 <- datos_mate$G2 <- NULL
+
+str(datos_mate)
+
+```
+
+1.  Ajuste un modelo de regresión lineal con los datos de `datos_mate` donde la variable respuesta sea `G3`. Utilice su conocimiento del sistema (como estudiante) para escoger las variables predictoras que usted espere tengan un mayor efecto sobre el desempeño académico. Calcule el R^2^ para este modelo.
+
+```{r solucion del ejercicio 1}
+#| eval: false
+#| echo: false
+
+# ajustar modelo
+mod_mate <- lm(G3 ~ school + sex + age + address + famsize + Pstatus, data = datos_mate)
+
+
+# get summary
+summary(mod_mate)
+
+```
+
+2.  Ajuste un modelo de regresión multinomial análogo al del punto anterior (e.g. mismos predictores y misma respuesta).
+
+```{r}
+#| eval: false
+#| echo: false
+
+mod_mult <- multinom(G3 ~ school + sex + age + address + famsize + Pstatus, data = datos_mate)
+
+```
+
+3.  Calcule la matriz de confusión, la exactitud, el área bajo la curva y pérdida logarítmica para el modelo del punto anterior.
+
+```{r}
+#| eval: false
+#| echo: false
+
+# predecir probabilidades
+pred_prob <- predict(mod_mult, newdata = datos_mate, type = "probs")
+
+# calcular log-loss
+log_loss_value <- logLoss(datos_mate$G3, pred_prob)
+
+log_loss_value
+
+# convertir respuesta a factor
+datos_mate$G3_f <- as.factor(datos_mate$G3) 
+
+# Convertir las etiquetas reales a una matriz de indicadores (one-hot encoding)
+y_obs <- model.matrix(~G3_f-1, data = datos_mate)
+
+# Calcular el log-loss
+log_loss_value <- logLoss(y_obs, pred_prob)
+
+log_loss_value
+
+# hacer la matriz de confusion
+# predecir categorias 
+
+pred_cat <- predict(mod_mult, newdata = datos_mate)
+
+mat_conf <-
+    confusionMatrix(factor(pred_cat), factor(datos_mate$G3))
+
+mat_conf$table
+
+mat_conf$overall["Accuracy"]
+
+mat_conf$overall
+
+# area bajo la curva
+roc_multiclass <- multiclass.roc(datos_mate$G3, pred_prob)
+
+roc_multiclass
+```
+
+El siguiente código binariza la variable respuesta `G3`. Si la calificación es menor a 9, se considera que el estudiante reprobó (`Reprobado`), de lo contrario, se considera que aprobó (`Aprobado`):
+
+```{r}
+
+datos_mate$G3_bin <- ifelse(datos_mate$G3 < 9, 0, 1) 
+
+```
+
+4.  Utilizando la variable binaria `G3_bin` como respuesta, ajuste un modelo de regresión logística con las mismas variables predictoras que el modelo ajustado en el punto 2.
+
+```{r}
+#| eval: false
+#| echo: false
+
+# ajustar modelo
+mod_log <- glm(G3_bin ~ school + sex + age + address + famsize + Pstatus, data = datos_mate, family = binomial)
+
+
+```
+
+5.Calcule la matriz de confusión, la exactitud, precisión, indice F1, area bajo la curva y pérdida logarítmica para el modelo del punto anterior.
+
+```{r}
+#| eval: false
+#| echo: false
+
+# predecir probabilidades
+pred_prob <- predict(mod_log, newdata = datos_mate, type = "response")
+
+# calcular log-loss
+log_loss_value <- logLoss(datos_mate$G3_bin, pred_prob)
+
+log_loss_value
+
+# hacer la matriz de confusion
+# binarizar prediccion
+pred_cat <- ifelse(pred_prob > 0.5, 1, 0)
+
+mat_conf <-
+    confusionMatrix(factor(pred_cat), factor(datos_mate$G3_bin))
+
+mat_conf$table
+
+mat_conf$overall["Accuracy"]
+
+mat_conf$overall
+
+# area bajo la curva
+roc_curve <- roc(datos_mate$G3_bin, pred_prob, smooth = TRUE)
+
+roc_curve
+
+```
+
+6.  Compare los modelos generados en los puntos 2 y 4. ¿Cual modelo parece tener un mejor desempeño? ¿Por qué?
+
+7.  Explore la sensibilidad de los modelos multinomial (punto 2) y logístico (punto 4). Para esto puede simplemente imprimir en la consola el resultado de la función `confusionMatrix`. ¿Cómo difieren los valores y la forma en que estos se estructuran entre los 2 modelos?
+
+## Referencia
+
+Cortez, P., & Silva, A.M. (2008). Using data mining to predict secondary school student performance. ([enlace](https://www.semanticscholar.org/paper/Using-data-mining-to-predict-secondary-school-Cortez-Silva/61d468d5254730bbecf822c6b60d7d6595d9889c))
+:::
+
+::: {.alert .alert-warning}
+## Recursos adicionales
+
+-   Video: [Convolutional Neural Networks (CNNs) explained](https://youtu.be/YRhxdVk_sIs?si=cc-mNGXup0q4brhj)
+
+-   Video: [Neural Network In 5 Minutes](https://youtu.be/bfmFfD2RIcg?si=3NdeH6UU2EJmF1pA)
+:::
+
+# Día 11
+
+**Redes Neuronales y Deep Learning (Parte I)** 
+<!-- <a href="" class="btn btn-warning btn-xs" role="button">tutorial</a> -->
+
+-   Estructura de una red neuronal: neuronas, capas y activación
+-   Entrenamiento de redes neuronales: forward y backpropagation
+-   Introducción a Deep Learning y redes neuronales profundas
+-   Aplicaciones y casos de uso en el mundo real
+
+# Día 12
+
+**Redes Neuronales y Deep Learning (Parte II)** 
+<!-- <a href="" class="btn btn-warning btn-xs" role="button">tutorial</a> -->
+
+-   Capas convolucionales y redes neuronales convolucionales (CNNs)
+-   Redes neuronales recurrentes (RNNs) y LSTM
+-   Técnicas de optimización y regularización
+-   Casos de estudio y aplicaciones en visión por computadora y procesamiento de lenguaje natural
+
+::: {.alert .alert-warning}
+## Recursos adicionales
+
+-   Lectura: Yarkoni & Westfall. 2017. [Choosing prediction over explanation in psychology: Lessons from machine learning](https://journals.sagepub.com/doi/pdf/10.1177/1745691617693393)
+-   Video: [¿Que es una red neuronal?](https://www.youtube.com/watch?v=jKCQsndqEGQ)
+:::
+
+# Día 13
+
+**Regularización y Generalización** 
+<!-- <a href="" class="btn btn-warning btn-xs" role="button">tutorial</a> -->
+
+-   Conceptos de sobreajuste y subajuste
+-   Regularización: Lasso, Ridge y Elastic Net
+-   Validación cruzada y selección de hiperparámetros
+-   Impacto de la regularización en el aprendizaje estadístico
+
+# Día 14
+
+**Aprendizaje No Supervisado: Clustering** 
+<!-- <a href="" class="btn btn-warning btn-xs" role="button">tutorial</a> -->
+
+-   Conceptos básicos de clustering y su importancia
+-   Método k-means: algoritmos y aplicaciones
+-   Clustering jerárquico: construcción de dendrogramas
+-   Evaluación de clusters: índice de Silhouette y coeficiente de Rand
+
+::: {.alert .alert-warning}
+## Recursos adicionales
+
+-   Lectura: Yarkoni & Westfall. 2017. [Choosing prediction over explanation in psychology: Lessons from machine learning](https://journals.sagepub.com/doi/pdf/10.1177/1745691617693393)
+-   Video: [Clustering in Machine Learning](https://www.youtube.com/watch?v=wk2ylI1qgU0)
+:::

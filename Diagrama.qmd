@@ -1,0 +1,208 @@
+---
+title: "Diagrama: aprendizaje estadístico"
+theme: none
+---
+
+# Primer paso
+
+```{mermaid}
+flowchart LR
+    classDef largeText font-size:18px, padding:15px;
+
+    ML("Aprendizaje Estadístico (Y = f(X))") -->|'Y' no existe| U(Aprendizaje\nNo Supervisado)
+    ML -->|'Y' existe| S(Aprendizaje\nSupervisado)
+
+    class ML,U,S largeText;
+
+    style ML fill:#FFFFFF, stroke:#000, width:340px, stroke-width:2px, color:#000, text-align:center;
+    style U fill:#28192F66, stroke:#000, width:160px, stroke-width:2px, color:#000, text-align:center;
+    style S fill:#3B2F5E66, stroke:#000, width:160px, stroke-width:2px, color:#000, text-align:center;
+
+```
+
+# Segundo paso
+
+```{mermaid}
+
+flowchart LR
+    classDef largeText font-size:18px, padding:15px;
+
+    ML("Aprendizaje Estadístico (Y = f(X))") -->|'Y' no existe| U(Aprendizaje\nNo Supervisado)
+    ML -->|'Y' existe| S(Aprendizaje\nSupervisado)
+    U -->|Se desea\ngenerar 'Y'| Clus(Agrupamiento)
+    U --> |Se desea\nexplorar 'X'| DR(Reducción de\nDimensionalidad)
+    S -->|'Y' es continua| Reg(Regresión)
+    S --> |'Y' es categórica| Class(Clasificación)
+
+    class ML,U,S largeText;
+
+    style ML fill:#FFFFFF, stroke:#000, stroke-width:2px, color:#000, width:340px
+    style U fill:#28192F66, stroke:#000, stroke-width:2px, color:#000, width:160px
+    style S fill:#3B2F5E66, stroke:#000, stroke-width:2px, color:#000, width:140px
+    style Clus fill:#40498E66, stroke:#000, stroke-width:2px, color:#000
+    style DR fill:#366A9F66, stroke:#000, stroke-width:2px, color:#000
+    style Reg fill:#348AA666, stroke:#000, stroke-width:2px, color:#000
+    style Class fill:#38AAAC66, stroke:#000, stroke-width:2px, color:#000
+
+```
+
+# No supervisado
+
+```{mermaid}
+flowchart LR
+    classDef largeText font-size:18px, padding:15px;
+
+    U(Aprendizaje\nNo Supervisado) -->|Se desea generar 'Y'| Clus(Agrupamiento)
+    U --> |Se desea\nexplorar 'X'|DR(Reducción de\nDimensionalidad)
+
+    class U,Clus,DR largeText;
+
+    style U fill:#28192F66, stroke:#000, width:160px, stroke-width:2px, color:#000, text-align:center;
+    style Clus fill:#40498E66, stroke:#000, width:160px, stroke-width:2px, color:#000, text-align:center;
+    style DR fill:#366A9F66, stroke:#000, width:160px, stroke-width:2px, color:#000, text-align:center;
+
+```
+
+# No supervisado total
+
+```{mermaid}
+flowchart LR
+    classDef largeText font-size:18px, padding:15px;
+
+    U(Aprendizaje\nNo Supervisado) -->|Se desea generar 'Y'| Clus(Agrupamiento)
+    U --> |Se desea\nexplorar 'X'|DR(Reducción de\nDimensionalidad)
+
+    Clus --> Kmeans(K-means)
+    Clus --> DB(HDBSCAN)
+    Clus --> Hier(Jerárquico)
+
+    DR --> PCA(PCA)
+    DR --> TSNE(t-SNE)
+    DR --> UMAP(UMAP)
+
+    class U,Clus,DR largeText;
+
+    style U fill:#28192F66, stroke:#000, width:160px, stroke-width:2px, color:#000, text-align:center;
+    style Clus fill:#40498E66, stroke:#000, width:160px, stroke-width:2px, color:#000, text-align:center;
+    style DR fill:#366A9F66, stroke:#000, width:160px, stroke-width:2px, color:#000, text-align:center;
+
+    style Kmeans fill:#40498E66, stroke:#000, stroke-width:1px, color:#000, text-align:center;
+    style DB fill:#40498E66, stroke:#000, stroke-width:1px, color:#000, text-align:center;
+    style Hier fill:#40498E66, stroke:#000, stroke-width:1px, color:#000, text-align:center;
+
+    style PCA fill:#366A9F66, stroke:#000, stroke-width:1px, color:#000, text-align:center;
+    style TSNE fill:#366A9F66, stroke:#000, stroke-width:1px, color:#000, text-align:center;
+    style UMAP fill:#366A9F66, stroke:#000, stroke-width:1px, color:#000, text-align:center;
+
+```
+
+# Supervisado
+
+```{mermaid}
+flowchart LR
+    classDef largeText font-size:18px, padding:15px;
+
+    S(Aprendizaje\nSupervisado) -->|Y es continua| Reg(Regresión)
+    S -->|Y es categórica| Class(Clasificación)
+
+    class S,Reg,Class largeText;
+
+    style S fill:#3B2F5E66, stroke:#000, width:140px, stroke-width:2px, color:#000, text-align:center;
+    style Reg fill:#348AA666, stroke:#000, width:130px, stroke-width:2px, color:#000, text-align:center;
+    style Class fill:#38AAAC66, stroke:#000, width:150px, stroke-width:2px, color:#000, text-align:center;
+
+```
+
+# Supervisado total
+
+```{mermaid}
+flowchart LR
+    classDef largeText font-size:18px, padding:15px;
+
+    S(Aprendizaje\nSupervisado) -->|Y es continua| Reg(Regresión)
+    S -->|Y es categórica| Class(Clasificación)
+
+    Reg --> Regr(Regresión)
+    Reg --> RFR(Regresión\nRandom Forest)
+    Reg --> NNR(Regresión\nde Red Neuronal)
+
+    Class --> DT(Árboles de Decisión)
+    Class --> RL(Regresión Logística)
+    Class --> KNN(K vecinos más cercanos)
+    Class --> RF(Random Forest)
+    Class --> NN(Redes Neuronales)
+
+    class S,Reg,Class largeText;
+
+    style S fill:#3B2F5E66, stroke:#000, width:130px, stroke-width:2px, color:#000, text-align:center;
+    style Reg fill:#348AA666, stroke:#000, width:130px, stroke-width:2px, color:#000, text-align:center;
+    style Class fill:#38AAAC66, stroke:#000, width:130px, stroke-width:2px, color:#000, text-align:center;
+
+    style Regr fill:#348AA666, stroke:#000, stroke-width:1px, color:#000, text-align:center;
+    style RFR fill:#348AA666, stroke:#000, stroke-width:1px, color:#000, text-align:center;
+    style NNR fill:#348AA666, stroke:#000, stroke-width:1px, color:#000, text-align:center;
+
+    style DT fill:#38AAAC66, stroke:#000, stroke-width:1px, color:#000, text-align:center;
+    style RL fill:#38AAAC66, stroke:#000, stroke-width:1px, color:#000, text-align:center;
+    style KNN fill:#38AAAC66, stroke:#000, stroke-width:1px, color:#000, text-align:center;
+    style RF fill:#38AAAC66, stroke:#000, stroke-width:1px, color:#000, text-align:center;
+    style NN fill:#38AAAC66, stroke:#000, stroke-width:1px, color:#000, text-align:center;
+
+```
+
+# Completo
+
+```{mermaid}
+
+flowchart LR
+    classDef largeText font-size:18px, padding:15px; 
+    
+    ML("Aprendizaje Estadístico (Y = f(X))") -->|'Y' no existe| U(Aprendizaje\nNo Supervisado)
+    ML -->|'Y' existe| S(Aprendizaje\nSupervisado)
+    U -->|Se desea\ngenerar 'Y'| Clus(Agrupamiento)
+    U --> |Se desea\nexplorar 'X'| DR(Reducción de\nDimensionalidad)
+    S -->|'Y' es continua| Reg(Regresión)
+    S --> |'Y' es categórica| Class(Clasificación)
+    Clus --> Kmeans(K-means)
+    Clus --> DB(HDBSCAN)
+    Clus --> Hier(Jerárquico)
+    DR --> PCA(PCA)
+    DR --> TSNE(t-SNE)
+    DR --> UMAP(UMAP)
+    Reg --> Regr(Regresión)
+    Reg --> RFR(Regresión\nRandom Forest)
+    Reg --> NNR(Regresión de\nRed Neuronal)
+    Class --> DT(Árboles de\nDecisión)
+    Class --> RL(Regresión Logística)
+    Class --> KNN(K vecinos\nmás cercanos)
+    Class --> RF(Random Forest)
+    Class --> NN(Redes\nNeuronales)
+
+    class ML,U,S largeText;
+
+    style ML fill:#FFFFFF, stroke:#000, stroke-width:2px, color:#000, width:320px
+    style U fill:#28192F66, stroke:#000, stroke-width:2px, color:#000, width:160px
+    style S fill:#3B2F5E66, stroke:#000, stroke-width:2px, color:#000, width:130px
+    style Clus fill:#40498E66, stroke:#000, stroke-width:2px, color:#000
+    style Kmeans fill:#40498E66, stroke:#000, stroke-width:1px, color:#000
+    style DB fill:#40498E66, stroke:#000, stroke-width:1px, color:#000
+    style Hier fill:#40498E66, stroke:#000, stroke-width:1px, color:#000
+
+    style DR fill:#366A9F66, stroke:#000, stroke-width:2px, color:#000
+    style PCA fill:#366A9F66, stroke:#000, stroke-width:1px, color:#000
+    style TSNE fill:#366A9F66, stroke:#000, stroke-width:1px, color:#000
+    style UMAP fill:#366A9F66, stroke:#000, stroke-width:1px, color:#000
+
+    style Reg fill:#348AA666, stroke:#000, stroke-width:2px, color:#000
+    style Regr fill:#348AA666, stroke:#000, stroke-width:1px, color:#000
+    style RFR fill:#348AA666, stroke:#000, stroke-width:1px, color:#000
+    style NNR fill:#348AA666, stroke:#000, stroke-width:1px, color:#000
+
+    style Class fill:#38AAAC66, stroke:#000, stroke-width:2px, color:#000
+    style DT fill:#38AAAC66, stroke:#000, stroke-width:1px, color:#000
+    style RL fill:#38AAAC66, stroke:#000, stroke-width:1px, color:#000
+    style KNN fill:#38AAAC66, stroke:#000, stroke-width:1px, color:#000
+    style RF fill:#38AAAC66, stroke:#000, stroke-width:1px, color:#000
+    style NN fill:#38AAAC66, stroke:#000, stroke-width:1px, color:#000
+
+```

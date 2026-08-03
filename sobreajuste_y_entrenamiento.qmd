@@ -1,0 +1,985 @@
+---
+title: <font size="7"><b>Sobreajuste y entrenamiento de modelos</b></font>
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+#| warning: false
+#| echo: false
+ 
+options("digits"=5)
+options("digits.secs"=3)
+library(knitr)
+library(ggplot2)
+library(viridis)
+library(nnet)
+library(MuMIn)
+library(caret)
+library(themis)
+
+
+# ggplot settings
+geom_histogram <- function(...) ggplot2::geom_histogram(..., fill = viridis(10, alpha = 0.5)[8], show.legend = FALSE, bins = 20, color = "black")
+
+geom_smooth <- function(...) ggplot2::geom_smooth(..., color = viridis(10,  alpha = 0.5)[8])
+
+geom_boxplot <- function(...) ggplot2::geom_boxplot(..., fill = viridis(10, alpha = 0.5)[7])
+
+geom_pointrange <- function(...) ggplot2::geom_pointrange(..., show.legend = FALSE, color = viridis(10, alpha = 0.5)[7], size = 2) 
+
+theme_set(theme_classic(base_size = 20))
+
+
+fill <- list(alert = "#cff4fc", success = "#d1e7dd")
+
+```
+
+::: {.alert .alert-info}
+# Objetivo del manual {.unnumbered .unlisted}
+
+-   Entender el concepto de sobreajuste en modelos de aprendizaje estadístico
+
+-   Aprender a detectar sobreajuste en modelos de aprendizaje estadístico
+
+-   Aplicar métodos estadisticos para evitar el sobreajuste
+:::
+
+Paquetes a utilizar en este manual:
+
+```{r}
+
+# instalar/cargar paquetes
+sketchy::load_packages(
+  c("ggplot2", 
+    "viridis", 
+    "caret",
+    "MuMIn",
+    "nnet",
+    "themis"
+   )
+  )
+
+```
+
+Funcion personalizada a utilizar en este manual:
+
+```{r}
+
+r2_lm <- function(model, data, response = "y"){
+  pred <- predict(model, newdata = data)
+  caret::R2(pred, data[, response])
+  }
+
+```
+
+# Entrenamiento de modelos
+
+El objetivo de los modelos de aprendizaje estadístico es el de obtener patrones de los datos de entrenamiento para predecir o inferir correctamente los patrones en la población original de donde provienen esos datos de entrenamiento. Es decir, la clave esta en obtener patrones generales que sean extrapolables a nuevos datos. La idea principal del entrenamiento es ajustar el modelo a los datos de entrenamiento para aprender patrones que se puedan generalizar a datos nuevos. Sin embargo, parte de este proceso implica estrategias para evitar tanto el sobreajuste como el subajuste.
+
+::: {.alert .alert-warning}
+## Sobreajuste
+
+El sobreajuste ocurre cuando un modelo se ajusta demasiado bien a los datos de entrenamiento, capturando tanto los patrones verdaderos como el ruido o variaciones aleatorias de los datos. Como resultado, el modelo funciona bien en el conjunto de entrenamiento, pero tiene un rendimiento deficiente en nuevos datos (pobre capacidad de generalización). **El sobreajuste se refiere a cuando modelo está tan ajustado a los datos de entrenamiento que afecta su capacidad de generalización**. El sobreajuste se produce cuando un sistema de aprendizaje automático se entrena demasiado o con datos (levemente) sesgados, que hace que el algoritmo **aprenda** patrones que no son generales. Aprende características especificas pero no los patrones generales, el concepto.
+
+Una forma de evaluar la capacidad de generalización de un modelo es mediante la división de los datos en dos conjuntos: entrenamiento y prueba. El modelo se ajusta a los datos de entrenamiento y se evalúa en los datos de prueba. El sobreajuste se puede detectar cuando el error en los datos de prueba es mucho mayor que el error en los datos de entrenamiento.
+
+Los modelos más complejos tienden a sobreajustar más que lo modelos más simples. Además, ante un mismo modelo, a menor cantidad de datos es más posible que ese modelo se sobreajuste. Existen varios métodos para evaluar cuándo un modelo está sobreajustando. En la simulación que se muestra a continuación, se ajusta un modelo de regresión lineal con diferentes cantidades de predictores (p). Se calcula el error cuadrático medio en los datos de entrenamiento y en los datos de prueba.
+
+```{r}
+#| warning: false
+#| eval: false
+
+repeticiones <- 100 # Número de repeticiones
+n <- 100  # Número de observaciones
+p <- 20  # Número de predictores
+
+expr <- expression({
+# Generar datos sintéticos
+
+
+# Crear variables predictoras aleatorias
+datos <- as.data.frame(matrix(rnorm(n * p), n, p))
+colnames(datos) <- paste0("x", 1:p)
+
+# Crear variable de respuesta con una combinación de algunas variables
+datos$y <-
+  3 * datos$x1 - 2 * datos$x2 + 1 * datos$x3 + rnorm(n, 0, 2)
+
+# Dividir en conjunto de entrenamiento y prueba
+entren_indice <- createDataPartition(datos$y, p = 0.9, list = FALSE)
+datos_entren <- datos[entren_indice, ]
+datos_prueba <- datos[-entren_indice, ]
+
+
+resultados_lista <- lapply(1:(ncol(datos) - 1), function(z) {
+  # Ajustar modelo de regresión lineal
+  modelo <-
+    lm(y ~ ., data = datos_entren[, c("y", paste0("x", 1:z))])
+  
+  r2_entren <- r2_lm(modelo, datos_entren)
+  r2_prueba <- r2_lm(modelo, datos_prueba)
+  
+  resultados <-
+    data.frame(
+       r2 = c(r2_prueba, r2_entren)
+    )
+  
+  return(resultados)
+  
+})
+
+resultados_df <- do.call(rbind, resultados_lista)
+})
+
+# repetir x veces
+reps <- replicate(repeticiones, eval(expr), simplify = TRUE)
+
+# promediar resultados
+r2 <- apply(as.data.frame(reps), 1, mean)
+
+
+resultados_promedio <-
+    data.frame(
+      n_predictores = rep(1:p, each = 2),
+      Tipo = c("Prueba", "Entrenamiendo"),
+      r2 = r2
+    )
+
+saveRDS(resultados_promedio, "resultados_promedio.rds")
+
+ggplot(resultados_promedio, aes(x = n_predictores, y = r2, color = Tipo)) +
+  geom_line(lwd = 2) +
+  scale_x_continuous(breaks = seq(0, p, 1)) +
+  scale_color_viridis_d(end = 0.9) +
+  labs(x = "Número de predictores",
+       y = bquote('Coeficiente de determinación' ~ R ^ 2)) +
+  theme(
+    legend.background = element_rect(fill = "#fff3cd"),
+    legend.position = c(0.5, 0.2),
+    panel.background = element_rect(fill = "#fff3cd"),
+    plot.background = element_rect(fill = "#fff3cd", colour = NA)
+  )    
+```
+
+```{r}
+#| echo: false
+#| warning: false
+
+p <- 20  # Número de predictores
+
+resultados_promedio <- readRDS("resultados_promedio.rds")
+
+ggplot(resultados_promedio, aes(x = n_predictores, y = r2, color = Tipo)) +
+  geom_line(lwd = 2) +
+  scale_x_continuous(breaks = seq(0, p, 1)) +
+  scale_color_viridis_d(end = 0.9) +
+  labs(x = "Número de predictores",
+       y = bquote('Coeficiente de determinación' ~ R ^ 2)) +
+  theme(
+    legend.background = element_rect(fill = "#fff3cd"),
+    legend.position = c(0.5, 0.2),
+    panel.background = element_rect(fill = "#fff3cd"),
+    plot.background = element_rect(fill = "#fff3cd", colour = NA)
+  )    
+```
+
+Podemos ver como en ambos casos el coeficiente de determinación (R^2^) aumenta en los primeros 3 predictores. Esto es de esperar ya que estos son los predictores asociados a la respuesta. Sin embargo, luego de este punto el R^2^ aumenta para los datos de entrenamiento, pero no para los datos de prueba. Esto es un claro indicio de sobreajuste.
+
+En la siguiente simulación podemos ver mas claramente como el R^2^ calculado sobre datos de entrenamiento aumenta con la cantidad de predictores, a pesar de no haber un solo predictor asociado a la variable respuesta:
+
+```{r}
+#| warning: false
+#| eval: false
+
+repeticiones <- 100 # Número de repeticiones
+n <- 100  # Número de observaciones
+p <- 20  # Número de predictores
+
+expr <- expression({
+# Generar datos sintéticos
+
+
+# Crear variables predictoras aleatorias
+datos <- as.data.frame(matrix(rnorm(n * p), n, p))
+colnames(datos) <- paste0("x", 1:p)
+
+# Crear variable de respuesta con una combinación de algunas variables
+datos$y <- rnorm(n, 0, 2)
+
+# Dividir en conjunto de entrenamiento y prueba
+entren_indice <- createDataPartition(datos$y, p = 0.9, list = FALSE)
+datos_entren <- datos[entren_indice, ]
+datos_prueba <- datos[-entren_indice, ]
+
+
+resultados_lista <- lapply(1:(ncol(datos) - 1), function(z) {
+  # Ajustar modelo de regresión lineal
+  modelo <-
+    lm(y ~ ., data = datos_entren[, c("y", paste0("x", 1:z))])
+  
+  r2_entren <- r2_lm(modelo, datos_entren)
+  r2_prueba <- r2_lm(modelo, datos_prueba)
+  
+  resultados <-
+    data.frame(
+       r2 = c(r2_prueba, r2_entren)
+    )
+  
+  return(resultados)
+  
+})
+
+resultados_df <- do.call(rbind, resultados_lista)
+})
+
+# repetir x veces
+reps <- replicate(repeticiones, eval(expr), simplify = TRUE)
+
+# promediar resultados
+r2 <- apply(as.data.frame(reps), 1, mean)
+
+
+resultados_promedio_aleatorio <-
+    data.frame(
+      n_predictores = rep(1:p, each = 2),
+      Tipo = c("Prueba", "Entrenamiendo"),
+      r2 = r2
+    )
+
+saveRDS(resultados_promedio_aleatorio, "resultados_promedio_aleatorio.rds")
+
+ggplot(resultados_promedio_aleatorio, aes(x = n_predictores, y = r2, color = Tipo)) +
+  geom_line(lwd = 2) +
+  scale_x_continuous(breaks = seq(0, p, 1)) +
+  scale_color_viridis_d(end = 0.9) +
+  labs(x = "Número de predictores",
+       y = bquote('Coeficiente de determinación' ~ R ^ 2)) +
+  theme(
+    legend.background = element_rect(fill = "#fff3cd"),
+    legend.position = c(0.7, 0.2),
+    panel.background = element_rect(fill = "#fff3cd"),
+    plot.background = element_rect(fill = "#fff3cd", colour = NA)
+  )    
+```
+
+```{r}
+#| echo: false
+#| warning: false
+
+p <- 20  # Número de predictores
+
+resultados_promedio_aleatorio <- readRDS("resultados_promedio_aleatorio.rds")
+
+ggplot(resultados_promedio_aleatorio, aes(x = n_predictores, y = r2, color = Tipo)) +
+  geom_line(lwd = 2) +
+  scale_x_continuous(breaks = seq(0, p, 1)) +
+  scale_color_viridis_d(end = 0.9) +
+  labs(x = "Número de predictores",
+       y = bquote('Coeficiente de determinación' ~ R ^ 2)) +
+  theme(
+    legend.background = element_rect(fill = "#fff3cd"),
+    legend.position = c(0.7, 0.2),
+    panel.background = element_rect(fill = "#fff3cd"),
+    plot.background = element_rect(fill = "#fff3cd", colour = NA)
+  ) 
+```
+
+Sin embargo, el R^2^ calculado sobre datos de prueba se mantiene constante.
+:::
+
+# Herramientas para evitar el sobreajuste
+
+Existen una gran cantidad de técnicas para mejorar la generalización de los modelos de aprendizaje estadístico. En este tutorial veremos 2 de las mas comunes y útiles: la selección de modelos y la validación cruzada.
+
+## Selección de modelos con AIC
+
+El criterio de información de Akaike (AIC) es una medida de la calidad relativa de un modelo estadístico para un conjunto dado de datos. EL AIC penaliza la complejidad del modelo, lo que ayuda a evitar el sobreajuste. El AIC se calcula como:
+
+$$AIC = -2 * log(L) + 2 * k$$
+
+L es la función de verosimilitud del modelo y k es el número de parámetros del modelo.
+
+El AIC proporciona una medida relativa de la calidad de cada modelo, en relación con los otros modelos. Por lo tanto, el AIC se puede utilizar para seleccionar el mejor modelo de un conjunto de modelos candidatos. Un AIC más bajo indica un mejor modelo. En el contexto de selección de modelos el modelo preferido sería el que tiene el menor AIC. Una diferencia de AIC de 2 o más unidades se considera evidencia fuerte a favor del modelo con el AIC más bajo.
+
+Podemos ver como el AIC aumenta con la cantidad de predictores en el modelo. En el siguiente gráfico se muestra el AIC para un modelo de regresión lineal con diferentes cantidades de predictores:
+
+```{r}
+#| warning: false
+
+repeticiones <- 100 # Número de repeticiones
+n <- 100  # Número de observaciones
+p <- 20  # Número de predictores
+
+expr <- expression({
+# Generar datos sintéticos
+
+
+# Crear variables predictoras aleatorias
+datos <- as.data.frame(matrix(rnorm(n * p), n, p))
+colnames(datos) <- paste0("x", 1:p)
+
+
+# Crear variable de respuesta con una combinación de algunas variables
+datos$y <-
+  3 * datos$x1 - 2 * datos$x2 + 1 * datos$x3 + rnorm(n, 0, 2)
+
+# Dividir en conjunto de entrenamiento y prueba
+entren_indice <- createDataPartition(datos$y, p = 0.9, list = FALSE)
+datos_entren <- datos[entren_indice, ]
+datos_prueba <- datos[-entren_indice, ]
+
+
+resultados_lista <- lapply(1:(ncol(datos) - 1), function(z) {
+  # Ajustar modelo de regresión lineal
+   modelo <-
+    lm(y ~ ., data = datos[, c("y", paste0("x", 1:z))])
+  
+  # modelos nulos
+  modelo_nulo <- lm(y ~ 1, data = datos[, c("y", paste0("x", 1:z))])
+  
+  # Calcular AIC
+  aics <- AIC(modelo, modelo_nulo)
+  aics$delta.aic <- aics$AIC - min(aics$AIC)
+  
+  resultados <- aics["modelo_nulo", "delta.aic"]
+  
+  return(resultados)
+  
+})
+
+resultados_df <- do.call(rbind, resultados_lista)
+})
+
+# repetir x veces
+reps <- replicate(repeticiones, eval(expr), simplify = TRUE)
+
+# promediar resultados
+delta_aic <- apply(as.data.frame(reps), 1, mean)
+
+
+resultados_promedio_aic <-
+    data.frame(
+      n_predictores = rep(1:p),
+      delta_aic = delta_aic
+    )
+
+ggplot(resultados_promedio_aic, aes(x = n_predictores, y = delta_aic)) +
+  geom_line(lwd = 2, color = viridis(1)) +
+  scale_x_continuous(breaks = seq(0, p, 1)) +
+  labs(x = "Número de predictores", y = "Delta AIC") +
+  theme(legend.position = c(0.5, 0.7)) +
+  scale_y_reverse()
+
+```
+
+Datos donde ningun predictor está asociado:
+
+```{r}
+#| warning: false
+
+repeticiones <- 100 # Número de repeticiones
+n <- 100  # Número de observaciones
+p <- 20  # Número de predictores
+
+expr <- expression({
+# Generar datos sintéticos
+
+# Crear variables predictoras aleatorias
+datos <- as.data.frame(matrix(rnorm(n * p), n, p))
+colnames(datos) <- paste0("x", 1:p)
+
+
+# Crear variable de respuesta no asociada a los predictores
+datos$y <- rnorm(n, 0, 2)
+
+resultados_lista <- lapply(1:(ncol(datos) - 1), function(z) {
+  # Ajustar modelo de regresión lineal
+   modelo <-
+    lm(y ~ ., data = datos[, c("y", paste0("x", 1:z))])
+  
+  # modelos nulos
+  modelo_nulo <- lm(y ~ 1, data = datos[, c("y", paste0("x", 1:z))])
+  
+  # Calcular AIC
+  aics <- AIC(modelo, modelo_nulo)
+  aics$delta.aic <- aics$AIC - min(aics$AIC)
+  
+  resultados <- aics["modelo_nulo", "delta.aic"]
+  
+  return(resultados)
+  
+})
+
+resultados_df <- do.call(rbind, resultados_lista)
+})
+
+# repetir x veces
+reps <- replicate(repeticiones, eval(expr), simplify = TRUE)
+
+# promediar resultados
+delta_aic <- apply(as.data.frame(reps), 1, mean)
+
+
+resultados_promedio_aic <-
+    data.frame(
+      n_predictores = rep(1:p),
+      delta_aic = delta_aic
+    )
+
+ggplot(resultados_promedio_aic, aes(x = n_predictores, y = delta_aic)) +
+  geom_line(lwd = 2, color = viridis(1)) + 
+  scale_x_continuous(breaks = seq(0, p, 1)) +
+  labs(x = "Número de predictores", y = "Delta AIC") +
+  theme(legend.position = c(0.5, 0.7)) +
+  scale_y_reverse(limits = c(1, -2))
+
+```
+
+## Aplicación del AIC
+
+Como se mencionó anteriormente, el AIC se puede utilizar para seleccionar el mejor modelo de un conjunto de modelos candidatos. El modelo preferido es el que tiene el menor AIC. Por ejemplo, podemos construir un conjunto de modelos de regresión lineal con diferentes predictores y seleccionar el modelo con el menor AIC. En el siguiente ejemplo, se ajustan modelos de regresión lineal a los datos `Titanic` con diferentes predictores y comparemos el ajuste relativo de los modelos con AIC:
+
+```{r}
+
+# cargar datos
+data("Titanic")
+
+# dar formato con una observacion por fila
+datos_titanic <- as.data.frame(Titanic)
+datos_titanic <- datos_titanic[datos_titanic$Freq > 0, ]
+
+datos_tab_titanic <- do.call(rbind, lapply(1:nrow(datos_titanic), function(x) datos_titanic[rep(x, datos_titanic$Freq[x]),]))
+datos_tab_titanic$Freq <- NULL
+
+# explorar datos
+head(datos_tab_titanic, 10)
+
+# correr un modelo con clase como predictor
+modelo_clase <- glm(Survived ~ Class, data = datos_tab_titanic, family = binomial)
+
+# correr un modelo con edad como predictor
+modelo_edad <- glm(Survived ~ Age, data = datos_tab_titanic, family = binomial)
+
+tabla_aic <- AIC(modelo_clase, modelo_edad)
+
+tabla_aic
+```
+
+En este caso, el modelo con la clase como predictor tiene un AIC más bajo que el modelo con la edad como predictor, lo que sugiere que el modelo con la clase como predictor es preferido. Resulta mas intuitivo comparar los modelos utilizando la diferencia en AIC (comúnmente llamada "delta AIC"), ya que esta diferencia nos da una idea de cuan mejor es un modelo con respecto a otro:
+
+```{r}
+# calcular delta AIC
+tabla_aic$delta.aic <- tabla_aic$AIC - min(tabla_aic$AIC)
+
+tabla_aic
+```
+
+El modelo con la clase como predictor tiene un delta AIC de 0. Por lo tanto este es el mejor modelo. También podemos ver que la diferencia con el modelo de edad es de `r round(tabla_aic$delta.aic[2], 2)`, lo que indica que el modelo con la clase como predictor es significativamente mejor que el modelo con la edad como predictor.
+
+En algunos casos donde el número de posibles modelos es alto resulta útil utilizar la funcion `dredge` del paquete `MuMIn` para calcular el AIC de todos los modelos posibles y seleccionar el mejor modelo.
+
+```{r}
+
+datos_tab_titanic$aleat <- rnorm(n = nrow(datos_tab_titanic))
+
+# crear modelo global
+modelo_global <- glm(Survived ~ ., data = datos_tab_titanic, family = binomial)
+
+# cambiar comportamiento en presencia de NAs (para evitar problemas con la funcion dredge)
+options(na.action = "na.fail")
+
+# usar la funcion dredge
+dredge(modelo_global)
+
+```
+
+Esta función usa el AICc para estimar el ajuste del modelo. EL AICc es una versión corregida del AIC para muestras pequeñas. La función calcula el AICc de todos los modelos posibles y selecciona el mejor modelo. Las cruces en las columnas con los nombres de los predictores indican si el predictor está presente en el modelo. En este ejemplo, el modelo con los 3 predictores es el mejor modelo.
+
+Es importante destacar que el AIC no está definido para ciertos tipos de modelos, lo que imposibilita su cálculo en esas circunstancias. En tales casos, se pueden emplear otros criterios de información, como el BIC o el DIC (ver más adelante). Sin embargo, para modelos más complejos en el ámbito del aprendizaje estadístico, la estructura intrincada de estos modelos a menudo impide la aplicación de criterios de información tradicionales. En estas situaciones, los métodos de selección de modelos basados en la validación cruzada se convierten en una herramienta fundamental, ya que permiten evaluar el desempeño del modelo utilizando particiones repetidas del conjunto de datos.
+
+## Criterios de información adicionales
+
+El AIC es solo uno de varios criterios de información utilizados para evaluar modelos estadísticos. Otros criterios comunes incluyen el Criterio de Información Bayesiano (BIC), el Criterio de Información de Deviance (DIC) y el DIC (una versión corregida del AIC para muestras pequeñas). Aunque cada criterio tiene su propia formulación y énfasis (por ejemplo, el BIC penaliza más fuertemente los modelos con mayor complejidad), todos comparten el objetivo de balancear la calidad de ajuste del modelo con su complejidad para evitar el sobreajuste. Estos criterios pueden ser aplicados de manera similar al AIC y seleccionados según el contexto y los objetivos del análisis. Por ejemplo, el BIC es más conservador en términos de selección de predictores, lo que puede ser útil cuando se desea un modelo más parsimonioso.
+
+::: {.alert .alert-important}
+El uso de 'dredge' para la selección de variables debería ser evitado cuando hay prueba de hipótesis. En lugar de esto, se recomienda el uso de modelos causales por medio de grafos dirigidos acíclicos (DAGs: Directed Acyclic Graphs) para seleccionar las variables, ya que proporcionan un enfoque más sólido y coherente con la inferencia causal.
+:::
+
+::: {.alert .alert-info}
+## Ejercicio 1
+
+1.  Ajusta un modelo de regresión lineal global con los datos de `mtcars` donde la variable respuesta sea `mpg`.
+
+2.  Utilice la función `dredge` para seleccionar el mejor modelo.
+:::
+
+# Validación cruzada
+
+La validación cruzada es una técnica que se utiliza para evaluar la capacidad de generalización de un modelo. Consiste en dividir los datos en **k** subconjuntos (folds) y ajustar el modelo **k** veces, cada vez utilizando un subconjunto distinto como conjunto de prueba y el resto como conjunto de entrenamiento. La validación cruzada proporciona una estimación más precisa del rendimiento del modelo en nuevos datos que la división de los datos en un conjunto de entrenamiento y un conjunto de prueba. Esta técnica es particularmente útil cuando se dispone de un número limitado de datos, ya que permite utilizar todos los datos para ajustar el modelo y evaluar su rendimiento. Hay varias variantes de validación cruzada, cada una adecuada para diferentes contextos.
+
+## Validación simple
+
+En su forma mas simple la división de los datos produce un único conjunto de entrenamiento y un único conjunto de prueba. Se conoce en inglés como "hold-out validation". Aunque no es realmente una forma de validación cruzada en el sentido técnico, es una estrategia ampliamente utilizada para evaluar el desempeño de modelos en situaciones simples o preliminares y es útil para introducir ejemplificar el uso de datos de entrenamiento y datos de ejemplo. Esta estrategia consiste en dividir el conjunto de datos en dos partes:
+
+-   Conjunto de entrenamiento: Se utiliza para ajustar (entrenar) el modelo.
+-   Conjunto de prueba: Se utiliza para evaluar el modelo ajustado.
+
+```{r}
+#| warning: false
+
+# Configurar el conjunto de datos
+set.seed(123)
+data(mtcars)
+mtcars$am <- as.factor(mtcars$am) # Convertir la variable am a factor para clasificación
+
+# Dividir los datos en entrenamiento (80%) y prueba (20%)
+indice_entrenamiento <- caret::createDataPartition(mtcars$am, p = 0.8, list = FALSE)
+datos_entrenamiento <- mtcars[indice_entrenamiento, ]
+datos_prueba <- mtcars[-indice_entrenamiento, ]
+
+# Ajustar un modelo de regresión logística usando los datos de entrenamiento
+model <- caret::train(
+  am ~ hp + wt,
+  data = datos_entrenamiento,
+  method = "glm",
+  family = "binomial"
+)
+
+# Resumen del modelo ajustado
+print(model)
+
+# Hacer predicciones en el conjunto de prueba
+predictions <- predict(model, newdata = datos_prueba)
+
+# Evaluar el desempeño del modelo
+confusion_matrix <- caret::confusionMatrix(predictions, datos_prueba$am)
+
+# Mostrar los resultados
+print(confusion_matrix)
+
+```
+
+## Validación cruzada simple (k-fold)
+
+La validación cruzada simple divide el conjunto de datos en k subconjuntos y se entrena el modelo k veces, usando cada uno de los subconjuntos como conjunto de prueba una vez. Esta técnica es comúnmente utilizada para evaluar modelos de aprendizaje estadístico. La validación cruzada simple proporciona una estimación más precisa del rendimiento del modelo en nuevos datos que la validación simple, ya que utiliza todos los datos para ajustar el modelo y evaluar su rendimiento. La validación cruzada simple es particularmente útil cuando se dispone de un número limitado de datos, ya que permite utilizar todos los datos para ajustar el modelo y evaluar su rendimiento. Podemos ver un ejemplo de validación cruzada simple en el siguiente código. La función `train` del paquete `caret` ajusta el modelo y evalúa su rendimiento utilizando validación cruzada simple:
+
+```{r}
+#| warning: false
+
+# Configurar validación cruzada simple con 5 folds
+control <- trainControl(method = "cv", number = 5)
+
+# Ajustar modelo usando validación cruzada
+set.seed(123)
+modelo <- train(
+  mpg ~ wt + hp,
+  data = mtcars,
+  method = "lm",  # Modelo de regresión lineal
+  trControl = control
+)
+
+# Resultados del modelo
+print(modelo)
+
+```
+
+El argumento "number" controla el numero de subconjuntos (**k**) en los que se divide el conjunto de datos. En este caso, se utiliza un valor de 5. El modelo se ajusta 5 veces, utilizando cada uno de los subconjuntos como conjunto de prueba una vez.
+
+```{r}
+
+modelo$resample
+
+```
+
+```{r}
+modelo$results
+```
+
+Note que el resultado del código resume los datos calculando un promedio de las métricas de desempeño en los diferentes subconjuntos:
+
+```{r}
+mean(modelo$resample$RMSE)
+
+mean(modelo$resample$Rsquared)
+```
+
+También podemos extraer un modelo final. En este caso el modelo final es un modelo ajustado en la totalidad de los datos:
+
+```{r}
+
+summary(modelo$finalModel)
+
+```
+
+## Dejar uno fuera (Leave-One-Out Cross-Validation, LOOCV)
+
+Cada observación es utilizada como conjunto de prueba una vez. Este enfoque es adecuado para conjuntos de datos pequeños, pero computacionalmente costoso para grandes conjuntos de datos.
+
+```{r}
+# Configurar LOOCV
+control <- trainControl(method = "LOOCV")
+
+# Ajustar modelo
+set.seed(123)
+modelo <- train(
+  mpg ~ wt + hp,
+  data = mtcars,
+  method = "lm",  # Modelo de regresión lineal
+  trControl = control
+)
+
+# Resultados del modelo
+print(modelo)
+
+```
+
+Este método no devuelve los valores individuales por iteración, pero podemos obtener el modelo final ajustado:
+
+```{r}
+
+summary(modelo$finalModel)
+
+```
+
+## Validación cruzada repetida
+
+En este enfoque, la validación cruzada simple se repite varias veces para obtener una evaluación más robusta del modelo.
+
+```{r}
+# Configurar validación cruzada repetida (5 folds, 3 repeticiones)
+control <- trainControl(method = "repeatedcv", number = 5, repeats = 3)
+
+# Ajustar modelo
+set.seed(123)
+modelo <- train(
+  mpg ~ wt + hp,
+  data = mtcars,
+  method = "lm",  # Modelo de regresión lineal
+  trControl = control
+)
+
+# Resultados del modelo
+print(modelo)
+
+```
+
+```{r}
+
+modelo$resample
+
+```
+
+## Validación de remuestreo con reemplazo ("bootstrap")
+
+El remuestreo bootstrap genera múltiples muestras con reemplazo para entrenar el modelo y estimar su desempeño.
+
+```{r}
+# Configurar remuestreo bootstrap
+control <- trainControl(method = "boot", number = 10)
+
+# Ajustar modelo
+set.seed(123)
+modelo <- train(
+  mpg ~ wt + hp,
+  data = mtcars,
+  method = "lm",  # Modelo de regresión lineal
+  trControl = control
+)
+
+# Resultados del modelo
+print(modelo)
+
+```
+
+```{r}
+
+modelo$resample
+
+```
+
+## Validación cruzada balanceada
+
+En problemas de clasificación, la distribución de las clases puede ser desbalanceada. La validación cruzada balanceada garantiza que cada subconjunto tenga una proporción similar de clases, mejorando la estabilidad de las métricas. 
+
+Hay dos formas basicas en las que se puede balancear los datos durante las iteraciones de la validación cruzada. La primera (muestrear hacia arriba o "up-sampling") es balancear forzando que todas las clases tengan el mismo numero de observaciones que la clase mas frecuente. tenga el mismo numero de observaciones. La segunda es balancear "hacia abajo" (down-sampling) forzando todas las clases a tener el mismo numero de observaciones que la clase menos frecuente. 
+
+Para muestrear hacia abajo, simplemente definimos el argumento `sampling = "up"` en la función `trainControl`:
+
+```{r}
+
+# Configurar validación cruzada con 10 folds
+control <- caret::trainControl(
+  method = "cv",
+  number = 10,
+  classProbs = TRUE,
+  sampling = "up"
+)
+
+# Ajustar modelo de clasificación
+mtcars$am_f <- ifelse(mtcars$am == 1, "manual", "automatico")
+
+
+set.seed(123)
+modelo <- caret::train(
+  am_f ~ wt + hp,
+  data = mtcars,
+  method = "glm",
+  family = binomial,
+  trControl = control
+)
+
+# Resultados del modelo
+print(modelo)
+
+```
+
+Podemos ver las categorías no estaban perfectamente balanceada en los datos originales:
+
+```{r}
+table(mtcars$am_f)
+```
+
+Sin embargo, la proporción de clases se mantiene constante durante el entrenamiento y para cada categoría el número de observaciones es igual al de la clase mas numerosa:
+
+```{r}
+
+# ver frecuencia de clases en el modelo final
+table(modelo$finalModel$data$.outcome)
+
+```
+
+
+Para muestrear hacia abajo, definimos el argumento `sampling = "down"`:
+```{r}
+
+# Configurar validación cruzada con 10 folds
+control <- caret::trainControl(
+  method = "cv",
+  number = 10,
+  classProbs = TRUE,
+  sampling = "down"
+)
+
+
+set.seed(123)
+modelo <- caret::train(
+  am_f ~ wt + hp,
+  data = mtcars,
+  method = "glm",
+  family = binomial,
+  trControl = control
+)
+
+# Resultados del modelo
+print(modelo)
+
+```
+
+Podemos ver nuevamente como la proporción de clases se mantiene constante durante en el entrenamieto, pero en este caso con el número de observaciones en la categoría menos numerosa:
+
+```{r}
+# ver frecuencia de clases en el modelo final
+table(modelo$finalModel$data$.outcome)
+
+```
+
+Tambien se han desarrollado metodos hibridos que combinan "up-sampling" y "down-sampling". El método híbrido "smote" puede ser utilizado de esta forma:
+
+Para muestrear hacia abajo, definimos el argumento `sampling = "down"`:
+```{r}
+
+# Configurar validación cruzada con 10 folds
+control <- caret::trainControl(
+  method = "cv",
+  number = 10,
+  classProbs = TRUE,
+  sampling = "smote"
+)
+
+
+set.seed(123)
+modelo <- caret::train(
+  am_f ~ wt + hp,
+  data = mtcars,
+  method = "glm",
+  family = binomial,
+  trControl = control
+)
+
+# Resultados del modelo
+print(modelo)
+
+```
+
+
+## Resumen de las técnicas de validación cruzada
+
+```{r}
+#| echo: false
+
+# Crear el data frame con la información de los métodos de validación cruzada
+metodos_validacion <- data.frame(
+    Método = c("Validación cruzada (k-fold)", 
+             "Balanceada", 
+             "LOOCV (Leave-One-Out)", 
+             "Repetida (repeatedcv)", 
+             # "Anidada", 
+             "Bootstrap"),
+  Descripcion = c(
+    "Divide el conjunto de datos en *k* partes y usa cada una de ellas como conjunto de prueba una vez.",
+    "Similar a k-fold, pero mantiene las proporciones de clases en cada fold.",
+    "Usa una observación como conjunto de prueba y las restantes como conjunto de entrenamiento.",
+    "Repite k-fold varias veces para obtener una estimación más robusta del rendimiento del modelo.",
+    # "Se utiliza para optimizar hiperparámetros con una validación cruzada interna y luego evaluar el rendimiento con validación cruzada externa.",
+    "Genera múltiples muestras con reemplazo para entrenar el modelo y evaluar su desempeño."
+  ),
+  `Código de caret` = c(
+    "`trainControl(..., number = 5)`",
+    "`trainControl(..., classProbs = TRUE, sampling = 'smote')`",
+    "`trainControl(method = 'LOOCV')`",
+    "`trainControl(method = 'repeatedcv', number = ..., repeats = ...)`",
+    # "`trainControl(method = 'cv', number = 5, savePredictions = 'final')`",
+    "`trainControl(method = 'boot', number = ...)`"
+  ),
+  check.names = FALSE
+)
+
+# Ver el data frame
+metodos_validacion
+
+
+```
+
+Cada uno de estos métodos tiene sus ventajas y desventajas, y la elección del método dependerá del tamaño de los datos y de las características del problema (por ejemplo, si es un problema de clasificación o regresión).
+
+```{r}
+#| echo: false
+
+
+# Crear el data frame con la tabla
+validacion_cruzada <- data.frame(
+    Método = c("Validación cruzada (k-fold)", 
+             "Balanceada", 
+             "LOOCV (Leave-One-Out)", 
+             "Repetida (repeatedcv)", 
+             # "Anidada", 
+             "Bootstrap"),
+  Ventajas = c(
+    "Rápido y fácil de implementar.",
+    "Mejora estabilidad en clasificación.",
+    "Usa toda la información disponible.",
+    "Más robusto que k-fold.",
+    # "Ideal para selección de hiperparámetros.",
+    "Estimación robusta en datos limitados."
+  ),
+  Desventajas = c(
+    "Puede variar según la partición.",
+    "Sólo aplicable en clasificación.",
+    "Computacionalmente costoso.",
+    "Incrementa el tiempo de cómputo.",
+    # "Muy costosa en recursos.",
+    "Sesgo si hay alta correlación en los datos."
+  ),
+  stringsAsFactors = FALSE
+)
+
+# Ver el data frame
+validacion_cruzada
+
+```
+
+::: {.alert .alert-info}
+## Ejercicio 2
+
+1.  Utilice 2 de los métodos de validación cruzada mencionados anteriormente para evaluar el desempeño de un modelo de regresión logística en los datos `mtcars`.
+
+El siguiente código simula un juego de datos donde solo los primeros 3 predictores están asociados a la variable respuesta.
+
+```{r}
+
+n <- 100  # Número de observaciones
+p <- 20  # Número de predictores
+
+# Crear variables predictoras aleatorias
+datos <- as.data.frame(matrix(rnorm(n * p), n, p))
+colnames(datos) <- paste0("x", 1:p)
+
+# Crear variable de respuesta con una combinación de algunas variables
+datos$y <-
+  3 * datos$x1 - 2 * datos$x2 + 1 * datos$x3 + rnorm(n, 0, 2)
+```
+
+2.  Utilice la función 'dredge' para seleccionar los predictores del modelo de regresión lineal para estos datos.
+
+3.  Utilice la función 'dredge' sobre un modelo de regresión lineal utilizando los datos de `mtcars` donde la variable respuesta sea `mpg` (millas por galón).
+
+4.  Una vez seleccionados los predictores, ajuste el modelo y evalúe su desempeño utilizando validación cruzada.
+:::
+
+
+# AIC vs validación cruzada
+
+La elección entre el **AIC (Criterio de Información de Akaike)** (o selección de modelos en general) y la **validación cruzada** depende de varios factores relacionados con los datos, el objetivo del modelo y las limitaciones computacionales. Ambos métodos tienen ventajas y desventajas en el contexto de evitar el sobreajuste:
+
+### **Cuándo usar AIC**
+- **Modelos paramétricos bien especificados:** AIC es ideal cuando se supone que el modelo sigue una distribución específica y esta está correctamente especificada.
+- **Evaluación relativa de modelos:** AIC es útil para comparar varios modelos ajustados a un mismo conjunto de datos y elegir el modelo más parsimonioso (con el mejor equilibrio entre ajuste y complejidad).
+- **Tamaños de muestra moderados a grandes:** AIC funciona bien con datos suficientes para que las estimaciones de parámetros sean confiables.
+- **Menor costo computacional:** Como AIC no requiere dividir ni reentrenar modelos, es más rápido y eficiente que la validación cruzada.
+
+### **Cuándo usar validación cruzada**
+- **Modelos no paramétricos o más complejos:** La validación cruzada se adapta bien a métodos como árboles de decisión, Random Forest o XGBoost, donde las suposiciones paramétricas son menos claras.
+- **Evaluación de capacidad predictiva:** Es preferible si el objetivo principal es maximizar la capacidad predictiva en datos futuros.
+- **Tamaños de muestra pequeños:** La validación cruzada utiliza el conjunto completo de datos de manera eficiente al dividirlo en diferentes subconjuntos.
+- **Datos con ruido o alta dimensionalidad:** Es más robusta para medir el rendimiento real del modelo en presencia de ruido o muchos predictores.
+
+
+```{r}
+#| echo: false
+
+# Crear el data.frame con la comparación
+comparacion_metodos <- data.frame(
+  Característica = c("Objetivo", "Naturaleza de los datos", "Computación", 
+                     "Tamaño de muestra", "Medida de evaluación", "Ejemplos de Modelos"),
+  AIC = c("Equilibrar ajuste y complejidad del modelo.",
+          "Modelos paramétricos bien especificados.",
+          "Rápida y eficiente.",
+          "Moderado a grande.",
+          "Basada en la verosimilitud penalizada.",
+          "Regresiónes: lineal, generalizada, mixta, logística ..."),
+  Validacion_Cruzada = c("Maximizar capacidad predictiva.",
+                         "Modelos complejos o no paramétricos.",
+                         "Más costosa computacionalmente.",
+                         "Pequeño a grande.",
+                         "Basada en error promedio en datos no usados.",
+                         "Random Forest, XGBoost, Support Vector Machines (SVM).")
+)
+
+# Imprimir el data.frame
+comparacion_metodos
+
+```
+
+### **Recomendación**
+- **Usa AIC:** Cuando necesitas comparar modelos paramétricos rápidamente en situaciones con suficiente información para confiar en la especificación del modelo.
+- **Usa validación cruzada:** Cuando estás trabajando con métodos más complejos, datos con ruido o si la predicción futura precisa es tu principal objetivo.
+
+
+Ambos enfoques pueden ser complementarios. Por ejemplo, puedes usar AIC para seleccionar un modelo inicial y luego aplicar validación cruzada para confirmar su capacidad predictiva. Estas dos estrategias se eligieron para este tutorial porque abordan el sobreajuste desde perspectivas complementarias. El AIC, basado en principios de inferencia estadística, es ideal cuando los datos se ajustan bien a la estructura asumida por el modelo. Por otro lado, la validación cruzada es flexible y no asume una especificación estricta del modelo, siendo útil en problemas complejos y de aprendizaje estadístico.
+
+Existen otros métodos que permiten evitar el sobreajuste. Algunos de estos son:
+
+  - **Regularización**: Métodos como LASSO y Ridge penalizan la complejidad del modelo para evitar ajustes excesivos.
+  - **Dropout**: Usado en redes neuronales para prevenir dependencia excesiva en nodos específicos durante el entrenamiento.
+
+
+------------------------------------------------------------------------
+
+# Información de la sesión {.unnumbered .unlisted}
+
+```{r session info, echo=F}
+
+sessionInfo()
+
+```

@@ -1,0 +1,505 @@
+---
+title: <font size="7"><b>Simulación de datos</b></font>
+---
+
+```{r,echo=FALSE,message=FALSE}
+
+options("digits"=5)
+options("digits.secs"=3)
+
+```
+
+```{r, echo = FALSE, message=FALSE}
+  
+library(knitr)
+library(ggplot2)
+library(viridis)
+
+# ggplot settings
+geom_histogram <- function(...) ggplot2::geom_histogram(..., fill = viridis(10, alpha = 0.5)[8], show.legend = FALSE, bins = 20, color = "black")
+
+geom_smooth <- function(...) ggplot2::geom_smooth(..., color = viridis(10,  alpha = 0.5)[8])
+
+geom_boxplot <- function(...) ggplot2::geom_boxplot(..., fill = viridis(10, alpha = 0.5)[7])
+
+geom_pointrange <- function(...) ggplot2::geom_pointrange(..., show.legend = FALSE, color = viridis(10, alpha = 0.5)[7], size = 2) 
+
+plot_model <- function(...) sjPlot::plot_model(xy_mod, type = "diag", colors = viridis(10, alpha = 0.5)[7])
+
+theme_set(theme_classic(base_size = 20))
+
+```
+
+ 
+
+::: {.alert .alert-info}
+# Objetivo del manual {.unnumbered .unlisted}
+
+-   Aprender las principales herramientas de simulación de datos en R
+
+-   Comprender la utlidad de usar datos simulados para entender el comportamiento de las herramientas estadísticas
+:::
+
+ 
+
+------------------------------------------------------------------------
+
+Paquetes a utilizar en este manual:
+
+```{r}
+
+# instalar/cargar paquetes
+
+sketchy::load_packages(
+  c("ggplot2", 
+    "viridis"
+    )
+  )
+
+```
+
+ 
+
+------------------------------------------------------------------------
+
+# Cómo simular datos
+
+## Generación de números aleatorios en R
+
+La estadística nos permite inferir patrones en los datos. Solemos utilizar conjuntos de datos reales para enseñar estadística. Sin embargo, puede ser circular entender el funcionamiento interno de una herramienta estadística probando su capacidad para inferir un patrón que no estamos seguros de encontrar en los datos (y no tenemos idea del mecanismo que produjo ese patrón). **Las simulaciones nos permiten crear escenarios controlados en los que conocemos con seguridad los patrones** presentes en los datos y los procesos subyacentes que los han generado.
+
+R ofrece algunas funciones básicas para la simulación de datos. Las más utilizadas son las funciones generadoras de números aleatorios. Los nombres de estas funciones comienzan con *r* (`r____()`). Por ejemplo, `runif()`:
+
+```{r, echo=FALSE}
+
+set.seed(7)
+
+```
+
+```{r}
+
+# simular variable uniforme
+unif_var <- runif(n = 100, min = 0, max = 10)
+
+```
+
+ 
+
+El resultado es un vector numérico de longitud 100 (`n = 100`):
+
+```{r}
+
+# imprimir variable
+unif_var
+
+```
+
+ 
+
+Podemos explorar el resultado graficando un histograma:
+
+```{r}
+
+# crear histograma
+ggplot(data = data.frame(unif_var), mapping = aes(x = unif_var)) + geom_histogram()
+
+```
+
+ 
+
+Muestra una distribución uniforme que va de 0 a 10.
+
+También podemos simular números aleatorios procedentes de una distribución normal utilizando `rnorm()`:
+
+```{r}
+
+# crear una variable normal
+norm_var <- rnorm(n = 1000, mean = 2, sd = 1)
+
+# graficar histograma
+ggplot(data = data.frame(norm_var), mapping = aes(x = norm_var)) + geom_histogram() 
+
+```
+
+ 
+
+Tenga en cuenta que todas las funciones generadoras de números aleatorios tienen el argumento 'n', que determina la longitud del vector generado (es decir, el número de números aleatorios), además de algunos argumentos adicionales relacionados con parámetros específicos de la distribución.
+
+Las variables continuas (es decir, los vectores numéricos) pueden convertirse en variables discretas (es decir, números enteros) simplemente redondeándolas:
+
+```{r}
+
+v1 <- rnorm(n = 5, mean = 10, sd = 3)
+
+v1
+
+round(x = v1, digits = 0)
+
+```
+
+ 
+
+::: {.alert .alert-info}
+<font size="5">Ejercicio 1</font>
+
+-   ¿Qué hacen las funciones `rbinom()` y `rexp()`?
+
+-   Ejecútela y haga histogramas de sus resultados
+
+-   ¿Qué hacen los argumentos 'mean' y 'sd' en `rnorm()`? Juegue con diferentes valores y comprueba el histograma para hacerse una idea de su efecto en la simulación
+:::
+
+ 
+
+## Generación de variables categóricas
+
+La forma más sencilla de generar variables categóricas es utilizar el vector de ejemplo `letters' (o`LETTERS') para asignar niveles de categoría. Podemos hacerlo utilizando la función `rep()`. Por ejemplo, el siguiente código crea un vector categórico (caracteres) con dos niveles, cada uno con 4 observaciones:
+
+```{r}
+
+rep(letters[1:2], each = 4)
+
+```
+
+ 
+
+También podemos replicar este patrón utilizando el argumento 'times'. Este código replica el vector anterior 2 veces:
+
+```{r}
+
+rep(letters[1:2], each = 4, times = 2)
+
+```
+
+ 
+
+Otra opción es simular una variable a partir de una distribución binomial y luego convertirla en un factor:
+
+```{r}
+# correr rbinom
+binom_var <- rbinom(n = 50, size = 1, prob = 0.5)
+
+binom_var
+```
+
+```{r}
+# convertir a factor
+categ_var <- factor(binom_var, labels = c("a", "b"))
+
+categ_var
+```
+
+ 
+
+## Muestreo aleatorio
+
+La otra herramienta importante de R para jugar con datos simulados es `sample()`. Esta función permite tomar muestras de tamaños específicos de vectores. Por ejemplo, tomemos el ejemplo del vector 'letters':
+
+```{r}
+
+letters
+
+```
+
+ 
+
+Podemos tomar una muestra de este vector como es:
+
+```{r}
+
+# tomar muestra
+sample(x = letters, size = 10)
+
+```
+
+ 
+
+El argumento 'size' nos permite determinar el tamaño de la muestra. Tenga en cuenta que obtendremos un error si el tamaño es mayor que el propio vector:
+
+```{r, error=TRUE}
+
+sample(x = letters, size = 30)
+
+```
+
+ 
+
+Esto sólo puede hacerse cuando el muestreo es con reemplazo (replacement). El muestreo con reemplazo puede aplicarse estableciendo el argumento `replace = TRUE`:
+
+```{r}
+
+sample(x = letters, size = 30, replace = TRUE)
+
+```
+
+ 
+
+## Iterar un proceso
+
+A menudo, las simulaciones deben repetirse varias veces para descartar resultados espurios debidos al azar o simplemente para probar diferentes parámetros. Las funciones de simulación de datos mencionadas anteriormente pueden ejecutarse varias veces (por ejemplo, iteradas) utilizando la función `replicate()`:
+
+```{r}
+
+# replicar
+repl_rnorm <- replicate(n = 3, expr = rnorm(2), simplify = FALSE)
+
+# ver clase
+class(repl_rnorm)
+
+# imprimir
+repl_rnorm
+```
+
+ 
+
+## Hacer que las simulaciones sean reproducibles
+
+El último truco que necesitamos para ejecutar simulaciones en R es la capacidad de reproducir una simulación (es decir, obtener exactamente los mismos datos y resultados simulados). Esto puede ser útil para que otros investigadores puedan ejecutar nuestros análisis exactamente de la misma manera. Esto puede hacerse fácilmente con la función `set.seed()`. Pruebe a ejecutar el siguiente código. Debería obtener la misma salida:
+
+```{r}
+
+# definir semilla
+set.seed(10)
+
+# crear variable uniforme
+runif(n = 2)
+
+```
+
+------------------------------------------------------------------------
+
+# Crear juegos de datos
+
+## Juegos de datos con variables numéricas y categóricas
+
+Ahora que sabemos cómo simular variables continuas y categóricas. Podemos juntarlas para crear conjuntos de datos simulados. Esto se puede hacer utilizando la función `data.frame()`:
+
+```{r}
+
+# crear variable categorica
+grupo <- rep(letters[1:2], each = 3)
+
+# crear variable continuaa
+tamano <- rnorm(n = 6, mean = 5, sd = 1)
+
+# poner juntas en un data frame
+df <- data.frame(grupo, tamano)
+
+# imprimir
+df
+
+```
+
+Por supuesto, podríamos añadir más variables a este cuadro de datos:
+
+```{r}
+
+# crear variable categorica
+grupo <- rep(letters[1:2], each = 3)
+individuo <- rep(LETTERS[1:6])
+
+# crear variables continuas
+tamano <- rnorm(n = 6, mean = 5, sd = 1)
+peso <- rnorm(n = 6, mean = 100, sd = 10)
+
+# poner todo en un data frame
+df <- data.frame(grupo, individuo, tamano, peso)
+
+# imprimir
+df
+
+```
+
+Y eso es un juego de datos simulados en su forma más básica. Se parece mucho al tipo de datos con los que trabajamos en biología.
+
+------------------------------------------------------------------------
+
+# Cómo utilizar datos simulados para entender el comportamiento de las herramientas estadísticas
+
+ 
+
+## Prueba de concepto: *el Teorema del Límite Central*
+
+El [Teorema del Límite Central](https://en.wikipedia.org/wiki/Central_limit_theorem) afirma que, si tomamos muestras aleatorias de una población, los promedios de esas muestras seguirán una distribución normal, aunque la población no esté distribuida normalmente. Además, la distribución normal resultante debe tener un promedio cercano al promedio de la población. El teorema es un concepto clave para la estadística inferencial, ya que implica que los métodos estadísticos que funcionan para las distribuciones normales pueden ser aplicables a muchos problemas que implican otros tipos de distribuciones. No obstante, el objetivo aquí es sólo mostrar cómo se pueden utilizar las simulaciones para entender el comportamiento de los métodos estadísticos.
+
+Para comprobar si esas afirmaciones básicas sobre el Teorema del Límite Central son ciertas, podemos utilizar datos simulados en R. Vamos a simular una población de 1000 observaciones con una distribución uniforme:
+
+```{r, eval=FALSE}
+
+# simular popublacion uniforme
+unif_pop <- runif(1000, min = 0, max = 10)
+
+# ver histograma
+ggplot(data = data.frame(unif_pop), mapping = aes(x = unif_pop)) + geom_histogram() 
+
+```
+
+```{r, echo=FALSE}
+set.seed(10)
+
+# simulate uniform population
+unif_pop <- runif(1000, min = 0, max = 10)
+
+# ver distribucion
+ggplot(data = data.frame(unif_pop), mapping = aes(x = unif_pop)) + geom_histogram() 
+
+
+```
+
+ 
+
+Podemos tomar muestras aleatorias usando `sample()` así:
+
+```{r}
+
+sample(x = unif_pop, size = 30)
+
+```
+
+ 
+
+Este proceso puede ser replicado varias veces con `replicate()`:
+
+```{r}
+
+# replicar
+samples <- replicate(n = 100, expr = mean(sample(x = unif_pop, size = 30)))
+
+```
+
+ 
+
+El código anterior toma 100 muestras con 30 valores cada una. Ahora podemos comprobar la distribución de las muestras:
+
+```{r, eval=FALSE}
+
+# ver distribucion/ histograma
+ggplot(data = data.frame(samples), mapping = aes(x = samples)) + geom_histogram() 
+
+
+```
+
+```{r, echo=FALSE}
+
+# ver distribucion
+ggplot(data = data.frame(samples), mapping = aes(x = samples)) + geom_histogram() 
+
+```
+
+ 
+
+... asi como el promedio:
+
+```{r}
+
+mean(samples)
+
+```
+
+ 
+
+Como era de esperar, las muestras siguen una distribución normal con una media cercana a la media de la población, que es:
+
+```{r}
+
+mean(unif_pop)
+
+```
+
+ 
+
+Probemos con una distribución más compleja. Por ejemplo, una distribución bimodal:
+
+```{r, eval=FALSE}
+
+# usar semilla
+set.seed(123)
+
+# simular variables
+norm1 <- rnorm(n = 1000, mean = 10, sd = 3)
+norm2 <- rnorm(n = 1000, mean = 20, sd = 3)
+
+# juntar en una sola variable
+bimod_pop <- c(norm1, norm2)
+
+# ver histograma
+ggplot(data = data.frame(bimod_pop), mapping = aes(x = bimod_pop)) + geom_histogram() 
+
+```
+
+```{r, echo=FALSE}
+
+# definir semilla
+set.seed(123)
+
+norm1 <- rnorm(n = 1000, mean = 10, sd = 3)
+norm2 <- rnorm(n = 1000, mean = 20, sd = 3)
+
+bimod_pop <- c(norm1, norm2)
+
+# ver distribucion
+ggplot(data = data.frame(bimod_pop), mapping = aes(x = bimod_pop)) + geom_histogram() 
+```
+
+```{r, eval=FALSE}
+
+# replicar muestreo
+samples <- replicate(200, mean(sample(bimod_pop, 10)))
+
+# ver histograma
+ggplot(data = data.frame(samples), mapping = aes(x = samples)) + geom_histogram() 
+
+```
+
+```{r, echo=FALSE}
+
+samples <- replicate(200, mean(sample(bimod_pop, 10)))
+
+# ver distribucion
+ggplot(data = data.frame(samples), mapping = aes(x = samples)) + geom_histogram() 
+
+```
+
+```{r}
+# ver promedios
+mean(samples)
+
+mean(bimod_pop)
+```
+
+ 
+
+::: {.alert .alert-info}
+<font size="5">Ejercicio 2</font>
+
+ 
+
+-   Intenta explorar el Teorema del Límite Central como en el caso anterior, pero esta vez utilizando:
+
+    1.  Una distribución exponencial (`rexp()`)
+    2.  Una distribución log-normal (`rlnorm()`)
+
+ 
+
+-   Para cada distribución: grafique un histograma y compare los promedios de la población y de las muestras
+:::
+
+## Referencias
+
+-   [R's rbinom -- Simulate Binomial or Bernoulli trials](https://www.programmingr.com/examples/neat-tricks/sample-r-function/r-rbinom/)
+
+-   [R's rnorm -- selecting values from a normal distribution](https://www.programmingr.com/examples/neat-tricks/sample-r-function/r-rnorm/)
+
+-   [R's exp -- Simulating Exponential Distributions](https://www.programmingr.com/examples/neat-tricks/sample-r-function/rexp/)
+
+-   [Simulating data in R](https://aosmith.rbind.io/2018/08/29/getting-started-simulating-data/)
+
+------------------------------------------------------------------------
+
+# Información de la sesión {.unnumbered .unlisted}
+
+```{r session info, echo=F}
+
+sessionInfo()
+
+```

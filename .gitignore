@@ -1,0 +1,9 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.DS_Store
+_site/
+
+/.quarto/
+additional_files/.~ 3068 Aprendizaje de maquinas_18_may_obligatorio.docx
