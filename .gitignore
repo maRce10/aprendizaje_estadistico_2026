@@ -9,3 +9,15 @@ _site/
 additional_files/
 
 **/*.quarto_ipynb
+/additional_files
+/additional_files
+additional_files/acta_sp3068.pdf
+additional_files/contra_discriminacion.png
+additional_files/correos sp-3068.xlsx
+additional_files/lista_de_clases.xls
+additional_files/lista_de_estudiantes.pdf
+additional_files/programa_SP_3068_aprendizaje_de_maquinas.docx
+additional_files/programa_SP_3068_aprendizaje_de_maquinas.pdf
+additional_files/programa_SP_3068_aprendizaje_de_maquinas_v02.docx
+additional_files/programa_SP_3068_aprendizaje_de_maquinas_v02.pdf
+additional_files/reporte.xls
