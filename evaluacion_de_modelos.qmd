@@ -5,14 +5,11 @@ editor_options:
 ---
 
 ```{r,echo=FALSE,message=FALSE}
-
-options("digits"=5)
-options("digits.secs"=3)
-
+options("digits" = 5)
+options("digits.secs" = 3)
 ```
 
 ```{r, echo = FALSE, message=FALSE}
-  
 library(knitr)
 library(ggplot2)
 library(viridis)
@@ -23,8 +20,6 @@ library(nnet)
 library(Metrics)
 
 theme_set(theme_classic(base_size = 20))
-
-
 ```
 
 ::: {.alert .alert-info}
@@ -37,20 +32,20 @@ theme_set(theme_classic(base_size = 20))
 Paquetes a utilizar en este manual:
 
 ```{r}
-
 # instalar/cargar paquetes
 
 sketchy::load_packages(
-  c("ggplot2", 
-    "viridis", 
+  c(
+    "ggplot2",
+    "viridis",
     "nnet",
     "caret",
     "glmnet",
     "pROC",
     "nnet",
-    "Metrics")
+    "Metrics"
   )
-
+)
 ```
 
 ::: grid
@@ -97,7 +92,6 @@ Cuando la variable respuesta $\text{Y}$ es continua el propósito de la evaluaci
 La raíz del error cuadrático medio (RMSE por sus siglas en inglés) es quizás la medida mas comunmente utilizada para medir la precisión en la predicción de una variable continua. Las unidades de esta métrica son las mismas que la variable de respuesta. La podemos calcular fácilmente:
 
 ```{r}
-
 # Generar datos simulados
 set.seed(123)
 x <- rnorm(100)
@@ -114,7 +108,6 @@ y_pred <- predict(mod)
 
 # Step 3: Calcular RMSE
 sqrt(mean((datos$y - y_pred)^2))
-
 ```
 
 La raíz del error cuadrático medio penaliza más los errores grandes, ya que los errores se elevan al cuadrado. Esto lo hace útil para detectar errores grandes que podrían ser problemáticos. Sin embargo, es sensible a outliers, ya que los errores grandes tienen un impacto más significativo en el resultado.
@@ -125,7 +118,7 @@ El R^2^ indica qué proporción de la variabilidad en la variable respuesta es e
 
 ```{r}
 r2 <- 1 - sum((datos$y - y_pred)^2) / sum((datos$y - mean(datos$y))^2)
-    
+
 # imprimir R^2
 r2
 ```
@@ -134,7 +127,6 @@ Este es el mismo valor que se obtiene al evaluar el modelo con la función `summ
 
 ```{r}
 summary(mod)$r.squared
-
 ```
 
 Entre R^2^ sea mas cercano a 1 indica el modelo tiene mejor ajuste. Sin embargo, es importante tener en cuenta que un R^2^ alto no garantiza que el modelo sea útil o que generalice bien a nuevos datos. No es una buena métrica para modelos no lineales, ya que puede no reflejar bien la calidad del ajuste en estos casos.
@@ -181,7 +173,6 @@ rmse_mtcars <- sqrt(mean((mtcars$mpg - pred_mtcars)^2))
 
 # calcular R^2^
 r2_mtcars <- summary(mod_mtcars)$r.squared
-
 ```
 :::
 
@@ -197,11 +188,10 @@ data("Titanic")
 datos_titanic <- as.data.frame(Titanic)
 datos_titanic <- datos_titanic[datos_titanic$Freq > 0, ]
 
-datos_tab_titanic <- do.call(rbind, lapply(1:nrow(datos_titanic), function(x) datos_titanic[rep(x, datos_titanic$Freq[x]),]))
+datos_tab_titanic <- do.call(rbind, lapply(1:nrow(datos_titanic), function(x) datos_titanic[rep(x, datos_titanic$Freq[x]), ]))
 
 # Ajustar el modelo de regresión logística
 modelo_log <- glm(Survived ~ Class + Sex, data = datos_tab_titanic, family = binomial)
-
 ```
 
 Ahora podemos predecir la variable respuesta con este modelo:
@@ -212,7 +202,6 @@ pred_vals <- predict(object = modelo_log, newdata = datos_tab_titanic, type = "r
 
 # binarizar
 pred_cat <- ifelse(pred_vals > 0.5, "Yes", "No")
-
 ```
 
 ## Matriz de confusión
@@ -228,11 +217,11 @@ outcomes <- c("Verdadero Positivos\n(VP)", "Falso Positivos\n(FP)", "Falso Negat
 confusion_matrix <- data.frame(
   Predicted = rep(c("Positivo", "Negativo"), each = 2),
   Actual = rep(c("Positivo", "Negativo"), 2),
-  Count = c(50, 10, 5, 35),  # Ejemplo de números
+  Count = c(50, 10, 5, 35), # Ejemplo de números
   Outcome = outcomes
 )
 
-cols <- mako(2, begin = 0.4, end  = 0.9, alpha = 0.7)[c(1, 2, 2, 1)]
+cols <- mako(2, begin = 0.4, end = 0.9, alpha = 0.7)[c(1, 2, 2, 1)]
 names(cols) <- outcomes
 
 # Crear el gráfico con ggplot
@@ -251,46 +240,42 @@ ggplot(confusion_matrix, aes(x = Actual, y = Predicted, fill = Outcome)) +
     plot.title = element_text(hjust = 0.5, size = 16),
     panel.grid = element_blank()
   )
-
 ```
 
 Esta matriz la podemos estimar usando la función `confusionMatrix` del paquete `caret`:
 
 ```{r}
-
 # hacer la matriz de confusion
 mat_conf <-
-    confusionMatrix(factor(pred_cat), factor(datos_tab_titanic$Survived))
+  confusionMatrix(factor(pred_cat), factor(datos_tab_titanic$Survived))
 
 # imprimir resultado
 mat_conf$table
-
 ```
 
 Podemos graficar esta matriz con un gradiente de colores donde los valores esten dado como proporciones, lo cual mas fácil su interpretación:
 
 ```{r}
-
 # convertir a data frame
 conf_df <- as.data.frame(mat_conf$table)
 
 # agregar totales por categoria
 conf_df$total <-
-    sapply(conf_df$Reference, function(x)
-        sum(datos_tab_titanic$Survived ==
-                x))
+  sapply(conf_df$Reference, function(x) {
+    sum(datos_tab_titanic$Survived ==
+      x)
+  })
 
 # calcular proporciones
 conf_df$proportion <- conf_df$Freq / conf_df$total
 
 # graficar
 ggplot(conf_df, aes(x = Reference, y = Prediction, fill = proportion)) +
-  geom_tile() + 
-  coord_equal() + 
-  scale_fill_distiller(palette = "Greens", direction = 1) + 
-  geom_text(aes(label = round(proportion, 2)), color = "black", size = 3) + 
-  labs(x = "Observado", y = "Predicho", fill = "Proporción") 
-
+  geom_tile() +
+  coord_equal() +
+  scale_fill_distiller(palette = "Greens", direction = 1) +
+  geom_text(aes(label = round(proportion, 2)), color = "black", size = 3) +
+  labs(x = "Observado", y = "Predicho", fill = "Proporción")
 ```
 
 Varias métricas se derivan de los valores contenidos en la matriz de confusion.
@@ -306,9 +291,7 @@ La fórmula es:
 Esta también es estimada por la función `confusionMatrix`:
 
 ```{r}
-
 mat_conf$overall["Accuracy"]
-
 ```
 
 ## Precisión (Precision) y Sensibilidad (Sensitivity o Recall)
@@ -324,9 +307,7 @@ La sensibilidad es la proporción de verdaderos positivos entre todas las observ
 Ambas son estimadas por la función `confusionMatrix`:
 
 ```{r}
-
 mat_conf$byClass[c("Precision", "Sensitivity")]
-
 ```
 
 ## Índice F1 (o F-Score)
@@ -343,13 +324,12 @@ sensitivity <- mat_conf$byClass["Sensitivity"]
 f1_score <- (2 * precision * sensitivity) / (precision + sensitivity)
 
 f1_score
-
 ```
 
 Tambien lo podemos extraer del resultado de la función `confusionMatrix`:
 
 ```{r}
- mat_conf$byClass["F1"]
+mat_conf$byClass["F1"]
 ```
 
 ## Área Bajo la Curva ROC (AUC-ROC)
@@ -379,16 +359,15 @@ ggplot(roc_data, aes(x = fpr, y = tpr)) +
     x = "Tasa de Falsos Positivos (FPR)",
     y = "Tasa de Verdaderos Positivos (TPR)"
   ) +
-  scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) +  # Limitar el eje X entre 0 y 1
-  scale_y_continuous(limits = c(0, 1), expand = c(0, 0)) +  # Limitar el eje Y entre 0 y 
+  scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) + # Limitar el eje X entre 0 y 1
+  scale_y_continuous(limits = c(0, 1), expand = c(0, 0)) + # Limitar el eje Y entre 0 y
   theme_classic() +
-  theme(panel.grid = element_blank()) +# Remover cuadrícula
+  theme(panel.grid = element_blank()) + # Remover cuadrícula
   # add polygon showin area under the curve
-  geom_polygon(data = roc_data, aes(x = fpr, y = tpr), fill = "tomato", alpha = 0.3) + 
-# add polygon coloring lower diagonal 
+  geom_polygon(data = roc_data, aes(x = fpr, y = tpr), fill = "tomato", alpha = 0.3) +
+  # add polygon coloring lower diagonal
   geom_polygon(data = data.frame(x = c(0, 1, 1), y = c(0, 0, 1)), aes(x = x, y = y), fill = "tomato", alpha = 0.3) +
   annotate("text", x = 0.5, y = 0.5, label = paste("AUC = ", round(pROC::auc(roc_curve), 2)), size = 6)
-  
 ```
 
 Podemos estimar el área bajo la curva con la función `auc` del paquete `pROC`:
@@ -396,7 +375,6 @@ Podemos estimar el área bajo la curva con la función `auc` del paquete `pROC`:
 ```{r}
 # estimar AUC
 pROC::auc(roc_curve)
-
 ```
 
 Valores mas cercanos a 1 indican un mejor desempeño del modelo en discriminar entre clases tomando en cuenta la incertidumbre relacionada a la escogencia de un umbral de decisión.
@@ -415,7 +393,6 @@ roc_multiclass <- multiclass.roc(iris$Species, pred_prob)
 
 # Ver resultados
 roc_multiclass
-
 ```
 
 ## Pérdida logarítmica (log-loss)
@@ -427,10 +404,9 @@ Mide el rendimiento de un modelo de clasificación al penalizar predicciones err
 Donde ${y_i}$ es el valor real (0 o 1) y ${p_i}$ es la probabilidad asignada a la clase positiva. Es útil cuando se desea medir la confianza del modelo en sus predicciones y no solo si acierta o falla. Aunque puede ser más complejo de interpretar en comparación con otras métricas.
 
 ```{r}
-
 # Convertir las etiquetas reales a una matriz de indicadores (one-hot encoding)
 # note que Species es un factor
-y_obs <- model.matrix(~Species-1, data = iris)
+y_obs <- model.matrix(~ Species - 1, data = iris)
 
 # Calcular el log-loss
 log_loss_value <- logLoss(y_obs, pred_prob)
@@ -445,7 +421,6 @@ El valor del pérdida logarítmica representa qué tan bien o mal el modelo pred
 Usaremos los datos de Cortez y Silva (2008) sobre el desempeño académico de estudiantes en la clase de matemáticas. Los datos contienen 395 observaciones y 31 variables. La variable respuesta es `G3` (calificación final), y las variables predictoras son las demás variables del conjunto de datos. Pueden econtrar una [descripción detallada de los datos aqui](https://archive.ics.uci.edu/dataset/320/student+performance). El siguiente código carga los datos y remueve las variables `G1` y `G2` (calificaciones parciales) para evitar multicolinealidad:
 
 ```{r}
-
 # leer datos
 datos_mate <- read.csv("https://raw.githubusercontent.com/maRce10/aprendizaje_estadistico_2024/refs/heads/master/data/student/student-mat.csv", sep = ";")
 
@@ -453,7 +428,6 @@ datos_mate <- read.csv("https://raw.githubusercontent.com/maRce10/aprendizaje_es
 datos_mate$G1 <- datos_mate$G2 <- NULL
 
 str(datos_mate)
-
 ```
 
 1.  Ajuste un modelo de regresión lineal con los datos de `datos_mate` donde la variable respuesta sea `G3`. Utilice su conocimiento del sistema (como estudiante) para escoger las variables predictoras que usted espere tengan un mayor efecto sobre el desempeño académico. Calcule el R^2^ para este modelo.
@@ -468,7 +442,6 @@ mod_mate <- lm(G3 ~ school + sex + age + address + famsize + Pstatus, data = dat
 
 # get summary
 summary(mod_mate)
-
 ```
 
 2.  Ajuste un modelo de regresión multinomial análogo al del punto anterior (e.g. mismos predictores y misma respuesta).
@@ -478,7 +451,6 @@ summary(mod_mate)
 #| echo: false
 
 mod_mult <- multinom(G3 ~ school + sex + age + address + famsize + Pstatus, data = datos_mate)
-
 ```
 
 3.  Calcule la matriz de confusión, la exactitud, el área bajo la curva y pérdida logarítmica para el modelo del punto anterior.
@@ -496,10 +468,10 @@ log_loss_value <- logLoss(datos_mate$G3, pred_prob)
 log_loss_value
 
 # convertir respuesta a factor
-datos_mate$G3_f <- as.factor(datos_mate$G3) 
+datos_mate$G3_f <- as.factor(datos_mate$G3)
 
 # Convertir las etiquetas reales a una matriz de indicadores (one-hot encoding)
-y_obs <- model.matrix(~G3_f-1, data = datos_mate)
+y_obs <- model.matrix(~ G3_f - 1, data = datos_mate)
 
 # Calcular el log-loss
 log_loss_value <- logLoss(y_obs, pred_prob)
@@ -507,12 +479,12 @@ log_loss_value <- logLoss(y_obs, pred_prob)
 log_loss_value
 
 # hacer la matriz de confusion
-# predecir categorias 
+# predecir categorias
 
 pred_cat <- predict(mod_mult, newdata = datos_mate)
 
 mat_conf <-
-    confusionMatrix(factor(pred_cat), factor(datos_mate$G3))
+  confusionMatrix(factor(pred_cat), factor(datos_mate$G3))
 
 mat_conf$table
 
@@ -529,9 +501,7 @@ roc_multiclass
 El siguiente código binariza la variable respuesta `G3`. Si la calificación es menor a 9, se considera que el estudiante reprobó (`Reprobado`), de lo contrario, se considera que aprobó (`Aprobado`):
 
 ```{r}
-
-datos_mate$G3_bin <- ifelse(datos_mate$G3 < 9, 0, 1) 
-
+datos_mate$G3_bin <- ifelse(datos_mate$G3 < 9, 0, 1)
 ```
 
 4.  Utilizando la variable binaria `G3_bin` como respuesta, ajuste un modelo de regresión logística con las mismas variables predictoras que el modelo ajustado en el punto 2.
@@ -542,8 +512,6 @@ datos_mate$G3_bin <- ifelse(datos_mate$G3 < 9, 0, 1)
 
 # ajustar modelo
 mod_log <- glm(G3_bin ~ school + sex + age + address + famsize + Pstatus, data = datos_mate, family = binomial)
-
-
 ```
 
 5.Calcule la matriz de confusión, la exactitud, precisión, indice F1, area bajo la curva y pérdida logarítmica para el modelo del punto anterior.
@@ -565,7 +533,7 @@ log_loss_value
 pred_cat <- ifelse(pred_prob > 0.5, 1, 0)
 
 mat_conf <-
-    confusionMatrix(factor(pred_cat), factor(datos_mate$G3_bin))
+  confusionMatrix(factor(pred_cat), factor(datos_mate$G3_bin))
 
 mat_conf$table
 
@@ -577,7 +545,6 @@ mat_conf$overall
 roc_curve <- roc(datos_mate$G3_bin, pred_prob, smooth = TRUE)
 
 roc_curve
-
 ```
 
 6.  Compare los modelos generados en los puntos 2 y 4. ¿Cual modelo parece tener un mejor desempeño? ¿Por qué?
@@ -594,7 +561,5 @@ Cortez, P., & Silva, A.M. (2008). Using data mining to predict secondary school 
 # Información de la sesión {.unnumbered .unlisted}
 
 ```{r session info, echo=F}
-
 sessionInfo()
-
 ```

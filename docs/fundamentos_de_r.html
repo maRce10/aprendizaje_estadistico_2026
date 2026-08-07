@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Elementos básicos del lenguaje R – Aprendizaje Estadístico, SEP-UCR 2024</title>
+<title>Elementos básicos del lenguaje R – Aprendizaje Estadístico, SEP-UCR 2026</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -6856,7 +6856,7 @@ text-align: center
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Aprendizaje Estadístico, SEP-UCR 2024</span>
+    <span class="navbar-title">Aprendizaje Estadístico, SEP-UCR 2026</span>
     </a>
   </div>
             <div id="quarto-search" class title="Buscar"></div>
@@ -6939,7 +6939,7 @@ text-align: center
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/maRce10/aprendizaje_estadistico_2024"> <i class="bi bi-github" role="img" aria-label="GitHub">
+    <a class="nav-link" href="https://github.com/maRce10/aprendizaje_estadistico_2026"> <i class="bi bi-github" role="img" aria-label="GitHub">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -7029,7 +7029,7 @@ text-align: center
     <div>
     <div class="quarto-title-meta-heading">Fecha de publicación</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">3 de agosto de 2026</p>
+      <p class="date">7 de agosto de 2026</p>
     </div>
   </div>
   
@@ -7602,7 +7602,8 @@ Levels: a b</code></pre>
 <span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-error">
-<pre><code>Error in data.frame(ID = c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;), size = c(1, 2, 3, : arguments imply differing number of rows: 5, 6</code></pre>
+<pre><code>Error in `data.frame()`:
+! arguments imply differing number of rows: 5, 6</code></pre>
 </div>
 </div>
 <p> </p>
@@ -7641,7 +7642,7 @@ Levels: a b</code></pre>
 <span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(bi)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1388</code></pre>
+<pre><code>[1] 1407</code></pre>
 </div>
 </div>
 <p> </p>
@@ -7749,6 +7750,7 @@ Levels: a b</code></pre>
 </div>
 </div>
 </div>
+<p> </p>
 <div class="cell">
 <details open class="code-fold">
 <summary>Código</summary>
@@ -7838,6 +7840,7 @@ Levels: a b</code></pre>
 </tr>
 </tbody>
 </table>
+<p> </p>
 <div class="cell">
 <details open class="code-fold">
 <summary>Código</summary>
@@ -8727,21 +8730,21 @@ Guanacaste   San José
 <p><font size="4">Información de la sesión</font></p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>R version 4.3.2 (2023-10-31)
-Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Ubuntu 22.04.2 LTS
+<pre><code>R version 4.6.1 (2026-06-24)
+Platform: x86_64-pc-linux-gnu
+Running under: Ubuntu 22.04.5 LTS
 
 Matrix products: default
 BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.10.0 
-LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.10.0
+LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.10.0  LAPACK version 3.10.0
 
 locale:
  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
- [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
- [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
- [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [3] LC_TIME=es_CR.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=es_CR.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=es_CR.UTF-8       LC_NAME=C                 
  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+[11] LC_MEASUREMENT=es_CR.UTF-8 LC_IDENTIFICATION=C       
 
 time zone: America/Costa_Rica
 tzcode source: system (glibc)
@@ -8750,18 +8753,19 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] psych_2.3.12
+[1] psych_2.6.5
 
 loaded via a namespace (and not attached):
- [1] vctrs_0.6.5       nlme_3.1-155      svglite_2.1.3     cli_3.6.3        
- [5] knitr_1.48        rlang_1.1.4       xfun_0.47         stringi_1.8.4    
- [9] highr_0.11        jsonlite_1.8.9    glue_1.8.0        colorspace_2.1-1 
-[13] htmltools_0.5.8.1 scales_1.3.0      rmarkdown_2.28    grid_4.3.2       
-[17] evaluate_1.0.0    munsell_0.5.1     kableExtra_1.4.0  fastmap_1.2.0    
-[21] yaml_2.3.10       lifecycle_1.0.4   stringr_1.5.1     compiler_4.3.2   
-[25] htmlwidgets_1.6.4 rstudioapi_0.16.0 lattice_0.20-45   systemfonts_1.1.0
-[29] digest_0.6.37     viridisLite_0.4.2 R6_2.5.1          parallel_4.3.2   
-[33] mnormt_2.1.1      magrittr_2.0.3    tools_4.3.2       xml2_1.3.6       </code></pre>
+ [1] vctrs_0.7.3        nlme_3.1-170       svglite_2.2.2      cli_3.6.6         
+ [5] knitr_1.51         rlang_1.3.0        xfun_0.60          stringi_1.8.7     
+ [9] otel_0.2.0         textshaping_1.0.5  jsonlite_2.0.0     glue_1.8.1        
+[13] htmltools_0.5.9    scales_1.4.0       rmarkdown_2.31     grid_4.6.1        
+[17] evaluate_1.0.5     kableExtra_1.4.1   fastmap_1.2.0      yaml_2.3.12       
+[21] lifecycle_1.0.5    stringr_1.6.0      compiler_4.6.1     RColorBrewer_1.1-3
+[25] htmlwidgets_1.6.4  rstudioapi_0.19.0  lattice_0.22-9     systemfonts_1.3.2 
+[29] farver_2.1.2       digest_0.6.39      viridisLite_0.4.3  R6_2.6.1          
+[33] parallel_4.6.1     mnormt_2.1.2       pillar_1.11.1      magrittr_2.0.5    
+[37] tools_4.6.1        xml2_1.6.0        </code></pre>
 </div>
 </div>
 
@@ -8895,7 +8899,7 @@ loaded via a namespace (and not attached):
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/marce10\.github\.io\/aprendizaje_estadistico_2024\/");
+        var filterRegex = new RegExp("https:\/\/marce10\.github\.io\/aprendizaje_estadistico_2026\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -9248,24 +9252,24 @@ loaded via a namespace (and not attached):
 <span id="cb180-19"><a href="#cb180-19" aria-hidden="true" tabindex="-1"></a>::: {.alert .alert-info}</span>
 <span id="cb180-20"><a href="#cb180-20" aria-hidden="true" tabindex="-1"></a><span class="fu"># Objetivo del manual {.unnumbered .unlisted}</span></span>
 <span id="cb180-21"><a href="#cb180-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-22"><a href="#cb180-22" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Familiarizarse con los bloques básicos usados en la programación en R</span>
+<span id="cb180-22"><a href="#cb180-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Familiarizarse con los bloques básicos usados en la programación en R</span>
 <span id="cb180-23"><a href="#cb180-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-24"><a href="#cb180-24" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Conocer las fuentes principales de documentación estandarizada en R</span>
+<span id="cb180-24"><a href="#cb180-24" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Conocer las fuentes principales de documentación estandarizada en R</span>
 <span id="cb180-25"><a href="#cb180-25" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb180-26"><a href="#cb180-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-27"><a href="#cb180-27" aria-hidden="true" tabindex="-1"></a> </span>
 <span id="cb180-28"><a href="#cb180-28" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-29"><a href="#cb180-29" aria-hidden="true" tabindex="-1"></a><span class="fu"># ¿Qué es R?</span></span>
 <span id="cb180-30"><a href="#cb180-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-31"><a href="#cb180-31" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Un <span class="co">[</span><span class="ot">Lenguaje de Dominio Específico (DSL)</span><span class="co">](https://en.wikipedia.org/wiki/Domain-specific_language)</span> libre para la estadística y el análisis de datos</span>
-<span id="cb180-32"><a href="#cb180-32" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Una colección de más de 21145 paquetes (al 12 de agosto de 2024)</span>
-<span id="cb180-33"><a href="#cb180-33" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Una comunidad grande y activa en la industria y el mundo académico</span>
-<span id="cb180-34"><a href="#cb180-34" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Una forma de hablar &quot;directamente&quot; con su ordenador</span>
+<span id="cb180-31"><a href="#cb180-31" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Un <span class="co">[</span><span class="ot">Lenguaje de Dominio Específico (DSL)</span><span class="co">](https://en.wikipedia.org/wiki/Domain-specific_language)</span> libre para la estadística y el análisis de datos</span>
+<span id="cb180-32"><a href="#cb180-32" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Una colección de más de 21145 paquetes (al 12 de agosto de 2024)</span>
+<span id="cb180-33"><a href="#cb180-33" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Una comunidad grande y activa en la industria y el mundo académico</span>
+<span id="cb180-34"><a href="#cb180-34" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Una forma de hablar &quot;directamente&quot; con su ordenador</span>
 <span id="cb180-35"><a href="#cb180-35" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-36"><a href="#cb180-36" aria-hidden="true" tabindex="-1"></a>Históricamente:</span>
 <span id="cb180-37"><a href="#cb180-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-38"><a href="#cb180-38" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Basado en el lenguaje de programación S</span>
-<span id="cb180-39"><a href="#cb180-39" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Alrededor de 20 años de antigüedad (el linaje data de 1975 - hace casi 40 años)</span>
+<span id="cb180-38"><a href="#cb180-38" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Basado en el lenguaje de programación S</span>
+<span id="cb180-39"><a href="#cb180-39" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Alrededor de 20 años de antigüedad (el linaje data de 1975 - hace casi 40 años)</span>
 <span id="cb180-40"><a href="#cb180-40" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-41"><a href="#cb180-41" aria-hidden="true" tabindex="-1"></a><span class="al">![](images/Rinterf.jpeg)</span>{width=&quot;100%&quot;}</span>
 <span id="cb180-42"><a href="#cb180-42" aria-hidden="true" tabindex="-1"></a></span>
@@ -9275,9 +9279,9 @@ loaded via a namespace (and not attached):
 <span id="cb180-46"><a href="#cb180-46" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-47"><a href="#cb180-47" aria-hidden="true" tabindex="-1"></a>Entorno de desarrollo integrado (IDE) para R. Incluye:</span>
 <span id="cb180-48"><a href="#cb180-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-49"><a href="#cb180-49" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Una consola</span>
-<span id="cb180-50"><a href="#cb180-50" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Editor para resaltar la sintaxis que soporta la ejecución directa del código</span>
-<span id="cb180-51"><a href="#cb180-51" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Herramientas para el trazado, el historial, la depuración y la gestión del espacio de trabajo</span>
+<span id="cb180-49"><a href="#cb180-49" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Una consola</span>
+<span id="cb180-50"><a href="#cb180-50" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Editor para resaltar la sintaxis que soporta la ejecución directa del código</span>
+<span id="cb180-51"><a href="#cb180-51" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Herramientas para el trazado, el historial, la depuración y la gestión del espacio de trabajo</span>
 <span id="cb180-52"><a href="#cb180-52" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-53"><a href="#cb180-53" aria-hidden="true" tabindex="-1"></a><span class="al">![](images/Rstudio.jpeg)</span>{width=&quot;100%&quot;}</span>
 <span id="cb180-54"><a href="#cb180-54" aria-hidden="true" tabindex="-1"></a></span>
@@ -9392,9 +9396,9 @@ loaded via a namespace (and not attached):
 <span id="cb180-167"><a href="#cb180-167" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-168"><a href="#cb180-168" aria-hidden="true" tabindex="-1"></a>Tienen tres propiedades comunes:</span>
 <span id="cb180-169"><a href="#cb180-169" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-170"><a href="#cb180-170" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Tipo, <span class="in">`typeof()`</span> (clase/modo \~)</span>
-<span id="cb180-171"><a href="#cb180-171" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Longitud, <span class="in">`length()`</span> (número de elementos)</span>
-<span id="cb180-172"><a href="#cb180-172" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Attributes, <span class="in">`attributes()`</span> (metadatos)</span>
+<span id="cb180-170"><a href="#cb180-170" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Tipo, <span class="in">`typeof()`</span> (clase/modo \~)</span>
+<span id="cb180-171"><a href="#cb180-171" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Longitud, <span class="in">`length()`</span> (número de elementos)</span>
+<span id="cb180-172"><a href="#cb180-172" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Attributes, <span class="in">`attributes()`</span> (metadatos)</span>
 <span id="cb180-173"><a href="#cb180-173" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-174"><a href="#cb180-174" aria-hidden="true" tabindex="-1"></a>Se diferencian en los tipos de sus elementos: todos los elementos de un vector atómico deben ser del mismo tipo, mientras que los elementos de una lista pueden tener diferentes tipos.</span>
 <span id="cb180-175"><a href="#cb180-175" aria-hidden="true" tabindex="-1"></a></span>
@@ -9402,11 +9406,11 @@ loaded via a namespace (and not attached):
 <span id="cb180-177"><a href="#cb180-177" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-178"><a href="#cb180-178" aria-hidden="true" tabindex="-1"></a>Tipos de vectores atómicos:</span>
 <span id="cb180-179"><a href="#cb180-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-180"><a href="#cb180-180" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Lógico <span class="co">[</span><span class="ot">(booleano)</span><span class="co">](https://en.wikipedia.org/wiki/Boolean)</span></span>
-<span id="cb180-181"><a href="#cb180-181" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Entero</span>
-<span id="cb180-182"><a href="#cb180-182" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Numérico (doble)</span>
-<span id="cb180-183"><a href="#cb180-183" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Caracteres</span>
-<span id="cb180-184"><a href="#cb180-184" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Factores</span>
+<span id="cb180-180"><a href="#cb180-180" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Lógico <span class="co">[</span><span class="ot">(booleano)</span><span class="co">](https://en.wikipedia.org/wiki/Boolean)</span></span>
+<span id="cb180-181"><a href="#cb180-181" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Entero</span>
+<span id="cb180-182"><a href="#cb180-182" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Numérico (doble)</span>
+<span id="cb180-183"><a href="#cb180-183" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Caracteres</span>
+<span id="cb180-184"><a href="#cb180-184" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Factores</span>
 <span id="cb180-185"><a href="#cb180-185" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-186"><a href="#cb180-186" aria-hidden="true" tabindex="-1"></a>Los vectores se construyen con la función <span class="in">`c()`</span>, Pueden ser numérico:</span>
 <span id="cb180-187"><a href="#cb180-187" aria-hidden="true" tabindex="-1"></a></span>
@@ -9487,8 +9491,8 @@ loaded via a namespace (and not attached):
 <span id="cb180-276"><a href="#cb180-276" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-277"><a href="#cb180-277" aria-hidden="true" tabindex="-1"></a>Los factores se construyen sobre vectores enteros utilizando dos atributos:</span>
 <span id="cb180-278"><a href="#cb180-278" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-279"><a href="#cb180-279" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>clase &quot;factor&quot;: hace que se comporten de forma diferente a los vectores de caracteres normales</span>
-<span id="cb180-280"><a href="#cb180-280" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>niveles: define el conjunto de valores permitidos</span>
+<span id="cb180-279"><a href="#cb180-279" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>clase &quot;factor&quot;: hace que se comporten de forma diferente a los vectores de caracteres normales</span>
+<span id="cb180-280"><a href="#cb180-280" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>niveles: define el conjunto de valores permitidos</span>
 <span id="cb180-281"><a href="#cb180-281" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-284"><a href="#cb180-284" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb180-285"><a href="#cb180-285" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;a&quot;</span>))</span>
@@ -9610,19 +9614,19 @@ loaded via a namespace (and not attached):
 <span id="cb180-411"><a href="#cb180-411" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-412"><a href="#cb180-412" aria-hidden="true" tabindex="-1"></a> </span>
 <span id="cb180-413"><a href="#cb180-413" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-414"><a href="#cb180-414" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Cree un vector numérico con 8 elementos que contenga números positivos y negativos</span>
+<span id="cb180-414"><a href="#cb180-414" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Cree un vector numérico con 8 elementos que contenga números positivos y negativos</span>
 <span id="cb180-415"><a href="#cb180-415" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-416"><a href="#cb180-416" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Cree un vector de caracteres con los nombres de las provincias de Costa Rica</span>
+<span id="cb180-416"><a href="#cb180-416" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Cree un vector de caracteres con los nombres de las provincias de Costa Rica</span>
 <span id="cb180-417"><a href="#cb180-417" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-418"><a href="#cb180-418" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Añada al vector de punto anterior un NA</span>
+<span id="cb180-418"><a href="#cb180-418" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Añada al vector de punto anterior un NA</span>
 <span id="cb180-419"><a href="#cb180-419" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-420"><a href="#cb180-420" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Cree una matriz numérica con 3 columnas y 3 filas</span>
+<span id="cb180-420"><a href="#cb180-420" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Cree una matriz numérica con 3 columnas y 3 filas</span>
 <span id="cb180-421"><a href="#cb180-421" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-422"><a href="#cb180-422" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Cree una matriz de caracteres con 4 columnas y 3 filas</span>
+<span id="cb180-422"><a href="#cb180-422" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Cree una matriz de caracteres con 4 columnas y 3 filas</span>
 <span id="cb180-423"><a href="#cb180-423" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-424"><a href="#cb180-424" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>¿Qué tipo de objeto es &#39;iris&#39; y cuales son sus dimensiones? (pista: <span class="in">`iris`</span> es un objeto disponible por omisión en su ambiente)</span>
+<span id="cb180-424"><a href="#cb180-424" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>¿Qué tipo de objeto es &#39;iris&#39; y cuales son sus dimensiones? (pista: <span class="in">`iris`</span> es un objeto disponible por omisión en su ambiente)</span>
 <span id="cb180-425"><a href="#cb180-425" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-426"><a href="#cb180-426" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Cree un cuadro de datos (data frame) con una columna numérica, una columna de caracteres y una columna con factores</span>
+<span id="cb180-426"><a href="#cb180-426" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Cree un cuadro de datos (data frame) con una columna numérica, una columna de caracteres y una columna con factores</span>
 <span id="cb180-427"><a href="#cb180-427" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb180-428"><a href="#cb180-428" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-429"><a href="#cb180-429" aria-hidden="true" tabindex="-1"></a> </span>
@@ -9850,11 +9854,11 @@ loaded via a namespace (and not attached):
 <span id="cb180-669"><a href="#cb180-669" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-670"><a href="#cb180-670" aria-hidden="true" tabindex="-1"></a> </span>
 <span id="cb180-671"><a href="#cb180-671" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-672"><a href="#cb180-672" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Busque un paquete que le interese en CRAN</span>
+<span id="cb180-672"><a href="#cb180-672" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Busque un paquete que le interese en CRAN</span>
 <span id="cb180-673"><a href="#cb180-673" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-674"><a href="#cb180-674" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Instale el paquete y carguelo</span>
+<span id="cb180-674"><a href="#cb180-674" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Instale el paquete y carguelo</span>
 <span id="cb180-675"><a href="#cb180-675" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-676"><a href="#cb180-676" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Corra el codigo de ejemplo de una de sus funciones</span>
+<span id="cb180-676"><a href="#cb180-676" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Corra el codigo de ejemplo de una de sus funciones</span>
 <span id="cb180-677"><a href="#cb180-677" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb180-678"><a href="#cb180-678" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-679"><a href="#cb180-679" aria-hidden="true" tabindex="-1"></a><span class="fu"># Manipulación de objetos</span></span>
@@ -10000,13 +10004,13 @@ loaded via a namespace (and not attached):
 <span id="cb180-829"><a href="#cb180-829" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-830"><a href="#cb180-830" aria-hidden="true" tabindex="-1"></a> </span>
 <span id="cb180-831"><a href="#cb180-831" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-832"><a href="#cb180-832" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Utilice los datos de ejemplo <span class="in">`iris`</span> para crear un subconjunto de datos con sólo las observaciones de la especie <span class="in">`setosa`</span></span>
+<span id="cb180-832"><a href="#cb180-832" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Utilice los datos de ejemplo <span class="in">`iris`</span> para crear un subconjunto de datos con sólo las observaciones de la especie <span class="in">`setosa`</span></span>
 <span id="cb180-833"><a href="#cb180-833" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-834"><a href="#cb180-834" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Ahora cree un subconjunto de datos que contenga las observaciones tanto de &quot;setosa&quot; como de &quot;versicolor&quot;</span>
+<span id="cb180-834"><a href="#cb180-834" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Ahora cree un subconjunto de datos que contenga las observaciones tanto de &quot;setosa&quot; como de &quot;versicolor&quot;</span>
 <span id="cb180-835"><a href="#cb180-835" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-836"><a href="#cb180-836" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>También con <span class="in">`iris`</span> cree un subconjunto de datos con las observaciones para las que <span class="in">`iris$Sepal.length`</span> es mayor que 6</span>
+<span id="cb180-836"><a href="#cb180-836" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>También con <span class="in">`iris`</span> cree un subconjunto de datos con las observaciones para las que <span class="in">`iris$Sepal.length`</span> es mayor que 6</span>
 <span id="cb180-837"><a href="#cb180-837" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-838"><a href="#cb180-838" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>¿Cuántas observaciones tienen una longitud de sépalo superior a 6?</span>
+<span id="cb180-838"><a href="#cb180-838" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>¿Cuántas observaciones tienen una longitud de sépalo superior a 6?</span>
 <span id="cb180-839"><a href="#cb180-839" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb180-840"><a href="#cb180-840" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-841"><a href="#cb180-841" aria-hidden="true" tabindex="-1"></a><span class="fu">##  </span></span>
@@ -10019,18 +10023,18 @@ loaded via a namespace (and not attached):
 <span id="cb180-848"><a href="#cb180-848" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-849"><a href="#cb180-849" aria-hidden="true" tabindex="-1"></a>Los nombres de los archivos deben terminar en .R y, por supuesto, ser auto-explicatorios:</span>
 <span id="cb180-850"><a href="#cb180-850" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-851"><a href="#cb180-851" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Bien: graficar_probabilidad_posterior.R</span>
-<span id="cb180-852"><a href="#cb180-852" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Mal: graf.R</span>
+<span id="cb180-851"><a href="#cb180-851" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Bien: graficar_probabilidad_posterior.R</span>
+<span id="cb180-852"><a href="#cb180-852" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Mal: graf.R</span>
 <span id="cb180-853"><a href="#cb180-853" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-854"><a href="#cb180-854" aria-hidden="true" tabindex="-1"></a><span class="fu">## Nombres de objetos</span></span>
 <span id="cb180-855"><a href="#cb180-855" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-856"><a href="#cb180-856" aria-hidden="true" tabindex="-1"></a>Variables y funciones:</span>
 <span id="cb180-857"><a href="#cb180-857" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-858"><a href="#cb180-858" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Minúsculas</span>
-<span id="cb180-859"><a href="#cb180-859" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Utilice un guión bajo</span>
-<span id="cb180-860"><a href="#cb180-860" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>En general, nombres para las variables y verbos para las funciones</span>
-<span id="cb180-861"><a href="#cb180-861" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Procure que los nombres sean concisos y significativos (no siempre es fácil)</span>
-<span id="cb180-862"><a href="#cb180-862" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Avoid using names of existing functions of variables</span>
+<span id="cb180-858"><a href="#cb180-858" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Minúsculas</span>
+<span id="cb180-859"><a href="#cb180-859" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Utilice un guión bajo</span>
+<span id="cb180-860"><a href="#cb180-860" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>En general, nombres para las variables y verbos para las funciones</span>
+<span id="cb180-861"><a href="#cb180-861" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Procure que los nombres sean concisos y significativos (no siempre es fácil)</span>
+<span id="cb180-862"><a href="#cb180-862" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Avoid using names of existing functions of variables</span>
 <span id="cb180-863"><a href="#cb180-863" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-864"><a href="#cb180-864" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, eval=F}</span></span>
 <span id="cb180-865"><a href="#cb180-865" aria-hidden="true" tabindex="-1"></a></span>
@@ -10045,9 +10049,9 @@ loaded via a namespace (and not attached):
 <span id="cb180-874"><a href="#cb180-874" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-875"><a href="#cb180-875" aria-hidden="true" tabindex="-1"></a><span class="fu">### Espacios</span></span>
 <span id="cb180-876"><a href="#cb180-876" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-877"><a href="#cb180-877" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Utilice espacios alrededor de los operadores y para los argumentos dentro de una función</span>
-<span id="cb180-878"><a href="#cb180-878" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Ponga siempre un espacio después de una coma, y nunca antes (como en el inglés normal)</span>
-<span id="cb180-879"><a href="#cb180-879" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Coloque un espacio antes del paréntesis izquierdo, excepto en una llamada a una función</span>
+<span id="cb180-877"><a href="#cb180-877" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Utilice espacios alrededor de los operadores y para los argumentos dentro de una función</span>
+<span id="cb180-878"><a href="#cb180-878" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Ponga siempre un espacio después de una coma, y nunca antes (como en el inglés normal)</span>
+<span id="cb180-879"><a href="#cb180-879" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Coloque un espacio antes del paréntesis izquierdo, excepto en una llamada a una función</span>
 <span id="cb180-880"><a href="#cb180-880" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-881"><a href="#cb180-881" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, eval=F}</span></span>
 <span id="cb180-882"><a href="#cb180-882" aria-hidden="true" tabindex="-1"></a></span>
@@ -10065,9 +10069,9 @@ loaded via a namespace (and not attached):
 <span id="cb180-894"><a href="#cb180-894" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-895"><a href="#cb180-895" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Corchetes</span></span>
 <span id="cb180-896"><a href="#cb180-896" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-897"><a href="#cb180-897" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>La llave de apertura nunca debe ir en su propia línea</span>
-<span id="cb180-898"><a href="#cb180-898" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>La llave de cierre debe ir siempre en su propia línea</span>
-<span id="cb180-899"><a href="#cb180-899" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Puede omitir las llaves cuando un bloque consiste en una sola declaración</span>
+<span id="cb180-897"><a href="#cb180-897" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>La llave de apertura nunca debe ir en su propia línea</span>
+<span id="cb180-898"><a href="#cb180-898" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>La llave de cierre debe ir siempre en su propia línea</span>
+<span id="cb180-899"><a href="#cb180-899" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Puede omitir las llaves cuando un bloque consiste en una sola declaración</span>
 <span id="cb180-900"><a href="#cb180-900" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-901"><a href="#cb180-901" aria-hidden="true" tabindex="-1"></a><span class="in">```{r eval=F}</span></span>
 <span id="cb180-902"><a href="#cb180-902" aria-hidden="true" tabindex="-1"></a></span>
@@ -10094,7 +10098,7 @@ loaded via a namespace (and not attached):
 <span id="cb180-923"><a href="#cb180-923" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-924"><a href="#cb180-924" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Crear objetos</span></span>
 <span id="cb180-925"><a href="#cb180-925" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-926"><a href="#cb180-926" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Use <span class="sc">\&lt;</span>-, no =</span>
+<span id="cb180-926"><a href="#cb180-926" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use <span class="sc">\&lt;</span>-, no =</span>
 <span id="cb180-927"><a href="#cb180-927" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-928"><a href="#cb180-928" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, eval = F}</span></span>
 <span id="cb180-929"><a href="#cb180-929" aria-hidden="true" tabindex="-1"></a></span>
@@ -10109,9 +10113,9 @@ loaded via a namespace (and not attached):
 <span id="cb180-938"><a href="#cb180-938" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-939"><a href="#cb180-939" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Sugerencias para añadir comentarios</span></span>
 <span id="cb180-940"><a href="#cb180-940" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-941"><a href="#cb180-941" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Comente su código</span>
-<span id="cb180-942"><a href="#cb180-942" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Las líneas enteras comentadas deben comenzar con <span class="sc">\#</span> y un espacio</span>
-<span id="cb180-943"><a href="#cb180-943" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Los comentarios cortos pueden colocarse después del código precedido por dos espacios, #, y luego un espacio</span>
+<span id="cb180-941"><a href="#cb180-941" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Comente su código</span>
+<span id="cb180-942"><a href="#cb180-942" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Las líneas enteras comentadas deben comenzar con <span class="sc">\#</span> y un espacio</span>
+<span id="cb180-943"><a href="#cb180-943" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Los comentarios cortos pueden colocarse después del código precedido por dos espacios, #, y luego un espacio</span>
 <span id="cb180-944"><a href="#cb180-944" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-945"><a href="#cb180-945" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, eval=F}</span></span>
 <span id="cb180-946"><a href="#cb180-946" aria-hidden="true" tabindex="-1"></a></span>
@@ -10127,12 +10131,12 @@ loaded via a namespace (and not attached):
 <span id="cb180-956"><a href="#cb180-956" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-957"><a href="#cb180-957" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Disposición general y ordenación (estilo de google)</span></span>
 <span id="cb180-958"><a href="#cb180-958" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-959"><a href="#cb180-959" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Comentario de la declaración de derechos de autor (?)</span>
-<span id="cb180-960"><a href="#cb180-960" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Comentario del autor</span>
-<span id="cb180-961"><a href="#cb180-961" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Comentario de la descripción del archivo, incluyendo el propósito del programa, las entradas y las salidas</span>
-<span id="cb180-962"><a href="#cb180-962" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>declaraciones source() y library()</span>
-<span id="cb180-963"><a href="#cb180-963" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Definiciones de funciones</span>
-<span id="cb180-964"><a href="#cb180-964" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Sentencias ejecutadas, si procede (por ejemplo, print, plot)</span>
+<span id="cb180-959"><a href="#cb180-959" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Comentario de la declaración de derechos de autor (?)</span>
+<span id="cb180-960"><a href="#cb180-960" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Comentario del autor</span>
+<span id="cb180-961"><a href="#cb180-961" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Comentario de la descripción del archivo, incluyendo el propósito del programa, las entradas y las salidas</span>
+<span id="cb180-962"><a href="#cb180-962" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>declaraciones source() y library()</span>
+<span id="cb180-963"><a href="#cb180-963" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Definiciones de funciones</span>
+<span id="cb180-964"><a href="#cb180-964" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sentencias ejecutadas, si procede (por ejemplo, print, plot)</span>
 <span id="cb180-965"><a href="#cb180-965" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-966"><a href="#cb180-966" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
 <span id="cb180-967"><a href="#cb180-967" aria-hidden="true" tabindex="-1"></a></span>
@@ -10152,9 +10156,9 @@ loaded via a namespace (and not attached):
 <span id="cb180-981"><a href="#cb180-981" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-982"><a href="#cb180-982" aria-hidden="true" tabindex="-1"></a>Los manuales de referencia son colecciones de la documentación de todas las funciones de un paquete (sólo 1 por paquete):</span>
 <span id="cb180-983"><a href="#cb180-983" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-984"><a href="#cb180-984" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">manual de dynaSpec</span><span class="co">](https://cloud.r-project.org/web/packages/dynaSpec/dynaSpec.pdf)</span></span>
+<span id="cb180-984"><a href="#cb180-984" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">manual de dynaSpec</span><span class="co">](https://cloud.r-project.org/web/packages/dynaSpec/dynaSpec.pdf)</span></span>
 <span id="cb180-985"><a href="#cb180-985" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-986"><a href="#cb180-986" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">manual de baRulho</span><span class="co">](https://cran.r-project.org/web/packages/baRulho/baRulho.pdf)</span></span>
+<span id="cb180-986"><a href="#cb180-986" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">manual de baRulho</span><span class="co">](https://cran.r-project.org/web/packages/baRulho/baRulho.pdf)</span></span>
 <span id="cb180-987"><a href="#cb180-987" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-988"><a href="#cb180-988" aria-hidden="true" tabindex="-1"></a> </span>
 <span id="cb180-989"><a href="#cb180-989" aria-hidden="true" tabindex="-1"></a></span>
@@ -10221,13 +10225,13 @@ loaded via a namespace (and not attached):
 <span id="cb180-1054"><a href="#cb180-1054" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-1055"><a href="#cb180-1055" aria-hidden="true" tabindex="-1"></a> </span>
 <span id="cb180-1056"><a href="#cb180-1056" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-1057"><a href="#cb180-1057" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>¿Qué hace la función <span class="in">`cut()`</span>?</span>
+<span id="cb180-1057"><a href="#cb180-1057" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>¿Qué hace la función <span class="in">`cut()`</span>?</span>
 <span id="cb180-1058"><a href="#cb180-1058" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-1059"><a href="#cb180-1059" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>¿Para qué se utiliza el argumento <span class="in">`breaks`</span> en <span class="in">`cut()`</span>?</span>
+<span id="cb180-1059"><a href="#cb180-1059" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>¿Para qué se utiliza el argumento <span class="in">`breaks`</span> en <span class="in">`cut()`</span>?</span>
 <span id="cb180-1060"><a href="#cb180-1060" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-1061"><a href="#cb180-1061" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Ejecuta las 4 primeras líneas de código de los ejemplos proporcionados en la documentación de <span class="in">`cut()`</span>.</span>
+<span id="cb180-1061"><a href="#cb180-1061" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Ejecuta las 4 primeras líneas de código de los ejemplos proporcionados en la documentación de <span class="in">`cut()`</span>.</span>
 <span id="cb180-1062"><a href="#cb180-1062" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-1063"><a href="#cb180-1063" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>¿Cuántas viñetas tiene el paquete warbleR?</span>
+<span id="cb180-1063"><a href="#cb180-1063" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>¿Cuántas viñetas tiene el paquete warbleR?</span>
 <span id="cb180-1064"><a href="#cb180-1064" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb180-1065"><a href="#cb180-1065" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-1066"><a href="#cb180-1066" aria-hidden="true" tabindex="-1"></a> </span>
@@ -10236,9 +10240,9 @@ loaded via a namespace (and not attached):
 <span id="cb180-1069"><a href="#cb180-1069" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-1070"><a href="#cb180-1070" aria-hidden="true" tabindex="-1"></a><span class="fu">## Referencias</span></span>
 <span id="cb180-1071"><a href="#cb180-1071" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb180-1072"><a href="#cb180-1072" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Advanced R, H Wickham</span><span class="co">](http://adv-r.had.co.nz/Data-structures.html)</span></span>
-<span id="cb180-1073"><a href="#cb180-1073" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Google&#39;s R Style Guide</span><span class="co">](https://google.github.io/styleguide/Rguide.xml)</span>\</span>
-<span id="cb180-1074"><a href="#cb180-1074" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Hands-On Programming with R (Grolemund, 2014)</span>
+<span id="cb180-1072"><a href="#cb180-1072" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Advanced R, H Wickham</span><span class="co">](http://adv-r.had.co.nz/Data-structures.html)</span></span>
+<span id="cb180-1073"><a href="#cb180-1073" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Google&#39;s R Style Guide</span><span class="co">](https://google.github.io/styleguide/Rguide.xml)</span>\</span>
+<span id="cb180-1074"><a href="#cb180-1074" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Hands-On Programming with R (Grolemund, 2014)</span>
 <span id="cb180-1075"><a href="#cb180-1075" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb180-1076"><a href="#cb180-1076" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
 <span id="cb180-1077"><a href="#cb180-1077" aria-hidden="true" tabindex="-1"></a></span>
@@ -10258,7 +10262,7 @@ loaded via a namespace (and not attached):
        
     </div>   
     <div class="nav-footer-center">
-<p>Copyright 2024 | <a href="https://marce10.github.io">Marcelo Araya-Salas</a></p>
+<p>Copyright 2026 | <a href="https://marce10.github.io">Marcelo Araya-Salas</a></p>
 </div>
     <div class="nav-footer-right">
        

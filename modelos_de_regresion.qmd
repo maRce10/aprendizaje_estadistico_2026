@@ -1,5 +1,7 @@
 ---
 title: <font size="7"><b>Modelos de regresión</b></font>
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r,echo=FALSE,message=FALSE}
@@ -41,16 +43,16 @@ fill <- list(alert = "#cff4fc", success = "#d1e7dd")
 ::: {.alert .alert-info}
 # Objetivo del manual {.unnumbered .unlisted}
 
--   Comprender la inferencia estadística a través de los modelos de regresión lineal
+- Comprender la inferencia estadística a través de los modelos de regresión lineal
 
--   Familiarizarse con la construcción de modelos lineales
+- Familiarizarse con la construcción de modelos lineales
 
--   Extender los modelos lineales a diferentes estructuras de datos
+- Extender los modelos lineales a diferentes estructuras de datos
 :::
 
  
 
----
+------------------------------------------------------------------------
 
 Paquetes a utilizar en este manual:
 
@@ -80,13 +82,13 @@ Las regresiones lineales se basan en la ecuación lineal *a = mx + b* que aprend
 
  
 
--   $\hat{Y}$: variable respuesta
+- $\hat{Y}$: variable respuesta
 
--   $\beta_{o}$: intercepto
+- $\beta_{o}$: intercepto
 
--   $\beta_{1}$: estimado de la magnitud del efecto de $x_{1}$ en $\hat{Y}$ (también conocido como tamaño de efecto, coeficiente o simplemente "estimado")
+- $\beta_{1}$: estimado de la magnitud del efecto de $x_{1}$ en $\hat{Y}$ (también conocido como tamaño de efecto, coeficiente o simplemente "estimado")
 
--   $x_{1}$: variable predictora
+- $x_{1}$: variable predictora
 
  
 
@@ -112,7 +114,7 @@ lo que equivale a esto:
 
 ```{r, echo = FALSE, eval = FALSE}
 
-For instance, a regression model with this output:
+#For instance, a regression model with this output:
 
 set.seed(123)
 
@@ -191,9 +193,9 @@ summary(reg_mod)
 
 Esto es lo que significan los elementos de la salida:
 
--   **Llamada** (call): la función y los parámetros que se utilizaron para crear el modelo
+- **Llamada** (call): la función y los parámetros que se utilizaron para crear el modelo
 
--   **Residuos** (residuals): distribución de los residuos. Los residuos son la diferencia entre lo que predijo el modelo y el valor real de *y*. Esta es una representación gráfica de los residuos:
+- **Residuos** (residuals): distribución de los residuos. Los residuos son la diferencia entre lo que predijo el modelo y el valor real de *y*. Esta es una representación gráfica de los residuos:
 
 ```{r, echo = FALSE}
 
@@ -211,17 +213,17 @@ ggplot(trees, aes(x = Girth, y = Height)) +
 
  
 
--   **Coeficientes** (coefficients): contiene los tamaños de efecto ('Estimates'), una medida de su incertidumbre ('Standar error'), la estadística asociada ('t value') y el valor p ('Pr(\>\|t\|)'). Los tamaño de efecto o estimados se dan como el cambio promedio en *y* por cada aumento de 1 unidad en *x*. Para este ejemplo el estimado es de 1,0544 $in / in$. A pesar de que las unidades se anulan (\`1,0544 $in / in$ = 1,0544) tenerlas en cuenta sigue siendo biológicamente significativo. Significan que, en promedio, y un aumento de 1 pulgada en la circunferencia que se espera un aumento de 1,0544 pulgadas en la altura.
+- **Coeficientes** (coefficients): contiene los tamaños de efecto ('Estimates'), una medida de su incertidumbre ('Standar error'), la estadística asociada ('t value') y el valor p ('Pr(\>\|t\|)'). Los tamaño de efecto o estimados se dan como el cambio promedio en *y* por cada aumento de 1 unidad en *x*. Para este ejemplo el estimado es de 1,0544 $in / in$. A pesar de que las unidades se anulan (\`1,0544 $in / in$ = 1,0544) tenerlas en cuenta sigue siendo biológicamente significativo. Significan que, en promedio, y un aumento de 1 pulgada en la circunferencia que se espera un aumento de 1,0544 pulgadas en la altura.
 
--   **Error estándar de los residuos** (residual standard error): se explica por sí mismo. El error estándar de los residuos
+- **Error estándar de los residuos** (residual standard error): se explica por sí mismo. El error estándar de los residuos
 
--   **R-cuadrado múltiple** (multiple R-squared): el coeficiente de determinación, que pretende ser una medida de lo bien que su modelo se ajusta a los datos
+- **R-cuadrado múltiple** (multiple R-squared): el coeficiente de determinación, que pretende ser una medida de lo bien que su modelo se ajusta a los datos
 
--   **R-cuadrado ajustado** (adjusted R-squared): similar al 'R-cuadrado múltiple' pero penalizado por el número de parámetros
+- **R-cuadrado ajustado** (adjusted R-squared): similar al 'R-cuadrado múltiple' pero penalizado por el número de parámetros
 
--   **Estadístico F** (F-statistic): estadístico para una prueba global que comprueba si al menos uno de sus coeficientes es distinto de cero
+- **Estadístico F** (F-statistic): estadístico para una prueba global que comprueba si al menos uno de sus coeficientes es distinto de cero
 
--   **Valor de p**: probabilidad de una prueba global que comprueba si al menos uno de sus coeficientes es distinto de cero
+- **Valor de p**: probabilidad de una prueba global que comprueba si al menos uno de sus coeficientes es distinto de cero
 
  
 
@@ -308,11 +310,11 @@ summ_y_mod <- summary(y_mod)
 summ_y_mod$coefficients
 ```
 
--   En este ejemplo no hay predictores en el modelo, por lo que sólo tenemos una estimación para el intercepto ($\beta_0$)
+- En este ejemplo no hay predictores en el modelo, por lo que sólo tenemos una estimación para el intercepto ($\beta_0$)
 
--   El modelo nos dice que el intercepto se estima en `r summ_y_mod$coefficients[1, 1]` y que este valor no es significativamente diferente de 0 (valor p = `r summ_y_mod$coefficients[1, 4]`)
+- El modelo nos dice que el intercepto se estima en `r summ_y_mod$coefficients[1, 1]` y que este valor no es significativamente diferente de 0 (valor p = `r summ_y_mod$coefficients[1, 4]`)
 
--   En este caso el intercepto es simplemente la media de la variable de respuesta
+- En este caso el intercepto es simplemente la media de la variable de respuesta
 
 ```{r}
 
@@ -322,7 +324,7 @@ mean(y_data$y)
 
  
 
--   Rara vez tenemos predicciones sobre el intercepto, por lo que tendemos a ignorar esta estimación.
+- Rara vez tenemos predicciones sobre el intercepto, por lo que tendemos a ignorar esta estimación.
 :::
 
  
@@ -332,7 +334,7 @@ mean(y_data$y)
 
  
 
--   Ruhs, E. C., Martin, L. B., & Downs, C. J. (2020). [**The impacts of body mass on immune cell concentrations in birds**](https://royalsocietypublishing.org/doi/pdf/10.1098/rspb.2020.0655?download=true). *Proceedings of the Royal Society B*, 287(1934), 20200655.
+- Ruhs, E. C., Martin, L. B., & Downs, C. J. (2020). [**The impacts of body mass on immune cell concentrations in birds**](https://royalsocietypublishing.org/doi/pdf/10.1098/rspb.2020.0655?download=true). *Proceedings of the Royal Society B*, 287(1934), 20200655.
 
 "*Encontramos que un modelo sólo con intercepto (intercept-only model) explicaba mejor las concentraciones de linfocitos y eosinófilos en las aves, indicando que las concentraciones de estos tipos de células eran independientes de la masa corporal.*"
 
@@ -352,9 +354,9 @@ knitr::include_graphics("./images/leukocytes.png")
 
  
 
--   Cambie el argumento 'mean' en la llamada de la función "rnorm()\` en la simulación para el modelo de solo intercepto un valor distinto de 0 y observe cómo cambian los valores en la tabla de coeficientes
+- Cambie el argumento 'mean' en la llamada de la función "rnorm()\` en la simulación para el modelo de solo intercepto un valor distinto de 0 y observe cómo cambian los valores en la tabla de coeficientes
 
--   Cambia el argumento `sd` en la llamada a la función `rnorm()` por un valor más alto y observe cómo cambian los valores en la tabla de coeficientes
+- Cambia el argumento `sd` en la llamada a la función `rnorm()` por un valor más alto y observe cómo cambian los valores en la tabla de coeficientes
 :::
 
  
@@ -462,9 +464,9 @@ summ_xy_mod$coefficients
 
  
 
--   En este ejemplo hemos añadido un predictor al modelo, por lo que hemos obtenido una estimado adicional (y una fila extra, 'x1')
+- En este ejemplo hemos añadido un predictor al modelo, por lo que hemos obtenido una estimado adicional (y una fila extra, 'x1')
 
--   El modelo nos dice que la estimación de 'x1' es `r summ_xy_mod$coefficients[2, 1]` y que no es significativamente diferente de 0 (p = `r summ_xy_mod$coefficients[2, 4]`)
+- El modelo nos dice que la estimación de 'x1' es `r summ_xy_mod$coefficients[2, 1]` y que no es significativamente diferente de 0 (p = `r summ_xy_mod$coefficients[2, 4]`)
 :::
 
 ------------------------------------------------------------------------
@@ -572,11 +574,11 @@ summ_xy_mod2 <- summary(xy_mod2)
 summ_xy_mod2$coefficients
 ```
 
--   El modelo nos dice que $beta_1$ (el tamaño de efecto de 'x1') es `r summ_xy_mod2$coefficients[2, 1]` y que es significativamente diferente de 0 (p = `r summ_xy_mod2$coefficients[2, 4]`)
+- El modelo nos dice que $beta_1$ (el tamaño de efecto de 'x1') es `r summ_xy_mod2$coefficients[2, 1]` y que es significativamente diferente de 0 (p = `r summ_xy_mod2$coefficients[2, 4]`)
 
--   Los valores simulados de los parámetros de regresión pueden compararse con el resumen del modelo `lm()` para tener una idea de la precisión del modelo:
+- Los valores simulados de los parámetros de regresión pueden compararse con el resumen del modelo `lm()` para tener una idea de la precisión del modelo:
 
-    -   $\beta_1$ (the effect size of 'x1') was set to `r b1` and was estimated as `r round(summ_xy_mod2$coefficients[2, 1], 3)` by the model
+  - $\beta_1$ (the effect size of 'x1') was set to `r b1` and was estimated as `r round(summ_xy_mod2$coefficients[2, 1], 3)` by the model
 :::
 
  
@@ -604,13 +606,13 @@ knitr::include_graphics("./images/inequality2.jpg")
 
  
 
--   Aumente el tamaño de la muestra (`n`) a 1000 o más
+- Aumente el tamaño de la muestra (`n`) a 1000 o más
 
--   ¿Cómo cambiaron los estimados del tamaño de efecto ($\beta$)?
+- ¿Cómo cambiaron los estimados del tamaño de efecto ($\beta$)?
 
--   ¿Cómo cambió los intervalos de confianza del tamaño de efecto?
+- ¿Cómo cambió los intervalos de confianza del tamaño de efecto?
 
--   Ahora cambie `n` a 15 y compruebe de nuevo las estimaciones del modelo (esta vez compruebe también el valor p)
+- Ahora cambie `n` a 15 y compruebe de nuevo las estimaciones del modelo (esta vez compruebe también el valor p)
 :::
 
  
@@ -785,15 +787,15 @@ summ_xy_mod_multp <- summary(xy_mod_multp)
 summ_xy_mod_multp$coefficients
 ```
 
--   El modelo encontró que $\beta_1$ (el tamaño de efecto de 'x1') es `r summ_xy_mod_multp$coefficients[2, 1]` y que es significativamente diferente de 0 (p = `r summ_xy_mod_multp$coefficients[2, 4]`). Este es el efecto de 'x1' sobre 'y' una vez removida la variación explicada por 'x2'.
+- El modelo encontró que $\beta_1$ (el tamaño de efecto de 'x1') es `r summ_xy_mod_multp$coefficients[2, 1]` y que es significativamente diferente de 0 (p = `r summ_xy_mod_multp$coefficients[2, 4]`). Este es el efecto de 'x1' sobre 'y' una vez removida la variación explicada por 'x2'.
 
--   También se encontró que el $\beta_2$ (el tamaño de efecto de 'x2') es `r summ_xy_mod_multp$coefficients[3, 1]` y que también es significativamente diferente de 0 (p = `r summ_xy_mod_multp$coefficients[3, 4]`). Este es el efecto de 'x2' sobre 'y' una vez removida la variación explicada por 'x1'.
+- También se encontró que el $\beta_2$ (el tamaño de efecto de 'x2') es `r summ_xy_mod_multp$coefficients[3, 1]` y que también es significativamente diferente de 0 (p = `r summ_xy_mod_multp$coefficients[3, 4]`). Este es el efecto de 'x2' sobre 'y' una vez removida la variación explicada por 'x1'.
 
--   Los valores simulados de los parámetros de regresión pueden compararse con el resumen del modelo `lm()` para tener una idea de la precisión del modelo:
+- Los valores simulados de los parámetros de regresión pueden compararse con el resumen del modelo `lm()` para tener una idea de la precisión del modelo:
 
-    -   $\beta_1$ se fijó en `r b1` y se estimó como `r round(summ_xy_mod_multp$coefficients[2, 1], 3)`.
+  - $\beta_1$ se fijó en `r b1` y se estimó como `r round(summ_xy_mod_multp$coefficients[2, 1], 3)`.
 
-    -   $\beta_2$ (el tamaño de efecto de 'x2') se fijó en `r b2` y se estimó como `r round(summ_xy_mod_multp$coefficients[3, 1], 3)`.
+  - $\beta_2$ (el tamaño de efecto de 'x2') se fijó en `r b2` y se estimó como `r round(summ_xy_mod_multp$coefficients[3, 1], 3)`.
 :::
 
  
@@ -803,7 +805,7 @@ summ_xy_mod_multp$coefficients
 
  
 
--   Araya-Salas M, P González-Gómez, K Wojczulanis-Jakubas, V López III & T Wright. 2018. [**Spatial memory is as important as weapon and body size for territorial ownership in a lekking hummingbird**](https://www.nature.com/articles/s41598-018-20441-x). *Scientific Reports*. 13, e0189969
+- Araya-Salas M, P González-Gómez, K Wojczulanis-Jakubas, V López III & T Wright. 2018. [**Spatial memory is as important as weapon and body size for territorial ownership in a lekking hummingbird**](https://www.nature.com/articles/s41598-018-20441-x). *Scientific Reports*. 13, e0189969
 
 "*La memoria espacial, el tamaño corporal y el largo de la punta del pico ... predijeron positivamente la probabilidad de adquirir y defender un territorio.*"
 
@@ -861,12 +863,12 @@ theme(panel.background = element_rect(fill = fill$alert), plot.background = elem
 
 ```
 
--   Construya un modelo lineal multiple (con `lm()`) con 'y' como respuesta y 'x1' y 'x2' como predictores
+- Construya un modelo lineal multiple (con `lm()`) con 'y' como respuesta y 'x1' y 'x2' como predictores
 
--   Compare los betas estimados por el modelo con los usados para generar los datos. ¿Es una buena estimación?. También observe los valores de p. ¿Esperaría que fueran significativos?
+- Compare los betas estimados por el modelo con los usados para generar los datos. ¿Es una buena estimación?. También observe los valores de p. ¿Esperaría que fueran significativos?
 :::
 
----
+------------------------------------------------------------------------
 
 ## Añadir un predictor categórico
 
@@ -973,13 +975,13 @@ summ_xy_mod_cat <- summary(xy_mod_cat)
 summ_xy_mod_cat$coefficients
 ```
 
--   El modelo encontró que $\beta_1$ (el tamaño de efecto de 'x1') es `r summ_xy_mod_cat$coefficients[2, 1]` y que es significativamente diferente de 0 (p = `r summ_xy_mod_cat$coefficients[2, 4]`)
+- El modelo encontró que $\beta_1$ (el tamaño de efecto de 'x1') es `r summ_xy_mod_cat$coefficients[2, 1]` y que es significativamente diferente de 0 (p = `r summ_xy_mod_cat$coefficients[2, 4]`)
 
--   Los valores simulados de los parámetros de regresión pueden compararse con el resumen del modelo `lm()` para tener una idea de la precisión del modelo:
+- Los valores simulados de los parámetros de regresión pueden compararse con el resumen del modelo `lm()` para tener una idea de la precisión del modelo:
 
-    -   $\beta_1$ se fijó en `r b1` y se estimó como `r round(summ_xy_mod_cat$coefficients[2, 1], 3)`.
+  - $\beta_1$ se fijó en `r b1` y se estimó como `r round(summ_xy_mod_cat$coefficients[2, 1], 3)`.
 
--   Tenga en cuenta que en este caso el intercepto se refiere a la estimación del nivel 'a' en el predictor categórico, que se utilizó como base:
+- Tenga en cuenta que en este caso el intercepto se refiere a la estimación del nivel 'a' en el predictor categórico, que se utilizó como base:
 
 ```{r, eval=FALSE}
 
@@ -999,7 +1001,7 @@ ggplot(xy_datos_cat, aes(x = x1, y = y)) +
 
 ```
 
--   Por lo tanto, el intercepto es el mismo que la media de *y* para la categoría 'a':
+- Por lo tanto, el intercepto es el mismo que la media de *y* para la categoría 'a':
 
 ```{r}
 
@@ -1007,7 +1009,7 @@ mean(xy_datos_cat$y[xy_datos_cat$x1 == "a"])
 
 ```
 
--   Observe también que la etiqueta del estimado es 'x1b', no 'x1' como en los predictores continuos. Esto se debe a que en este caso el estimado se refiere a la diferencia entre los dos niveles de la variable categórica ('a' y 'b'). Más concretamente, nos dice que en promedio las observaciones de la categoría 'b' son `r round(summ_xy_mod_cat$coefficients[2, 1], 3)` más altas que las observaciones de la categoría 'a'.
+- Observe también que la etiqueta del estimado es 'x1b', no 'x1' como en los predictores continuos. Esto se debe a que en este caso el estimado se refiere a la diferencia entre los dos niveles de la variable categórica ('a' y 'b'). Más concretamente, nos dice que en promedio las observaciones de la categoría 'b' son `r round(summ_xy_mod_cat$coefficients[2, 1], 3)` más altas que las observaciones de la categoría 'a'.
 
  
 :::
@@ -1019,7 +1021,7 @@ mean(xy_datos_cat$y[xy_datos_cat$x1 == "a"])
 
  
 
--   Rico-Guevara A, & M Araya-Salas. 2015. [**Bills as daggers? A test for sexually dimorphic weapons in a lekking hummingbird species**](https://academic.oup.com/beheco/article/26/1/21/2262689). *Behavioral Ecology*. 26 (1): 21-29.
+- Rico-Guevara A, & M Araya-Salas. 2015. [**Bills as daggers? A test for sexually dimorphic weapons in a lekking hummingbird species**](https://academic.oup.com/beheco/article/26/1/21/2262689). *Behavioral Ecology*. 26 (1): 21-29.
 
 "*Los machos con puntas de pico más grandes y puntiagudas tuvieron más éxito en ganar control de territorios en el lek.*"
 
@@ -1039,7 +1041,7 @@ knitr::include_graphics("./images/daggers_lbh.png")
 
  
 
--   Los datos desbalanceados cuando hay categorías (es decir, algunas categorías tienen muchas más observaciones que otras) pueden ser problemáticos para la inferencia estadística. Modifique el código arriba para simular un juego de datos muy desbalanceado y compruebe la precisión del modelo.
+- Los datos desbalanceados cuando hay categorías (es decir, algunas categorías tienen muchas más observaciones que otras) pueden ser problemáticos para la inferencia estadística. Modifique el código arriba para simular un juego de datos muy desbalanceado y compruebe la precisión del modelo.
 :::
 
 ------------------------------------------------------------------------
@@ -1232,19 +1234,19 @@ xy_summ_intr$coefficients
 
 ```
 
--   El modelo encontró que $\beta_1$ (el tamaño de efecto de 'x1-b' a 'x1-a') es `r xy_summ_intr$coefficients[2, 1]` y que es significativamente diferente de 0 (valor p = `r xy_summ_intr$coefficients[2, 4]`)
+- El modelo encontró que $\beta_1$ (el tamaño de efecto de 'x1-b' a 'x1-a') es `r xy_summ_intr$coefficients[2, 1]` y que es significativamente diferente de 0 (valor p = `r xy_summ_intr$coefficients[2, 4]`)
 
--   El modelo encontró que $\beta_2$ (el tamaño de efecto de 'x2') es `r xy_summ_intr$coefficients[3, 1]` y que es significativamente diferente de 0 (p = `r xy_summ_intr$coefficients[3, 4]`). Esto es en realidad la pendiente de la relación entre x2 e y cuando x1 = \`a'
+- El modelo encontró que $\beta_2$ (el tamaño de efecto de 'x2') es `r xy_summ_intr$coefficients[3, 1]` y que es significativamente diferente de 0 (p = `r xy_summ_intr$coefficients[3, 4]`). Esto es en realidad la pendiente de la relación entre x2 e y cuando x1 = \`a'
 
--   El modelo encontró que $\beta_3$ (el tamaño de efecto del término de interacción 'x1 \* x2') es `r xy_summ_intr$coefficients[4, 1]` y que es significativamente diferente de 0 (p = `r xy_summ_intr$coefficients[4, 4]`). Esta es la diferencia entre las pendientes de x2 *vs* y cuando x1 = 'a' y x2 *vs* y cuando x1 = 'b'.
+- El modelo encontró que $\beta_3$ (el tamaño de efecto del término de interacción 'x1 \* x2') es `r xy_summ_intr$coefficients[4, 1]` y que es significativamente diferente de 0 (p = `r xy_summ_intr$coefficients[4, 4]`). Esta es la diferencia entre las pendientes de x2 *vs* y cuando x1 = 'a' y x2 *vs* y cuando x1 = 'b'.
 
--   Los valores simulados para los parámetros de regresión pueden compararse con el resumen del modelo `lm()` para tener una idea de la precisión del modelo:
+- Los valores simulados para los parámetros de regresión pueden compararse con el resumen del modelo `lm()` para tener una idea de la precisión del modelo:
 
-    -   $\beta_1$ se simuló con un valor de `r b1` y se estimó en `r round(xy_summ_intr$coefficients[2, 1], 3)`
+  - $\beta_1$ se simuló con un valor de `r b1` y se estimó en `r round(xy_summ_intr$coefficients[2, 1], 3)`
 
-    -   $\beta_2$ se simuló con un valor de `r b2` y se estimó en `r round(xy_summ_intr$coefficients[3, 1], 3)`
+  - $\beta_2$ se simuló con un valor de `r b2` y se estimó en `r round(xy_summ_intr$coefficients[3, 1], 3)`
 
-    -   $\beta_3$ se simuló con un valor de `r b3` y se estimó en `r round(xy_summ_intr$coefficients[4, 1], 3)`
+  - $\beta_3$ se simuló con un valor de `r b3` y se estimó en `r round(xy_summ_intr$coefficients[4, 1], 3)`
 :::
 
 ------------------------------------------------------------------------
@@ -1256,7 +1258,7 @@ xy_summ_intr$coefficients
 
  
 
--   Chirino F, B Wilink, Araya-Salas M. In prep. **Climatic factors affecting vocal activity in lemur leaf frogs**.
+- Chirino F, B Wilink, Araya-Salas M. In prep. **Climatic factors affecting vocal activity in lemur leaf frogs**.
 
 "*El aumento de la luz de la luna disminuye la actividad vocal de* Agalychnis lemur *aunque esta relación es mediada por la temperatura.*"
 
@@ -1290,9 +1292,9 @@ knitr::include_graphics("./images/interaction.jpg")
 
  
 
--   Modifique el [código usado para simular un único predictor asociado](#simular-un-predictor-asociado) aumentando gradualmente el error. Esto se hace aumentando el argumento 'sd' en `error <- rnorm(n = n, sd = 2)`.
+- Modifique el [código usado para simular un único predictor asociado](#simular-un-predictor-asociado) aumentando gradualmente el error. Esto se hace aumentando el argumento 'sd' en `error <- rnorm(n = n, sd = 2)`.
 
--   Mire cómo los errores más grandes afectan la inferencia (debe volver a correr los modelos)
+- Mire cómo los errores más grandes afectan la inferencia (debe volver a correr los modelos)
 
 ```{r, eval = FALSE, echo = FALSE}
 
@@ -1317,7 +1319,7 @@ summary(lm(formula = y ~ x1, data = xy_datos))
 
 ```
 
--   Ahora reemplace el término de error con `error <- rexp(n = n, rate = 0.2)`. Esto crea un error con una distribución exponencial (por lo tanto no normal). Se supone que esto es problemático para el poder inferencial de estos modelos. Compare las estimaciones que obtuvo con los valores de la simulación ('b0' y 'b1'). Explore la distribución de los residuos (`plot(nombre_del_modelo)`) para los modelos de error 'normal' y 'exponencial'.
+- Ahora reemplace el término de error con `error <- rexp(n = n, rate = 0.2)`. Esto crea un error con una distribución exponencial (por lo tanto no normal). Se supone que esto es problemático para el poder inferencial de estos modelos. Compare las estimaciones que obtuvo con los valores de la simulación ('b0' y 'b1'). Explore la distribución de los residuos (`plot(nombre_del_modelo)`) para los modelos de error 'normal' y 'exponencial'.
 
 ```{r, eval = FALSE, echo = FALSE}
 
@@ -1352,7 +1354,7 @@ ggplot(data = data.frame(resd_mod), mapping = aes(x = resd_mod)) + geom_histogra
 
 ```
 
--   Se supone que la colinealidad (la presencia de predictores correlacionados) afecta a la estabilidad de la regresión múltiple. El siguiente código crea dos predictores altamente colineales ('x1' y 'x2'). La última línea de código muestra la correlación entre ellos.
+- Se supone que la colinealidad (la presencia de predictores correlacionados) afecta a la estabilidad de la regresión múltiple. El siguiente código crea dos predictores altamente colineales ('x1' y 'x2'). La última línea de código muestra la correlación entre ellos.
 
 ```{r}
 
@@ -1387,11 +1389,11 @@ summary(xy_mod)
 
 ```
 
--   Construya un modelo de regresión múltiple para estos datos (y \~ x1 + x2). Puede utilizar el mismo código que en la sección [Añadir más de un predictor: regresión múltiple](#añadir-más-de-un-predictor:-regresión-múltiple).
+- Construya un modelo de regresión múltiple para estos datos (y \~ x1 + x2). Puede utilizar el mismo código que en la sección [Añadir más de un predictor: regresión múltiple](#añadir-más-de-un-predictor:-regresión-múltiple).
 
--   ¿Cómo afecta a la inferencia la presencia de predictores colineales? Realice los gráficos de diagnóstico para este modelo (`plot(nombre_del_modelo)`).
+- ¿Cómo afecta a la inferencia la presencia de predictores colineales? Realice los gráficos de diagnóstico para este modelo (`plot(nombre_del_modelo)`).
 
--   Simule un juego de datos con tres predictores en los que sólo dos de ellos son altamente colineales. Ajuste un modelo de regresión múltiple (y \~ x1 + x2 + x3) para esos datos y observe cómo la colinealidad afecta a la estimación del predictor no colineal.
+- Simule un juego de datos con tres predictores en los que sólo dos de ellos son altamente colineales. Ajuste un modelo de regresión múltiple (y \~ x1 + x2 + x3) para esos datos y observe cómo la colinealidad afecta a la estimación del predictor no colineal.
 
  
 :::
@@ -1405,7 +1407,6 @@ summary(xy_mod)
 ## Modelos lineales generalizados (GLM)
 
 Los GLM nos permiten modelar la asociación a variables respuesta que no siguen una distribución normal. Además, permiten modelar distribuciones que se asemejan más al proceso que generó los datos. El siguiente código crea un juego de datos con una respuesta que representa cuentas (por lo tanto, no normal):
-
 
 ```{r}
 # Simulación de datos
@@ -1494,9 +1495,9 @@ summ_glm_pois <- summary(glm_pois)
 summ_glm_pois$coefficients
 ```
 
--   El modelo nos dice que $\beta_1$ (el tamaño de efecto de 'x1') es `r summ_glm_pois$coefficients[2, 1]` y que es significativamente diferente de 0 (p = `r summ_glm_pois$coefficients[2, 4]`). Esto se interpreta en realidad como que un aumento de 1 unidad de 'x1' resulta en 'y' (tasa) en un factor de exp(`r summ_glm_pois$coefficients[2, 1]`) = `r exp(summ_glm_pois$coefficients[2, 1])`.
+- El modelo nos dice que $\beta_1$ (el tamaño de efecto de 'x1') es `r summ_glm_pois$coefficients[2, 1]` y que es significativamente diferente de 0 (p = `r summ_glm_pois$coefficients[2, 4]`). Esto se interpreta en realidad como que un aumento de 1 unidad de 'x1' resulta en 'y' (tasa) en un factor de exp(`r summ_glm_pois$coefficients[2, 1]`) = `r exp(summ_glm_pois$coefficients[2, 1])`.
 
--   El modelo también nos dice que $\beta_2$ (el tamaño de efecto de 'x2') es `r summ_glm_pois$coefficients[3, 1]` y que es significativamente diferente de 0 (p = `r summ_glm_pois$coefficients[3, 4]`). Esto significa que un aumento en 1 unidad de 'x2' resulta en 'y' (tasa) en un factor de exp(`r summ_glm_pois$coefficients[3, 1]`) = `r exp(summ_glm_pois$coefficients[3, 1])`.
+- El modelo también nos dice que $\beta_2$ (el tamaño de efecto de 'x2') es `r summ_glm_pois$coefficients[3, 1]` y que es significativamente diferente de 0 (p = `r summ_glm_pois$coefficients[3, 4]`). Esto significa que un aumento en 1 unidad de 'x2' resulta en 'y' (tasa) en un factor de exp(`r summ_glm_pois$coefficients[3, 1]`) = `r exp(summ_glm_pois$coefficients[3, 1])`.
 :::
 
  
@@ -1506,7 +1507,7 @@ summ_glm_pois$coefficients
 
  
 
--   Topp, E. N., Tscharntke, T., & Loos, J. (2022). [**Fire and landscape context shape plant and butterfly diversity in a South African shrubland**](https://onlinelibrary.wiley.com/doi/pdf/10.1111/ddi.13257). *Diversity and Distributions*, 28(3), 357-371.
+- Topp, E. N., Tscharntke, T., & Loos, J. (2022). [**Fire and landscape context shape plant and butterfly diversity in a South African shrubland**](https://onlinelibrary.wiley.com/doi/pdf/10.1111/ddi.13257). *Diversity and Distributions*, 28(3), 357-371.
 
 "*La riqueza de especies de mariposas es de tres a cuatro veces mayor cuando aumenta el hábitat natural en el paisaje circundante (en un radio de 2 km), mientras que la abundancia de mariposas se asociaba negativamente con el aumento del tiempo transcurrido desde el último incendio.*"
 
@@ -1524,10 +1525,8 @@ knitr::include_graphics("./images/butterflies.png")
 ::: {.alert .alert-info}
 <font size="5">Ejercicio 8</font>
 
--   Intente correr el modelo anterior `lm()` (con una distribución gaussiana), compare los resultados y compruebe los residuos (`plot_model(model_name, type = "diag")`)
-
+- Intente correr el modelo anterior `lm()` (con una distribución gaussiana), compare los resultados y compruebe los residuos (`plot_model(model_name, type = "diag")`)
 :::
-
 
 Existen muchas otras funciones de distribución y enlace:
 
@@ -1644,7 +1643,6 @@ summary(mix_eff_mod)
 
 El modelo detectó correctamente el patrón simulado y la estimación de $\beta_1$ (`r round(fixef(mix_eff_mod)[2], 3)`) es muy cercana al valor simulado.
 
-
 ::: {.alert .alert-success}
  
 
@@ -1664,15 +1662,15 @@ summ_mix_eff_mod$coefficients
 
  
 
--   El modelo encontró que $\beta_1$ (el tamaño de efecto de 'x1') es `r summ_mix_eff_mod$coefficients[2, 1]` y que es significativamente diferente de 0 (p = `r summ_mix_eff_mod$coefficients[2, 5]`)
+- El modelo encontró que $\beta_1$ (el tamaño de efecto de 'x1') es `r summ_mix_eff_mod$coefficients[2, 1]` y que es significativamente diferente de 0 (p = `r summ_mix_eff_mod$coefficients[2, 5]`)
 
--   Los valores simulados de los parámetros de regresión pueden compararse con el resumen del modelo `lmer()` para tener una idea de la precisión del modelo:
+- Los valores simulados de los parámetros de regresión pueden compararse con el resumen del modelo `lmer()` para tener una idea de la precisión del modelo:
 
-    -   $\beta_1$ se fijó en `r b1` y se estimó como `r round(summ_mix_eff_mod$coefficients[2, 1], 3)`.
+  - $\beta_1$ se fijó en `r b1` y se estimó como `r round(summ_mix_eff_mod$coefficients[2, 1], 3)`.
 
--   La varianza del intercepto para cada población fue de `r var(ranef(mix_eff_mod)$poblacion[,1])` y la desviación estándar de `r sd(ranef(mix_eff_mod)$poblacion[,1])`
+- La varianza del intercepto para cada población fue de `r var(ranef(mix_eff_mod)$poblacion[,1])` y la desviación estándar de `r sd(ranef(mix_eff_mod)$poblacion[,1])`
 
--   Los interceptos estimados para cada población son:
+- Los interceptos estimados para cada población son:
 
 ```{r}
 
@@ -1682,7 +1680,7 @@ ranef(mix_eff_mod)$poblacion
 
  
 
--   Podemos compararlos con los promedios para cada población en los datos:
+- Podemos compararlos con los promedios para cada población en los datos:
 
 ```{r}
 
@@ -1699,16 +1697,15 @@ cbind(interceptos, prom_pobs= prom_pobs[,2])
 
  
 
--   La varianza entre los niveles del factor aleatorio (`poblacion`) es de `r var(ranef(mix_eff_mod)$poblacion[,1])` y la desviación estándar de `r sd(ranef(mix_eff_mod)$poblacion[,1])`
+- La varianza entre los niveles del factor aleatorio (`poblacion`) es de `r var(ranef(mix_eff_mod)$poblacion[,1])` y la desviación estándar de `r sd(ranef(mix_eff_mod)$poblacion[,1])`
 
  
 :::
 
-
 ::: {.alert .alert-warning}
 <center><font size="5"><b>Caso de estudio</b></font></center>
 
--   Araya-Salas M, P González-Gómez, K Wojczulanis-Jakubas, V López III & T Wright. 2018. [**Spatial memory is as important as weapon and body size for territorial ownership in a lekking hummingbird**](https://www.nature.com/articles/s41598-018-20441-x). *Scientific Reports*. 13, e0189969
+- Araya-Salas M, P González-Gómez, K Wojczulanis-Jakubas, V López III & T Wright. 2018. [**Spatial memory is as important as weapon and body size for territorial ownership in a lekking hummingbird**](https://www.nature.com/articles/s41598-018-20441-x). *Scientific Reports*. 13, e0189969
 
 "*... el tamaño corporal mostró una correlación negativa con la frecuencia baja del canto.*"
 
@@ -1720,7 +1717,6 @@ knitr::include_graphics("./images/lbh_song_size.png")
 
  
 :::
-
 
 ### La paradoja de Simpson
 
@@ -1751,9 +1747,9 @@ knitr::include_graphics("./images/swiss_knife.png")
 
 <center><font size = 5>$\hat{Y} \sim_{función\ de\ enlace} (\beta_{o} + \beta_{grupo}) + \beta_{1} * x_{1} + \cdots + \beta_{n} * x_{n}$</font></center>
 
--   Este modelo básico incluye una función de enlace que cuando es gausiana (i.e. normal) equivale a un modelo lineal y cuando no, a un modelo generalizado
+- Este modelo básico incluye una función de enlace que cuando es gausiana (i.e. normal) equivale a un modelo lineal y cuando no, a un modelo generalizado
 
--   Cuando el $\beta_{grupo}$ es diferente entre grupos (i.e. cuando el intercepto difiere entre grupos) es un modelo mixto con intercepto variable (i.e. aleatorio)
+- Cuando el $\beta_{grupo}$ es diferente entre grupos (i.e. cuando el intercepto difiere entre grupos) es un modelo mixto con intercepto variable (i.e. aleatorio)
 
  
 :::
@@ -1768,15 +1764,15 @@ Este manual solo pretende sugerir un abordaje estadístico centrado en los model
 
 ## Referencias
 
--   [Richard McElreath's Statistical Rethinking book](https://github.com/rmcelreath/stat_rethinking_2022)
+- [Richard McElreath's Statistical Rethinking book](https://github.com/rmcelreath/stat_rethinking_2022)
 
--   Spake, R., Bowler, D. E., Callaghan, C. T., Blowes, S. A., Doncaster, C. P., Antao, L. H., ... & Chase, J. M. (2023). [Understanding 'it depends' in ecology: a guide to hypothesising, visualising and interpreting statistical interactions](https://onlinelibrary.wiley.com/doi/full/10.1111/brv.12939). Biological Reviews.
+- Spake, R., Bowler, D. E., Callaghan, C. T., Blowes, S. A., Doncaster, C. P., Antao, L. H., ... & Chase, J. M. (2023). [Understanding 'it depends' in ecology: a guide to hypothesising, visualising and interpreting statistical interactions](https://onlinelibrary.wiley.com/doi/full/10.1111/brv.12939). Biological Reviews.
 
--   [Complete introduction to linear regression in R](https://www.machinelearningplus.com/machine-learning/complete-introduction-linear-regression-r/)
+- [Complete introduction to linear regression in R](https://www.machinelearningplus.com/machine-learning/complete-introduction-linear-regression-r/)
 
--   [Linear regression in R](https://www.scribbr.com/statistics/linear-regression-in-r/)
+- [Linear regression in R](https://www.scribbr.com/statistics/linear-regression-in-r/)
 
--   Harrison, X. A., Donaldson, L., Correa-Cano, M. E., Evans, J., Fisher, D. N., Goodwin, C. E., & Inger, R. (2018). [A brief introduction to mixed effects modelling and multi-model inference in ecology](https://peerj.com/articles/4794/). *PeerJ*, 6, e4794.
+- Harrison, X. A., Donaldson, L., Correa-Cano, M. E., Evans, J., Fisher, D. N., Goodwin, C. E., & Inger, R. (2018). [A brief introduction to mixed effects modelling and multi-model inference in ecology](https://peerj.com/articles/4794/). *PeerJ*, 6, e4794.
 
 ------------------------------------------------------------------------
 

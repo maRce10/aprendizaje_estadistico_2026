@@ -4,6 +4,8 @@ toc: true
 format:
   html:
     code-tools: false
+editor_options: 
+  chunk_output_type: console
 ---
 
 # Instalacion de software
@@ -39,49 +41,76 @@ version$version.string
 7)  Ahora en la consola de R en Rstudio ejecutá el siguiente código para instalar los paquetes que estaremos usando durante el curso:
 
 ```{r, eval = FALSE}
-# # cargar funciones del paquete "sketchy"
-# source(
-#   paste0(
-#     "https://raw.githubusercontent.com/maRce10/",
-#     "sketchy/main/R/load_packages.R"
-#   )
-# )
-# source(
-#   paste0(
-#     "https://raw.githubusercontent.com/maRce10/",
-#     "sketchy/main/R/internal_functions.R"
-#   )
-# )
-# 
 # instalar paquete sketchy para instalar otros paquetes y creer proyectos
-# install.packages("sketchy")
+if (!require("sketchy")) {
+    install.packages("sketchy")
+}
 
 # cargar paquete
 library(sketchy)
 
 # instalar/ cargar paquetes
+# instalar/ cargar paquetes
 load_packages(
   packages = c(
-    "remotes",
-    "RColorBrewer",
+
+    # manejo y formateo de datos
+    "dplyr",
+    "tidyr",
+    "readxl",
+    "writexl",
+
+    # graficos
     "ggplot2",
+    "RColorBrewer",
     "viridis",
-    "MASS",
+    "scales",
+
+    # estadistica descriptiva / tradicional
     "psych",
-    "lme4",
-    "caret",
-    "glmnet",
-    "lmerTest",
-    "sjPlot",
     "car",
+    "MASS",
+
+    # modelos de regresion y mixtos
+    "lme4",
+    "lmerTest",
+    "MuMIn",
+    "sjPlot",
+    "glmnet",
     "nnet",
-    "neuralnet",
+
+    # aprendizaje automatico / modelos predictivos
+    "caret",
     "randomForest",
+    "xgboost",
+    "neuralnet",
+    "rpart",
+    "rpart.plot",
+    "tree",
+
+    # evaluacion de modelos
+    "Metrics",
+    "pROC",
+    "themis",
+
+    # reduccion de dimensionalidad
     "dimRed",
-    "MuMIn"
-    github = "maRce10/sketchy"
+
+    # datos de ejemplo
+    "ISLR",
+
+    # tablas y reportes
+    "kableExtra",
+    "knitr",
+
+    # varios
+    "remotes",
+
+    # paquete de github (no esta en CRAN)
+    github = "hadley/emo"
   )
 )
+
 ```
 
 8)  Creá un proyecto para el curso corriendo este código:

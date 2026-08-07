@@ -216,8 +216,9 @@ El archivo puede introducirse en `R` de la siguiente forma:
 # leer datos
 datos_pantheria <-
   read.table("pantheria_mammals_data.txt",
-             sep = "\t",
-             header = TRUE)
+    sep = "\t",
+    header = TRUE
+  )
 ```
 
 ```{r, eval = T, echo= F}
@@ -286,7 +287,6 @@ knitr::kable(datos_pantheria[1:6, ], row.names = F, escape = FALSE) %>%
 De nuevo, podemos descargar un archivo de ejemplo en línea:
 
 ```{r, eval = F, echo= T}
-
 # bajar datos en csv
 download.file("https://github.com/maRce10/OTS_TBCP_2024/raw/master/data/clements_bird_list.csv", destfile = "clements_bird_list.csv")
 
@@ -298,13 +298,11 @@ head(clm_lst)
 ```
 
 ```{r, eval = T, echo= F}
-
 clm_lst <- read.csv("./data/clements_bird_list.csv")
 
 # check structure
 knitr::kable(clm_lst[1:6, ], row.names = F, escape = FALSE) %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, font_size = 14)
-
 ```
 
 También puede descargar manualmente el archivo desde [aquí](http://www.birds.cornell.edu/clementschecklist/wp-content/uploads/2013/03/eBird_Taxonomy_v2017_18Aug2017.csv)
@@ -321,7 +319,6 @@ head(clm_lst)
 ```
 
 ```{r, eval = T, echo= F}
-
 clm_lst <- read.csv("./data/clements_bird_list.csv", na.strings = "")
 
 # check structure
@@ -347,9 +344,7 @@ Como hicimos anteriormente, descargue un archivo de ejemplo de un repositorio en
 
 
 ```{r, eval = F, echo= T}
-
 download.file("https://github.com/maRce10/OTS_TBCP_2024/raw/master/data/clements_bird_list.xlsx", destfile = "clements_bird_list.xlsx")
-
 ```
 
 También puede descargar manualmente el archivo desde [aquí](http://www.birds.cornell.edu/clementschecklist/wp-content/uploads/2017/08/eBird_Taxonomy_v2017_18Aug2017.xlsx)
@@ -400,7 +395,7 @@ Todas las funciones predeterminadas para introducir datos en `R` tienen una cont
 
 ```{r, eval = F, echo= F}
 # 1.4
-clm_lst3 <- read.table("clements_bird_list.csv",  header = TRUE, sep = ",", fill = T)
+clm_lst3 <- read.table("clements_bird_list.csv", header = TRUE, sep = ",", fill = T)
 
 # 1.7
 clm_lst <- read.csv("clements_bird_list.csv", na.strings = c("", "Rheiformes", "Ostriches"))

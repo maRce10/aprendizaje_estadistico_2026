@@ -73,14 +73,14 @@ format:
 *Pista:*
 
 ```{r, eval = FALSE}
-
-replicate(n = 3, expr = {
-  v1 <- sample(letters, 2)
-  v2 <- runif(3)
-  l1 <- list(v1, v2)
-},
-simplify = FALSE)
-
+replicate(
+  n = 3, expr = {
+    v1 <- sample(letters, 2)
+    v2 <- runif(3)
+    l1 <- list(v1, v2)
+  },
+  simplify = FALSE
+)
 ```
 :::
 
@@ -177,7 +177,6 @@ simplify = FALSE)
 Usaremos los datos de Cortez y Silva (2008) sobre el desempeño académico de estudiantes en la clase de matemáticas. Los datos contienen 395 observaciones y 31 variables. La variable respuesta es `G3` (calificación final), y las variables predictoras son las demás variables del conjunto de datos. Pueden econtrar una [descripción detallada de los datos aqui](https://archive.ics.uci.edu/dataset/320/student+performance). El siguiente código carga los datos y remueve las variables `G1` y `G2` (calificaciones parciales) para evitar multicolinealidad:
 
 ```{r}
-
 # leer datos
 datos_mate <- read.csv("https://raw.githubusercontent.com/maRce10/aprendizaje_estadistico_2026/refs/heads/master/data/student/student-mat.csv", sep = ";")
 
@@ -185,7 +184,6 @@ datos_mate <- read.csv("https://raw.githubusercontent.com/maRce10/aprendizaje_es
 datos_mate$G1 <- datos_mate$G2 <- NULL
 
 str(datos_mate)
-
 ```
 
 1.  Ajuste un modelo de regresión lineal con los datos de `datos_mate` donde la variable respuesta sea `G3`. Utilice su conocimiento del sistema (como estudiante) para escoger las variables predictoras que usted espere tengan un mayor efecto sobre el desempeño académico. Calcule el R^2^ para este modelo.
@@ -200,7 +198,6 @@ mod_mate <- lm(G3 ~ school + sex + age + address + famsize + Pstatus, data = dat
 
 # get summary
 summary(mod_mate)
-
 ```
 
 2.  Ajuste un modelo de regresión multinomial análogo al del punto anterior (e.g. mismos predictores y misma respuesta).
@@ -210,7 +207,6 @@ summary(mod_mate)
 #| echo: false
 
 mod_mult <- multinom(G3 ~ school + sex + age + address + famsize + Pstatus, data = datos_mate)
-
 ```
 
 3.  Calcule la matriz de confusión, la exactitud, el área bajo la curva y pérdida logarítmica para el modelo del punto anterior.
@@ -228,10 +224,10 @@ log_loss_value <- logLoss(datos_mate$G3, pred_prob)
 log_loss_value
 
 # convertir respuesta a factor
-datos_mate$G3_f <- as.factor(datos_mate$G3) 
+datos_mate$G3_f <- as.factor(datos_mate$G3)
 
 # Convertir las etiquetas reales a una matriz de indicadores (one-hot encoding)
-y_obs <- model.matrix(~G3_f-1, data = datos_mate)
+y_obs <- model.matrix(~ G3_f - 1, data = datos_mate)
 
 # Calcular el log-loss
 log_loss_value <- logLoss(y_obs, pred_prob)
@@ -239,12 +235,12 @@ log_loss_value <- logLoss(y_obs, pred_prob)
 log_loss_value
 
 # hacer la matriz de confusion
-# predecir categorias 
+# predecir categorias
 
 pred_cat <- predict(mod_mult, newdata = datos_mate)
 
 mat_conf <-
-    confusionMatrix(factor(pred_cat), factor(datos_mate$G3))
+  confusionMatrix(factor(pred_cat), factor(datos_mate$G3))
 
 mat_conf$table
 
@@ -261,9 +257,7 @@ roc_multiclass
 El siguiente código binariza la variable respuesta `G3`. Si la calificación es menor a 9, se considera que el estudiante reprobó (`Reprobado`), de lo contrario, se considera que aprobó (`Aprobado`):
 
 ```{r}
-
-datos_mate$G3_bin <- ifelse(datos_mate$G3 < 9, 0, 1) 
-
+datos_mate$G3_bin <- ifelse(datos_mate$G3 < 9, 0, 1)
 ```
 
 4.  Utilizando la variable binaria `G3_bin` como respuesta, ajuste un modelo de regresión logística con las mismas variables predictoras que el modelo ajustado en el punto 2.
@@ -274,8 +268,6 @@ datos_mate$G3_bin <- ifelse(datos_mate$G3 < 9, 0, 1)
 
 # ajustar modelo
 mod_log <- glm(G3_bin ~ school + sex + age + address + famsize + Pstatus, data = datos_mate, family = binomial)
-
-
 ```
 
 5.Calcule la matriz de confusión, la exactitud, precisión, indice F1, area bajo la curva y pérdida logarítmica para el modelo del punto anterior.
@@ -297,7 +289,7 @@ log_loss_value
 pred_cat <- ifelse(pred_prob > 0.5, 1, 0)
 
 mat_conf <-
-    confusionMatrix(factor(pred_cat), factor(datos_mate$G3_bin))
+  confusionMatrix(factor(pred_cat), factor(datos_mate$G3_bin))
 
 mat_conf$table
 
@@ -309,7 +301,6 @@ mat_conf$overall
 roc_curve <- roc(datos_mate$G3_bin, pred_prob, smooth = TRUE)
 
 roc_curve
-
 ```
 
 6.  Compare los modelos generados en los puntos 2 y 4. ¿Cual modelo parece tener un mejor desempeño? ¿Por qué?

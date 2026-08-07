@@ -39,11 +39,11 @@ fill <- list(alert = "#cff4fc", success = "#d1e7dd")
 ::: {.alert .alert-info}
 # Objetivo del manual {.unnumbered .unlisted}
 
--   Entender como se construyen los árboles de decisión
+- Entender como se construyen los árboles de decisión
 
--   Familiarizarse con los principales métodos de regresión y clasificación basados en ensamblado de árboles
+- Familiarizarse con los principales métodos de regresión y clasificación basados en ensamblado de árboles
 
--   Aprender a aplicar estos métodos en R
+- Aprender a aplicar estos métodos en R
 :::
 
 Paquetes a utilizar en este manual:
@@ -140,8 +140,7 @@ text(10, 200, "R3", cex = 1.2)
 
 Siguiendo con la analogía del árbol, las regiones R1, R2 y R3 se conocen como nodos terminales o hojas del árbol. Los puntos a lo largo del árbol donde se divide el espacio del predictor se denominan nodos internos. En el árbol graficado mas arriba los dos nodos internos están indicados por el texto "Years \< 4.5" y "Hits \< 117.5". Nos referimos a los segmentos del árbol que conectan los nodos como ramas.
 
-Podríamos interpretar el árbol de regresión mostrado mas arriba de la siguiente manera: _Los años son el factor más importante para determinar el salario, y los jugadores con menos experiencia ganan salarios más bajos que los jugadores más experimentados. Dado que un jugador tiene menos experiencia, parece que el número de hits que realizó en el año anterior juega un papel poco relevante en su salario. Pero entre los jugadores que han estado en las grandes ligas durante cinco años o más, el número de hits realizados en el año anterior sí afecta al salario, y los jugadores que hicieron más hits el año pasado tienden a tener salarios más altos._
-
+Podríamos interpretar el árbol de regresión mostrado mas arriba de la siguiente manera: *Los años son el factor más importante para determinar el salario, y los jugadores con menos experiencia ganan salarios más bajos que los jugadores más experimentados. Dado que un jugador tiene menos experiencia, parece que el número de hits que realizó en el año anterior juega un papel poco relevante en su salario. Pero entre los jugadores que han estado en las grandes ligas durante cinco años o más, el número de hits realizados en el año anterior sí afecta al salario, y los jugadores que hicieron más hits el año pasado tienden a tener salarios más altos.*
 
 Los valores predichos por el modelo dependen del estrato en el que caen los datos. Por ejemplo, si un jugador ha jugado durante 5 años y ha realizado 100 hits, entonces caerá en el estrato R2 y su salario predicho será el promedio de los salarios de los jugadores en R2.
 
@@ -344,9 +343,6 @@ predicciones <- predict(arbol_train_cv, Carseats, type = "class")
 caret::confusionMatrix(Carseats$High, predicciones)
 ```
 
-
-
-
 ------------------------------------------------------------------------
 
 ::: {.alert .alert-info}
@@ -354,8 +350,7 @@ caret::confusionMatrix(Carseats$High, predicciones)
 
 1.  Ajusta un árbol de clasificación utilizando otras variables predictoras (por ejemplo, `Income` o `Population`).
 
-1.  Realiza validación cruzada con un enfoque distinto (por ejemplo, validación LOOCV).
-
+2.  Realiza validación cruzada con un enfoque distinto (por ejemplo, validación LOOCV).
 :::
 
 # Métodos de ensamblado de árboles
@@ -366,21 +361,21 @@ Los métodos de emsamblado de árboles de decisión (como *Bagging*, *Random For
 
 1.  **Uso de múltiples árboles de decisión**: Todos estos métodos generan una población de árboles de decisión, que se combinan (i.e. ensamblan) para mejorar el rendimiento predictivo en comparación con un único árbol de decisión.
 
-1.  **Aleatoriedad en la construcción de los árboles**: Seleccionan subconjuntos aleatorios de datos para construir cada árbol (bootstrap sampling) e introducen aleatoriedad adicional en la selección de las variables que se evalúan en cada división.
+2.  **Aleatoriedad en la construcción de los árboles**: Seleccionan subconjuntos aleatorios de datos para construir cada árbol (bootstrap sampling) e introducen aleatoriedad adicional en la selección de las variables que se evalúan en cada división.
 
-1.  **Uso de hiperparámetros**: Los hiperparámetros en los modelos de aprendizaje estadístico son configuraciones o valores que controlan el comportamiento del modelo. Todos estos métodos requieren la configuración de hiperparámetros para controlar aspectos como:
+3.  **Uso de hiperparámetros**: Los hiperparámetros en los modelos de aprendizaje estadístico son configuraciones o valores que controlan el comportamiento del modelo. Todos estos métodos requieren la configuración de hiperparámetros para controlar aspectos como:
 
-    -   Número de árboles.
-    -   Profundidad máxima de los árboles.
-    -   Fracción de muestras o variables utilizadas por árbol.
+    - Número de árboles.
+    - Profundidad máxima de los árboles.
+    - Fracción de muestras o variables utilizadas por árbol.
 
 Ventajas de los métodos de ensamblado de árboles:
 
 1.  **Reducción de la varianza**: combinan las predicciones de múltiples árboles para promediar (regresión) o votar (clasificación), reduciendo la varianza del modelo.
 
-1.  **Manejo de alta dimensionalidad**: Son efectivos en conjuntos de datos con un gran número de variables predictoras, aprovechando su capacidad para identificar las más relevantes.
+2.  **Manejo de alta dimensionalidad**: Son efectivos en conjuntos de datos con un gran número de variables predictoras, aprovechando su capacidad para identificar las más relevantes.
 
-1.  **Robustez frente al sobreajuste**: La combinación de múltiples árboles hace que estos métodos sean menos propensos al sobreajuste en comparación con un solo árbol. Sin embargo, boosting puede sobreajustar si no se ajustan correctamente los hiperparámetros.
+3.  **Robustez frente al sobreajuste**: La combinación de múltiples árboles hace que estos métodos sean menos propensos al sobreajuste en comparación con un solo árbol. Sin embargo, boosting puede sobreajustar si no se ajustan correctamente los hiperparámetros.
 
 Estas características hacen que los métodos basados en poblaciones de árboles sean potentes y flexibles, siendo adecuados para problemas complejos en los que un modelo de árbol único podría fallar.
 
@@ -484,7 +479,7 @@ Una ventaja de los *Random Forest* es que pueden calcular automáticamente la im
 
 ```{r}
 # Importancia de las variables
-importancia <- importance(modelo_rf)
+importancia <- randomForest::importance(modelo_rf)
 print(importancia)
 
 
@@ -574,15 +569,15 @@ Los principales hiperparámetros del *XGBoost* son los siguientes:
 
 1.  **Número de árboles (nrounds)**: Número total de árboles a generar. Más árboles pueden mejorar la precisión, pero también pueden aumentar el sobreajuste si no se regularizan adecuadamente. Valor típico: 100-1000 dependiendo del tamaño de los datos.
 
-1.  **Tasa de aprendizaje (eta)**: Controla cuánto contribuye cada árbol nuevo en el modelo. Un valor más bajo puede mejorar la generalización, pero requiere más árboles. Valores más altos pueden acelerar el entrenamiento pero aumentar el riesgo de sobreajuste. Valor típico: 0.01-0.3.
+2.  **Tasa de aprendizaje (eta)**: Controla cuánto contribuye cada árbol nuevo en el modelo. Un valor más bajo puede mejorar la generalización, pero requiere más árboles. Valores más altos pueden acelerar el entrenamiento pero aumentar el riesgo de sobreajuste. Valor típico: 0.01-0.3.
 
-1.  **Profundidad máxima de los árboles (max_depth)**: Limita la profundidad máxima de los árboles. Valores más altos permiten que el árbol aprenda más patrones complejos, pero también pueden causar sobreajuste. Valor típico: 3-10.
+3.  **Profundidad máxima de los árboles (max_depth)**: Limita la profundidad máxima de los árboles. Valores más altos permiten que el árbol aprenda más patrones complejos, pero también pueden causar sobreajuste. Valor típico: 3-10.
 
-1.  **Tamaño mínimo de los nodos (min_child_weight)**: Determina el número mínimo de muestras en un nodo para crear una nueva división. Valores más bajos permiten más divisiones, lo que puede llevar al sobreajuste. Valor típico: 1-10.
+4.  **Tamaño mínimo de los nodos (min_child_weight)**: Determina el número mínimo de muestras en un nodo para crear una nueva división. Valores más bajos permiten más divisiones, lo que puede llevar al sobreajuste. Valor típico: 1-10.
 
-1.  **Submuestreo (subsample)**: Define la proporción de muestras que se usarán para entrenar cada árbol. La submuestreo ayuda a reducir el sobreajuste, especialmente cuando se tienen muchos datos. Valor típico: 0.5-1.0.
+5.  **Submuestreo (subsample)**: Define la proporción de muestras que se usarán para entrenar cada árbol. La submuestreo ayuda a reducir el sobreajuste, especialmente cuando se tienen muchos datos. Valor típico: 0.5-1.0.
 
-1.  **Submuestreo de características (colsample_bytree)**: Controla la fracción de características que se utilizan en cada árbol. Ayuda a reducir el sobreajuste al crear árboles más diversos. Valor típico: 0.5-1.0.
+6.  **Submuestreo de características (colsample_bytree)**: Controla la fracción de características que se utilizan en cada árbol. Ayuda a reducir el sobreajuste al crear árboles más diversos. Valor típico: 0.5-1.0.
 
 Estos hiperparámetros se pueden ajustar utilizando técnicas como búsqueda en cuadrícula o búsqueda aleatoria (como en `caret`).
 
@@ -645,11 +640,42 @@ Podemos realizar una búsqueda de hiperparámetros usando validación cruzada co
 train_control <- trainControl(method = "cv", number = 10)  # Validación cruzada 10-fold
 
 # Entrenar el modelo con caret
-modelo_xgb_caret <- train(
-  sick ~ ., 
-  data = heart, 
-  method = "xgbTree", 
-  trControl = train_control
+# modelo_xgb_caret <- train(
+#   sick ~ ., 
+#   data = heart, 
+#   method = "xgbTree", 
+#   trControl = train_control
+# )
+
+# Create predictor matrix and response
+X <- model.matrix(sick ~ ., heart)[, -1]
+y <- as.numeric(heart$sick) - 1   # assumes levels are No, Yes
+
+dtrain <- xgb.DMatrix(
+  data = X,
+  label = y
+)
+
+# 10-fold cross-validation
+cv <- xgb.cv(
+  params = list(
+    objective = "binary:logistic",
+    eval_metric = "error"
+  ),
+  data = dtrain,
+  nrounds = 100,
+  nfold = 10,
+  verbose = 0
+)
+
+# Train final model
+modelo_xgb <- xgb.train(
+  params = list(
+    objective = "binary:logistic",
+    eval_metric = "error"
+  ),
+  data = dtrain,
+  nrounds = 100
 )
 
 saveRDS(modelo_xgb_caret, "modelo_xgb_caret.RDS")
@@ -665,6 +691,7 @@ print(modelo_xgb_caret)
 ```
 
 Estos son los valores optimizados de los hiperparámetros del modelo XGBoost. Podemos usar estos valores para ajustar un modelo final con los mejores hiperparámetros.
+
 ```{r}
 # Mejor valor de max_depth y eta
 modelo_xgb_caret$bestTune
@@ -682,7 +709,6 @@ confusionMatrix(predicciones, heart$sick)
 ```
 
 ## Comparación de Random Forest y XGBoost
-
 
 ```{r}
 #| echo: false

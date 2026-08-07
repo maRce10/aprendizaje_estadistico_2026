@@ -1,79 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://marce10.github.io/aprendizaje_estadistico_2024/reportes_dinamicos.html</loc>
-    <lastmod>2024-10-29T23:31:22.566Z</lastmod>
+    <loc>https://marce10.github.io/aprendizaje_estadistico_2026/fundamentos_de_r.html</loc>
+    <lastmod>2026-08-07T17:40:41.393Z</lastmod>
   </url>
   <url>
-    <loc>https://marce10.github.io/aprendizaje_estadistico_2024/Diagrama.html</loc>
-    <lastmod>2024-08-19T17:17:47.262Z</lastmod>
+    <loc>https://marce10.github.io/aprendizaje_estadistico_2026/intro_curso.html</loc>
+    <lastmod>2026-08-03T17:33:09.764Z</lastmod>
   </url>
   <url>
-    <loc>https://marce10.github.io/aprendizaje_estadistico_2024/importar_datos.html</loc>
-    <lastmod>2024-09-24T21:04:02.000Z</lastmod>
+    <loc>https://marce10.github.io/aprendizaje_estadistico_2026/programa.html</loc>
+    <lastmod>2026-08-03T17:32:26.807Z</lastmod>
   </url>
   <url>
-    <loc>https://marce10.github.io/aprendizaje_estadistico_2024/sobreajuste_y_entrenamiento.html</loc>
-    <lastmod>2024-12-16T15:25:14.031Z</lastmod>
+    <loc>https://marce10.github.io/aprendizaje_estadistico_2026/sobreajuste_y_entrenamiento.html</loc>
+    <lastmod>2026-08-03T17:32:29.816Z</lastmod>
   </url>
   <url>
-    <loc>https://marce10.github.io/aprendizaje_estadistico_2024/como_simular_datos.html</loc>
-    <lastmod>2024-09-05T17:22:46.000Z</lastmod>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/aprendizaje_estadistico_2024/fundamentos_de_r.html</loc>
-    <lastmod>2024-10-15T18:01:12.324Z</lastmod>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/aprendizaje_estadistico_2024/regresion_logística_y_multinomial.html</loc>
-    <lastmod>2024-11-18T20:40:34.000Z</lastmod>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/aprendizaje_estadistico_2024/estadistica_tradicional_regresion.html</loc>
-    <lastmod>2024-01-15T02:02:42.000Z</lastmod>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/aprendizaje_estadistico_2024/index.html</loc>
-    <lastmod>2026-08-03T17:14:57.214Z</lastmod>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/aprendizaje_estadistico_2024/intro_curso.html</loc>
-    <lastmod>2024-09-11T03:57:28.232Z</lastmod>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/aprendizaje_estadistico_2024/instructor.html</loc>
-    <lastmod>2024-08-02T19:26:45.667Z</lastmod>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/aprendizaje_estadistico_2024/preparacion_curso.html</loc>
-    <lastmod>2024-11-18T18:17:21.000Z</lastmod>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/aprendizaje_estadistico_2024/programa.html</loc>
-    <lastmod>2024-12-13T00:20:29.754Z</lastmod>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/aprendizaje_estadistico_2024/evaluacion_de_modelos.html</loc>
-    <lastmod>2024-11-12T23:37:34.851Z</lastmod>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/aprendizaje_estadistico_2024/ggplot2.html</loc>
-    <lastmod>2024-08-04T19:17:46.604Z</lastmod>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/aprendizaje_estadistico_2024/funciones.html</loc>
-    <lastmod>2024-08-08T00:19:53.000Z</lastmod>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/aprendizaje_estadistico_2024/modelos_de_regresion.html</loc>
-    <lastmod>2024-10-01T20:14:23.000Z</lastmod>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/aprendizaje_estadistico_2024/modelos_de_arboles.html</loc>
-    <lastmod>2024-12-12T22:05:03.482Z</lastmod>
+    <loc>https://marce10.github.io/aprendizaje_estadistico_2026/instructor.html</loc>
+    <lastmod>2024-08-02T19:26:45.000Z</lastmod>
   </url>
   <url>
     <loc>https://marce10.github.io/aprendizaje_estadistico_2026/index.html</loc>
-    <lastmod>2026-08-03T17:14:57.214Z</lastmod>
+    <lastmod>2026-08-03T17:28:01.696Z</lastmod>
+  </url>
+  <url>
+    <loc>https://marce10.github.io/aprendizaje_estadistico_2026/funciones.html</loc>
+    <lastmod>2024-08-08T00:19:53.794Z</lastmod>
+  </url>
+  <url>
+    <loc>https://marce10.github.io/aprendizaje_estadistico_2026/regresion_logística_y_multinomial.html</loc>
+    <lastmod>2026-08-03T17:32:27.975Z</lastmod>
+  </url>
+  <url>
+    <loc>https://marce10.github.io/aprendizaje_estadistico_2026/reportes_dinamicos.html</loc>
+    <lastmod>2024-08-04T19:17:46.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://marce10.github.io/aprendizaje_estadistico_2026/modelos_de_arboles.html</loc>
+    <lastmod>2026-08-04T18:02:27.459Z</lastmod>
+  </url>
+  <url>
+    <loc>https://marce10.github.io/aprendizaje_estadistico_2026/estadistica_tradicional_regresion.html</loc>
+    <lastmod>2024-01-15T02:02:42.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://marce10.github.io/aprendizaje_estadistico_2026/preparacion_curso.html</loc>
+    <lastmod>2026-08-03T17:44:11.924Z</lastmod>
+  </url>
+  <url>
+    <loc>https://marce10.github.io/aprendizaje_estadistico_2026/evaluacion_de_modelos.html</loc>
+    <lastmod>2026-08-03T17:32:21.282Z</lastmod>
+  </url>
+  <url>
+    <loc>https://marce10.github.io/aprendizaje_estadistico_2026/modelos_de_regresion.html</loc>
+    <lastmod>2026-08-07T17:26:45.765Z</lastmod>
+  </url>
+  <url>
+    <loc>https://marce10.github.io/aprendizaje_estadistico_2026/importar_datos.html</loc>
+    <lastmod>2026-08-03T17:32:24.919Z</lastmod>
+  </url>
+  <url>
+    <loc>https://marce10.github.io/aprendizaje_estadistico_2026/como_simular_datos.html</loc>
+    <lastmod>2026-08-03T17:32:19.913Z</lastmod>
+  </url>
+  <url>
+    <loc>https://marce10.github.io/aprendizaje_estadistico_2026/Diagrama.html</loc>
+    <lastmod>2024-08-19T17:17:47.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://marce10.github.io/aprendizaje_estadistico_2026/ggplot2.html</loc>
+    <lastmod>2024-08-04T19:17:46.000Z</lastmod>
   </url>
 </urlset>

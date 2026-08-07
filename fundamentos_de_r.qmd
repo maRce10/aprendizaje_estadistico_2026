@@ -19,24 +19,24 @@ knitr::opts_chunk$set(
 ::: {.alert .alert-info}
 # Objetivo del manual {.unnumbered .unlisted}
 
--   Familiarizarse con los bloques básicos usados en la programación en R
+- Familiarizarse con los bloques básicos usados en la programación en R
 
--   Conocer las fuentes principales de documentación estandarizada en R
+- Conocer las fuentes principales de documentación estandarizada en R
 :::
 
  
 
 # ¿Qué es R?
 
--   Un [Lenguaje de Dominio Específico (DSL)](https://en.wikipedia.org/wiki/Domain-specific_language) libre para la estadística y el análisis de datos
--   Una colección de más de 21145 paquetes (al 12 de agosto de 2024)
--   Una comunidad grande y activa en la industria y el mundo académico
--   Una forma de hablar "directamente" con su ordenador
+- Un [Lenguaje de Dominio Específico (DSL)](https://en.wikipedia.org/wiki/Domain-specific_language) libre para la estadística y el análisis de datos
+- Una colección de más de 21145 paquetes (al 12 de agosto de 2024)
+- Una comunidad grande y activa en la industria y el mundo académico
+- Una forma de hablar "directamente" con su ordenador
 
 Históricamente:
 
--   Basado en el lenguaje de programación S
--   Alrededor de 20 años de antigüedad (el linaje data de 1975 - hace casi 40 años)
+- Basado en el lenguaje de programación S
+- Alrededor de 20 años de antigüedad (el linaje data de 1975 - hace casi 40 años)
 
 ![](images/Rinterf.jpeg){width="100%"}
 
@@ -46,9 +46,9 @@ Históricamente:
 
 Entorno de desarrollo integrado (IDE) para R. Incluye:
 
--   Una consola
--   Editor para resaltar la sintaxis que soporta la ejecución directa del código
--   Herramientas para el trazado, el historial, la depuración y la gestión del espacio de trabajo
+- Una consola
+- Editor para resaltar la sintaxis que soporta la ejecución directa del código
+- Herramientas para el trazado, el historial, la depuración y la gestión del espacio de trabajo
 
 ![](images/Rstudio.jpeg){width="100%"}
 
@@ -165,9 +165,9 @@ Hay dos tipos básicos de vectores: vectores atómicos y listas.
 
 Tienen tres propiedades comunes:
 
--   Tipo, `typeof()` (clase/modo \~)
--   Longitud, `length()` (número de elementos)
--   Attributes, `attributes()` (metadatos)
+- Tipo, `typeof()` (clase/modo \~)
+- Longitud, `length()` (número de elementos)
+- Attributes, `attributes()` (metadatos)
 
 Se diferencian en los tipos de sus elementos: todos los elementos de un vector atómico deben ser del mismo tipo, mientras que los elementos de una lista pueden tener diferentes tipos.
 
@@ -175,11 +175,11 @@ Se diferencian en los tipos de sus elementos: todos los elementos de un vector a
 
 Tipos de vectores atómicos:
 
--   Lógico [(booleano)](https://en.wikipedia.org/wiki/Boolean)
--   Entero
--   Numérico (doble)
--   Caracteres
--   Factores
+- Lógico [(booleano)](https://en.wikipedia.org/wiki/Boolean)
+- Entero
+- Numérico (doble)
+- Caracteres
+- Factores
 
 Los vectores se construyen con la función `c()`, Pueden ser numérico:
 
@@ -263,8 +263,8 @@ Los vectores con factores son muy simulares a los de caracteres. Sin embargo, un
 
 Los factores se construyen sobre vectores enteros utilizando dos atributos:
 
--   clase "factor": hace que se comporten de forma diferente a los vectores de caracteres normales
--   niveles: define el conjunto de valores permitidos
+- clase "factor": hace que se comporten de forma diferente a los vectores de caracteres normales
+- niveles: define el conjunto de valores permitidos
 
 ```{r}
 
@@ -391,19 +391,19 @@ m <-
 
  
 
--   Cree un vector numérico con 8 elementos que contenga números positivos y negativos
+- Cree un vector numérico con 8 elementos que contenga números positivos y negativos
 
--   Cree un vector de caracteres con los nombres de las provincias de Costa Rica
+- Cree un vector de caracteres con los nombres de las provincias de Costa Rica
 
--   Añada al vector de punto anterior un NA
+- Añada al vector de punto anterior un NA
 
--   Cree una matriz numérica con 3 columnas y 3 filas
+- Cree una matriz numérica con 3 columnas y 3 filas
 
--   Cree una matriz de caracteres con 4 columnas y 3 filas
+- Cree una matriz de caracteres con 4 columnas y 3 filas
 
--   ¿Qué tipo de objeto es 'iris' y cuales son sus dimensiones? (pista: `iris` es un objeto disponible por omisión en su ambiente)
+- ¿Qué tipo de objeto es 'iris' y cuales son sus dimensiones? (pista: `iris` es un objeto disponible por omisión en su ambiente)
 
--   Cree un cuadro de datos (data frame) con una columna numérica, una columna de caracteres y una columna con factores
+- Cree un cuadro de datos (data frame) con una columna numérica, una columna de caracteres y una columna con factores
 :::
 
  
@@ -638,11 +638,11 @@ Podemos explorar los paquetes disponibles para R en [la página de CRAN](https:/
 
  
 
--   Busque un paquete que le interese en CRAN
+- Busque un paquete que le interese en CRAN
 
--   Instale el paquete y carguelo
+- Instale el paquete y carguelo
 
--   Corra el codigo de ejemplo de una de sus funciones
+- Corra el codigo de ejemplo de una de sus funciones
 :::
 
 # Manipulación de objetos
@@ -794,13 +794,13 @@ View(df)
 
  
 
--   Utilice los datos de ejemplo `iris` para crear un subconjunto de datos con sólo las observaciones de la especie `setosa`
+- Utilice los datos de ejemplo `iris` para crear un subconjunto de datos con sólo las observaciones de la especie `setosa`
 
--   Ahora cree un subconjunto de datos que contenga las observaciones tanto de "setosa" como de "versicolor"
+- Ahora cree un subconjunto de datos que contenga las observaciones tanto de "setosa" como de "versicolor"
 
--   También con `iris` cree un subconjunto de datos con las observaciones para las que `iris$Sepal.length` es mayor que 6
+- También con `iris` cree un subconjunto de datos con las observaciones para las que `iris$Sepal.length` es mayor que 6
 
--   ¿Cuántas observaciones tienen una longitud de sépalo superior a 6?
+- ¿Cuántas observaciones tienen una longitud de sépalo superior a 6?
 :::
 
 ##  
@@ -813,18 +813,18 @@ View(df)
 
 Los nombres de los archivos deben terminar en .R y, por supuesto, ser auto-explicatorios:
 
--   Bien: graficar_probabilidad_posterior.R
--   Mal: graf.R
+- Bien: graficar_probabilidad_posterior.R
+- Mal: graf.R
 
 ## Nombres de objetos
 
 Variables y funciones:
 
--   Minúsculas
--   Utilice un guión bajo
--   En general, nombres para las variables y verbos para las funciones
--   Procure que los nombres sean concisos y significativos (no siempre es fácil)
--   Avoid using names of existing functions of variables
+- Minúsculas
+- Utilice un guión bajo
+- En general, nombres para las variables y verbos para las funciones
+- Procure que los nombres sean concisos y significativos (no siempre es fácil)
+- Avoid using names of existing functions of variables
 
 ```{r, eval=F}
 
@@ -839,9 +839,9 @@ Variables y funciones:
 
 ### Espacios
 
--   Utilice espacios alrededor de los operadores y para los argumentos dentro de una función
--   Ponga siempre un espacio después de una coma, y nunca antes (como en el inglés normal)
--   Coloque un espacio antes del paréntesis izquierdo, excepto en una llamada a una función
+- Utilice espacios alrededor de los operadores y para los argumentos dentro de una función
+- Ponga siempre un espacio después de una coma, y nunca antes (como en el inglés normal)
+- Coloque un espacio antes del paréntesis izquierdo, excepto en una llamada a una función
 
 ```{r, eval=F}
 
@@ -859,9 +859,9 @@ Variables y funciones:
 
 #### Corchetes
 
--   La llave de apertura nunca debe ir en su propia línea
--   La llave de cierre debe ir siempre en su propia línea
--   Puede omitir las llaves cuando un bloque consiste en una sola declaración
+- La llave de apertura nunca debe ir en su propia línea
+- La llave de cierre debe ir siempre en su propia línea
+- Puede omitir las llaves cuando un bloque consiste en una sola declaración
 
 ```{r eval=F}
 
@@ -888,7 +888,7 @@ Variables y funciones:
 
 #### Crear objetos
 
--   Use \<-, no =
+- Use \<-, no =
 
 ```{r, eval = F}
 
@@ -903,9 +903,9 @@ Variables y funciones:
 
 #### Sugerencias para añadir comentarios
 
--   Comente su código
--   Las líneas enteras comentadas deben comenzar con \# y un espacio
--   Los comentarios cortos pueden colocarse después del código precedido por dos espacios, #, y luego un espacio
+- Comente su código
+- Las líneas enteras comentadas deben comenzar con \# y un espacio
+- Los comentarios cortos pueden colocarse después del código precedido por dos espacios, #, y luego un espacio
 
 ```{r, eval=F}
 
@@ -921,12 +921,12 @@ hist(df$pct.spent,
 
 #### Disposición general y ordenación (estilo de google)
 
--   Comentario de la declaración de derechos de autor (?)
--   Comentario del autor
--   Comentario de la descripción del archivo, incluyendo el propósito del programa, las entradas y las salidas
--   declaraciones source() y library()
--   Definiciones de funciones
--   Sentencias ejecutadas, si procede (por ejemplo, print, plot)
+- Comentario de la declaración de derechos de autor (?)
+- Comentario del autor
+- Comentario de la descripción del archivo, incluyendo el propósito del programa, las entradas y las salidas
+- declaraciones source() y library()
+- Definiciones de funciones
+- Sentencias ejecutadas, si procede (por ejemplo, print, plot)
 
 ------------------------------------------------------------------------
 
@@ -946,9 +946,9 @@ La mayoría de los recursos de R están muy bien documentados. Así que **la pri
 
 Los manuales de referencia son colecciones de la documentación de todas las funciones de un paquete (sólo 1 por paquete):
 
--   [manual de dynaSpec](https://cloud.r-project.org/web/packages/dynaSpec/dynaSpec.pdf)
+- [manual de dynaSpec](https://cloud.r-project.org/web/packages/dynaSpec/dynaSpec.pdf)
 
--   [manual de baRulho](https://cran.r-project.org/web/packages/baRulho/baRulho.pdf)
+- [manual de baRulho](https://cran.r-project.org/web/packages/baRulho/baRulho.pdf)
 
  
 
@@ -1015,13 +1015,13 @@ demo("nlm")
 
  
 
--   ¿Qué hace la función `cut()`?
+- ¿Qué hace la función `cut()`?
 
--   ¿Para qué se utiliza el argumento `breaks` en `cut()`?
+- ¿Para qué se utiliza el argumento `breaks` en `cut()`?
 
--   Ejecuta las 4 primeras líneas de código de los ejemplos proporcionados en la documentación de `cut()`.
+- Ejecuta las 4 primeras líneas de código de los ejemplos proporcionados en la documentación de `cut()`.
 
--   ¿Cuántas viñetas tiene el paquete warbleR?
+- ¿Cuántas viñetas tiene el paquete warbleR?
 :::
 
  
@@ -1030,9 +1030,9 @@ demo("nlm")
 
 ## Referencias
 
--   [Advanced R, H Wickham](http://adv-r.had.co.nz/Data-structures.html)
--   [Google's R Style Guide](https://google.github.io/styleguide/Rguide.xml)\
--   Hands-On Programming with R (Grolemund, 2014)
+- [Advanced R, H Wickham](http://adv-r.had.co.nz/Data-structures.html)
+- [Google's R Style Guide](https://google.github.io/styleguide/Rguide.xml)\
+- Hands-On Programming with R (Grolemund, 2014)
 
 ------------------------------------------------------------------------
 

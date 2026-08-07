@@ -5,14 +5,11 @@ editor_options:
 ---
 
 ```{r,echo=FALSE,message=FALSE}
-
-options("digits"=5)
-options("digits.secs"=3)
-
+options("digits" = 5)
+options("digits.secs" = 3)
 ```
 
 ```{r, echo = FALSE, message=FALSE}
-  
 library(knitr)
 library(ggplot2)
 library(viridis)
@@ -21,17 +18,16 @@ library(nnet)
 # ggplot settings
 geom_histogram <- function(...) ggplot2::geom_histogram(..., fill = viridis(10, alpha = 0.5)[8], show.legend = FALSE, bins = 20, color = "black")
 
-geom_smooth <- function(...) ggplot2::geom_smooth(..., color = viridis(10,  alpha = 0.5)[8])
+geom_smooth <- function(...) ggplot2::geom_smooth(..., color = viridis(10, alpha = 0.5)[8])
 
 geom_boxplot <- function(...) ggplot2::geom_boxplot(..., fill = viridis(10, alpha = 0.5)[7])
 
-geom_pointrange <- function(...) ggplot2::geom_pointrange(..., show.legend = FALSE, color = viridis(10, alpha = 0.5)[7], size = 2) 
+geom_pointrange <- function(...) ggplot2::geom_pointrange(..., show.legend = FALSE, color = viridis(10, alpha = 0.5)[7], size = 2)
 
 theme_set(theme_classic(base_size = 20))
 
 
 fill <- list(alert = "#cff4fc", success = "#d1e7dd")
-
 ```
 
 ::: {.alert .alert-info}
@@ -47,17 +43,16 @@ fill <- list(alert = "#cff4fc", success = "#d1e7dd")
 Paquetes a utilizar en este manual:
 
 ```{r}
-
 # instalar/cargar paquetes
 
 sketchy::load_packages(
-  c("ggplot2", 
-    "viridis", 
+  c(
+    "ggplot2",
+    "viridis",
     "nnet",
     "caret"
-   )
   )
-
+)
 ```
 
 # Regresión logística
@@ -90,15 +85,15 @@ Primero, vamos a simular un conjunto de datos donde la respuesta sea binaria. En
 
 ```{r}
 # Simulación de datos
-set.seed(123)  # Para reproducibilidad
-n <- 100  # Número de observaciones
-x1 <- rnorm(n)  # Predictor 1: variable normal
-x2 <- rnorm(n)  # Predictor 2: variable normal
+set.seed(123) # Para reproducibilidad
+n <- 100 # Número de observaciones
+x1 <- rnorm(n) # Predictor 1: variable normal
+x2 <- rnorm(n) # Predictor 2: variable normal
 
 # Coeficientes reales para la simulación
-b0 <- -0.5  # Intercepto
-b1 <- 3.4  # Coeficiente de x1
-b2 <- -3  # Coeficiente de x2
+b0 <- -0.5 # Intercepto
+b1 <- 3.4 # Coeficiente de x1
+b2 <- -3 # Coeficiente de x2
 
 # Calcular la probabilidad usando la función logística
 logit_p <- b0 + b1 * x1 + b2 * x2
@@ -112,19 +107,17 @@ datos <- data.frame(x1 = x1, x2 = x2, y = y)
 
 # explorar datos
 head(datos)
-
 ```
 
 Estos graficos nos muestran las relaciones entre x1, x2 y Y:
 
 ```{r}
-
 # graficar
-ggplot(datos, aes(x = x1, y = y)) + 
+ggplot(datos, aes(x = x1, y = y)) +
   geom_point(color = "#3E4A89FF")
 
-ggplot(datos, aes(x = x2, y = y)) + 
-  geom_point(color =  "#1F9E89FF")
+ggplot(datos, aes(x = x2, y = y)) +
+  geom_point(color = "#1F9E89FF")
 ```
 
 ## Ajustar el modelo
@@ -137,13 +130,11 @@ modelo_log <- glm(y ~ x1 + x2, data = datos, family = binomial)
 
 # Resumen del modelo
 summary(modelo_log)
-
 ```
 
 Ahora podemos graficar los datos crudos junto a la curva de mejor ajuste. Para esto debemos estimar los valores predichos por el modelo primero:
 
 ```{r}
-
 # Crear un nuevo data frame con las predicciones para x1
 nuevos_datos <-
   expand.grid(
@@ -153,22 +144,23 @@ nuevos_datos <-
 
 # anadir predicciones
 nuevos_datos$pred_prob <-
-  predict(object = modelo_log,
-          newdata = nuevos_datos,
-          type = "response")
+  predict(
+    object = modelo_log,
+    newdata = nuevos_datos,
+    type = "response"
+  )
 
 # Crear el gráfico de puntos y la curva de mejor ajuste para x1
 ggplot(datos, aes(x = x1, y = y)) +
-  geom_point(alpha = 0.5, color = "#3E4A89FF") +  # Datos crudos
+  geom_point(alpha = 0.5, color = "#3E4A89FF") + # Datos crudos
   geom_smooth(data = nuevos_datos, aes(y = pred_prob, x = x1), method = "glm", method.args = list(family = "binomial"), se = FALSE) +
-  labs(y = "Probabilidad de y = 1") 
+  labs(y = "Probabilidad de y = 1")
 
 # Crear el gráfico de puntos y la curva de mejor ajuste para x2
 ggplot(datos, aes(x = x2, y = y)) +
-  geom_point(alpha = 0.5, color = "#1F9E89FF") +  # Datos crudos
+  geom_point(alpha = 0.5, color = "#1F9E89FF") + # Datos crudos
   geom_smooth(data = nuevos_datos, aes(y = pred_prob, x = x2), method = "glm", method.args = list(family = "binomial"), se = FALSE) +
-  labs(y = "Probabilidad de y = 1") 
-
+  labs(y = "Probabilidad de y = 1")
 ```
 
 ::: {.alert .alert-success}
@@ -212,7 +204,6 @@ Esto quiere decir que el chance de Y=1 aumenta en `r round(exp_coefs[2], 2)` por
 Una forma intuitiva de evaluar el desempeño de modelos de clasificación (i.e. modelos que predicen categorías) es estimar el número (o proporción) de observaciones que fueron correctamente clasificadas. Este tipo de datos se pueden resumir en una matriz de confusión, que muestra cuántas observaciones fueron clasificadas correctamente y incorrectamente para cada combinación posible de categorías. Para esto usaremos la función `confusionMatrix()` del paquete `caret`:
 
 ```{r}
-
 # predecir valores
 pred_vals <- predict(modelo_log, datos, type = "response")
 
@@ -221,11 +212,10 @@ pred_cat <- ifelse(pred_vals > 0.5, 1, 0)
 
 # hacer la matriz de confusion
 mat_conf <-
-    confusionMatrix(factor(pred_cat), factor(datos$y))
+  confusionMatrix(factor(pred_cat), factor(datos$y))
 
 # imprimir resultado
 mat_conf$table
-
 ```
 
 Esta función tambien estima otros descriptores del desempeño del modelo. Quizas el mas relevante es la precisión (accuracy), que es la proporción de observaciones que fueron clasificadas correctamente:
@@ -237,26 +227,25 @@ mat_conf$overall["Accuracy"]
 Mas adelante en el curso hablaremos de otros de estos descriptores. Una forma mas facil de interpretar la matriz de confusión es representarla gráficamente:
 
 ```{r}
-
 # convertir a data frame
 conf_df <- as.data.frame(mat_conf$table)
 
 # agregar totales por categoria
 conf_df$total <-
-    sapply(conf_df$Reference, function(x)
-        sum(datos$y ==
-                x))
+  sapply(conf_df$Reference, function(x) {
+    sum(datos$y ==
+      x)
+  })
 
 # calcular proporciones
 conf_df$proportion <- conf_df$Freq / conf_df$total
 
 ggplot(conf_df, aes(x = Reference, y = Prediction, fill = proportion)) +
-  geom_tile() + 
-  coord_equal() + 
-  scale_fill_distiller(palette = "Greens", direction = 1) + 
-  geom_text(aes(label = round(proportion, 2)), color = "black", size = 3) + 
-  labs(x = "Observado", y = "Predicho", fill = "Proporción") 
-
+  geom_tile() +
+  coord_equal() +
+  scale_fill_distiller(palette = "Greens", direction = 1) +
+  geom_text(aes(label = round(proportion, 2)), color = "black", size = 3) +
+  labs(x = "Observado", y = "Predicho", fill = "Proporción")
 ```
 
 Como se mencionó antes la matriz de confusión nos permite observar cuántas veces el modelo predijo correctamente las categorías y cuántas veces falló. Los valores en la diagonal representan el número de aciertos (predicciones correctas), mientras que los valores fuera de la diagonal representan los errores de clasificación.
@@ -268,17 +257,16 @@ La regresión logística no hace suposiciones explícitas sobre la distribución
 Estos modelos pueden ajustarse a estructuras mas complejas de forma similar a los modelos lineales. Por ejemplo en el siguiente modelo tenemos 2 variables predictoras y su interaccion:
 
 ```{r}
-
 # Simulación de datos
-set.seed(123)  # Para reproducibilidad
-n <- 100  # Número de observaciones
-x1 <- rnorm(n)  # Predictor 1: variable normal
-x2 <- rnorm(n)  # Predictor 2: variable normal
+set.seed(123) # Para reproducibilidad
+n <- 100 # Número de observaciones
+x1 <- rnorm(n) # Predictor 1: variable normal
+x2 <- rnorm(n) # Predictor 2: variable normal
 
 # Coeficientes reales para la simulación
-b0 <- -0.5  # Intercepto
-b1 <- 1.5  # Coeficiente de x1
-b2 <- -2  # Coeficiente de x2
+b0 <- -0.5 # Intercepto
+b1 <- 1.5 # Coeficiente de x1
+b2 <- -2 # Coeficiente de x2
 b3 <- 3 # interaccion
 # Calcular la probabilidad usando la función logística
 logit_p <- b0 + b1 * x1 + b2 * x2 + b3 * x1 * x2
@@ -292,19 +280,17 @@ datos <- data.frame(x1 = x1, x2 = x2, y = y)
 
 # explorar datos
 head(datos)
-
 ```
 
 Estos graficos nos muestran las relaciones entre x1, x2 y Y:
 
 ```{r}
-
 # graficar
-ggplot(datos, aes(x = x1, y = y)) + 
+ggplot(datos, aes(x = x1, y = y)) +
   geom_point(color = "#3E4A89FF")
 
-ggplot(datos, aes(x = x2, y = y)) + 
-  geom_point(color =  "#1F9E89FF")
+ggplot(datos, aes(x = x2, y = y)) +
+  geom_point(color = "#1F9E89FF")
 ```
 
 ... y ahora ajustamos el modelo de regresión logística conteniendo una interacción entre x1 y x2:
@@ -315,13 +301,11 @@ modelo_log_int <- glm(y ~ x1 * x2, data = datos, family = binomial)
 
 # Resumen del modelo
 summary(modelo_log_int)
-
 ```
 
 Podemos nuevamente evaluar el desempeño del modelo con una matriz de confusión:
 
 ```{r}
-
 # predecir valores
 pred_vals <- predict(object = modelo_log_int, newdata = datos, type = "response")
 
@@ -330,7 +314,7 @@ pred_cat <- ifelse(pred_vals > 0.5, 1, 0)
 
 # hacer la matriz de confusion
 mat_conf <-
-    confusionMatrix(factor(pred_cat), factor(datos$y))
+  confusionMatrix(factor(pred_cat), factor(datos$y))
 
 # imprimir resultado
 mat_conf$table
@@ -342,20 +326,20 @@ conf_df <- as.data.frame(mat_conf$table)
 
 # agregar totales por categoria
 conf_df$total <-
-    sapply(conf_df$Reference, function(x)
-        sum(datos$y ==
-                x))
+  sapply(conf_df$Reference, function(x) {
+    sum(datos$y ==
+      x)
+  })
 
 # calcular proporciones
 conf_df$proportion <- conf_df$Freq / conf_df$total
 
 ggplot(conf_df, aes(x = Reference, y = Prediction, fill = proportion)) +
-  geom_tile() + 
-  coord_equal() + 
-  scale_fill_distiller(palette = "Greens", direction = 1) + 
-  geom_text(aes(label = round(proportion, 2)), color = "black", size = 3) + 
-  labs(x = "Observado", y = "Predicho", fill = "Proporción") 
-
+  geom_tile() +
+  coord_equal() +
+  scale_fill_distiller(palette = "Greens", direction = 1) +
+  geom_text(aes(label = round(proportion, 2)), color = "black", size = 3) +
+  labs(x = "Observado", y = "Predicho", fill = "Proporción")
 ```
 
 ::: {.alert .alert-info}
@@ -378,12 +362,11 @@ data("Titanic")
 datos_titanic <- as.data.frame(Titanic)
 datos_titanic <- datos_titanic[datos_titanic$Freq > 0, ]
 
-datos_tab_titanic <- do.call(rbind, lapply(1:nrow(datos_titanic), function(x) datos_titanic[rep(x, datos_titanic$Freq[x]),]))
+datos_tab_titanic <- do.call(rbind, lapply(1:nrow(datos_titanic), function(x) datos_titanic[rep(x, datos_titanic$Freq[x]), ]))
 datos_tab_titanic$Freq <- NULL
 
 # explorar datos
 head(datos_tab_titanic, 10)
-
 ```
 
 El siguiente codigo ajusta un modelo de regresión logística a estos datos con la variable "clase" como único predictor:
@@ -394,7 +377,6 @@ modelo_log <- glm(Survived ~ Class, data = datos_tab_titanic, family = binomial)
 
 # Resumen del modelo
 summary(modelo_log)
-
 ```
 
 Podemos evaluar el desempeño del modelo con una matriz de confusión:
@@ -408,62 +390,61 @@ pred_cat <- ifelse(pred_vals > 0.5, "Yes", "No")
 
 # hacer la matriz de confusion
 mat_conf <-
-    confusionMatrix(factor(pred_cat), factor(datos_tab_titanic$Survived))
+  confusionMatrix(factor(pred_cat), factor(datos_tab_titanic$Survived))
 
 # imprimir resultado
 mat_conf$table
 ```
 
 ```{r, eval = FALSE}
-
 # convertir a data frame
 conf_df <- as.data.frame(mat_conf$table)
 
 # agregar totales por categoria
 conf_df$total <-
-    sapply(conf_df$Reference, function(x)
-        sum(datos_tab_titanic$Survived ==
-                x))
+  sapply(conf_df$Reference, function(x) {
+    sum(datos_tab_titanic$Survived ==
+      x)
+  })
 
 # calcular proporciones
 conf_df$proportion <- conf_df$Freq / conf_df$total
 
 # graficar
 ggplot(conf_df, aes(x = Reference, y = Prediction, fill = proportion)) +
-  geom_tile() + 
-  coord_equal() + 
-  scale_fill_distiller(palette = "Greens", direction = 1) + 
-  geom_text(aes(label = round(proportion, 2)), color = "black", size = 3) + 
-  labs(x = "Observado", y = "Predicho", fill = "Proporción") 
-
+  geom_tile() +
+  coord_equal() +
+  scale_fill_distiller(palette = "Greens", direction = 1) +
+  geom_text(aes(label = round(proportion, 2)), color = "black", size = 3) +
+  labs(x = "Observado", y = "Predicho", fill = "Proporción")
 ```
 
 ```{r, eval = TRUE, echo = FALSE, out.width = "100%", out.height = "100%"}
-
 # convertir a data frame
 conf_df <- as.data.frame(mat_conf$table)
 
 # agregar totales por categoria
 conf_df$total <-
-    sapply(conf_df$Reference, function(x)
-        sum(datos_tab_titanic$Survived ==
-                x))
+  sapply(conf_df$Reference, function(x) {
+    sum(datos_tab_titanic$Survived ==
+      x)
+  })
 
 # calcular proporciones
 conf_df$proportion <- conf_df$Freq / conf_df$total
 
 ggplot(conf_df, aes(x = Reference, y = Prediction, fill = proportion)) +
-  geom_tile() + 
-  coord_equal() + 
-  scale_fill_distiller(palette = "Greens", direction = 1) + 
-  geom_text(aes(label = round(proportion, 2)), color = "black", size = 3) + 
-  labs(x = "Observado", y = "Predicho", fill = "Proporción") + theme(
-  panel.background = element_rect(fill = "#cff4fc", color = "#cff4fc"),  # Panel background color
-  plot.background = element_rect(fill = "#cff4fc", color = "#cff4fc"),    # Plot background color
-  legend.background = element_rect(fill = "#cff4fc", color = "#cff4fc"), # Change legend background color
-  panel.border = element_rect(color = "#cff4fc", fill = NA, linewidth = 0),  # Border of the plot area
-)
-
+  geom_tile() +
+  coord_equal() +
+  scale_fill_distiller(palette = "Greens", direction = 1) +
+  geom_text(aes(label = round(proportion, 2)), color = "black", size = 3) +
+  labs(x = "Observado", y = "Predicho", fill = "Proporción") +
+  theme(
+    panel.background = element_rect(fill = "#cff4fc", color = "#cff4fc"), # Panel background color
+    plot.background = element_rect(fill = "#cff4fc", color = "#cff4fc"), # Plot background color
+    legend.background = element_rect(fill = "#cff4fc", color = "#cff4fc"), # Change legend background color
+    panel.border = element_rect(color = "#cff4fc", fill = NA, linewidth = 0), # Border of the plot area
+  )
 ```
 
 ```{r}
@@ -509,19 +490,18 @@ Una empresa de alimentos quiere predecir qué tipo de envase (plástico, vidrio 
 Para ilustrar cómo funciona la regresión multinomial, vamos a simular un conjunto de datos con tres categorías posibles para la variable dependiente.
 
 ```{r}
-
 # Establecer una semilla para reproducibilidad
 set.seed(123)
 
 # Simular variables predictoras
-n <- 500  # número de observaciones
+n <- 500 # número de observaciones
 x1 <- rnorm(n)
 x2 <- rnorm(n)
 
 # Probabilidades para cada categoría
 p_y1 <- exp(1 + 2 * x1 - 5 * x2) / (1 + exp(1 + 2 * x1 - 5 * x2) + exp(-2 + x1 + 10 * x2))
 p_y2 <- exp(-2 + x1 + 10 * x2) / (1 + exp(1 + 2 * x1 - 5 * x2) + exp(-2 + x1 + 10 * x2))
-p_y3 <- 1 - p_y1 - p_y2  # Probabilidad de la tercera categoría
+p_y3 <- 1 - p_y1 - p_y2 # Probabilidad de la tercera categoría
 
 # Asignar categorías de acuerdo con las probabilidades
 y <- sapply(1:n, function(i) sample(1:3, size = 1, prob = c(p_y1[i], p_y2[i], p_y3[i])))
@@ -531,7 +511,6 @@ datos_multin <- data.frame(y = factor(y, labels = c("a", "b", "c")), x1 = x1, x2
 
 # Visualizar las primeras filas de los datos simulados
 head(datos_multin)
-
 ```
 
 ## Explorar datos
@@ -539,12 +518,10 @@ head(datos_multin)
 Categorias de Y en el espacio X1 vs X2
 
 ```{r}
-
 ggplot(datos_multin, aes(x = x1, y = x2, color = y)) +
   geom_point() +
   scale_color_viridis_d(option = "G", begin = 0.4, end = 0.9) +
   labs(x = "x1", y = "x2", color = "Categoría")
-
 ```
 
 ## Ajustar el modelo
@@ -552,13 +529,11 @@ ggplot(datos_multin, aes(x = x1, y = x2, color = y)) +
 El siguiente paso es ajustar un modelo de regresión multinomial a los datos simulados utilizando la función `multinom()` del paquete `nnet`.
 
 ```{r}
-
 # Ajustar el modelo de regresión multinomial
 modelo_multinom <- multinom(y ~ x1 + x2, data = datos_multin)
 
 # Resumen del modelo
 summary(modelo_multinom)
-
 ```
 
 Podemos agregar los valores de p para cada tamaño de efecto de esta forma:
@@ -589,7 +564,6 @@ coefs
 Cuadro con los coeficientes (estimados):
 
 ```{r, echo= FALSE}
-
 summ_modelo_multinom <- summary(modelo_multinom)
 
 coefs <- summ_modelo_multinom$coefficients
@@ -601,7 +575,6 @@ p_x2 <- (1 - pnorm(abs(coefs[, 3]), 0, 1)) * 2
 coefs <- cbind(coefs, p_x1, p_x2)
 
 coefs
-
 ```
 
 -   El modelo encontró que $\beta_1b$ es `r coefs[1, 2]` y que no es significativamente diferente de 0 (p = `r coefs[1, 4]`). Podemos expresarlo como chances al calcular `exp(coefs[1, 2])` que es `r round(exp(coefs[1, 2]), 2)`. Es decir, la probabilidad de pertenecer a la categoría "b" aumenta en `r round(exp(coefs[1, 2]), 2)` comparado con la probabilidad de pertenecer categoría "a" con un aumento de una unidad de x1. En este caso el aumento es menor a uno lo que quiere decir que la probabilidad de ocurrencia de "b" es menor a la de "a" con un aumento de x1. Si mas bien calculamos `1 / exp(coefs[1, 2])` podemos decir que la probabilidad de pertenecer a la categoría "a" aumenta en `r round(1 / exp(coefs[1, 2]), 2)` comparado con la probabilidad de pertenecer categoría "b" con un aumento de una unidad de x1.
@@ -620,7 +593,6 @@ Una forma útil de visualizar los resultados del modelo es graficar las probabil
 En el siguiente ejemplo, graficaremos las probabilidades predichas de pertenecer a cada categoría con respecto a una de las variables independientes (x1):
 
 ```{r}
-
 # Crear una secuencia de valores para x1
 x1_nuevo <- seq(min(datos_multin$x1), max(datos_multin$x1), length.out = 100)
 
@@ -634,11 +606,12 @@ prob_predichas <- predict(modelo_multinom, newdata = nuevo_data, type = "probs")
 cols <- mako(3, begin = 0.4, end = 0.9)
 
 # Graficar las probabilidades predichas
-matplot(x1_nuevo, prob_predichas, type = "l", lty = 1, col = cols,
-        xlab = "x1", ylab = "Probabilidad predicha",
-        main = "Probabilidades predichas para cada categoría")
+matplot(x1_nuevo, prob_predichas,
+  type = "l", lty = 1, col = cols,
+  xlab = "x1", ylab = "Probabilidad predicha",
+  main = "Probabilidades predichas para cada categoría"
+)
 legend("topright", legend = levels(datos_multin$y), col = cols, lty = 1)
-
 ```
 
 Este gráfico muestra cómo varían las probabilidades predichas de pertenecer a cada categoría conforme el valor de x1 cambia, con x2 fijo en 0. Las líneas de diferentes colores corresponden a las diferentes categorías de la variable dependiente.
@@ -648,52 +621,45 @@ Este gráfico muestra cómo varían las probabilidades predichas de pertenecer a
 Al ser este en escencia un modelo de clasificación, podemos evaluar su desempeño con una matriz de confusión:
 
 ```{r}
-
 # predecir valores
 pred_cat <- predict(modelo_multinom, datos_multin, type = "class")
 
 # hacer la matriz de confusion
 mat_conf <-
-    confusionMatrix(factor(pred_cat), factor(datos_multin$y))
+  confusionMatrix(factor(pred_cat), factor(datos_multin$y))
 
 # imprimir resultado
 mat_conf$table
-
 ```
 
 Esta función tambien estima otros descriptores del desempeño del modelo. Quizas el mas relevante es la precisión (accuracy), que es la proporción de observaciones que fueron clasificadas correctamente:
 
 ```{r}
-
 mat_conf$overall["Accuracy"]
-
 ```
 
 Mas adelante en el curso hablaremos de otros de estos descriptores. Una forma mas facil de interpretar la matriz de confusión es representarla gráficamente:
 
 ```{r}
-
 # convertir a data frame
 conf_df <- as.data.frame(mat_conf$table)
 
 # agregar totales por categoria
 conf_df$total <-
-    sapply(conf_df$Reference, function(x)
-        sum(datos_multin$y ==
-                x))
+  sapply(conf_df$Reference, function(x) {
+    sum(datos_multin$y ==
+      x)
+  })
 
 # calcular proporciones
 conf_df$proportion <- conf_df$Freq / conf_df$total
 
 ggplot(conf_df, aes(x = Reference, y = Prediction, fill = proportion)) +
-  geom_tile() + 
-  coord_equal() + 
-  scale_fill_distiller(palette = "Greens", direction = 1) + 
-  geom_text(aes(label = round(proportion, 2)), color = "black", size = 3) + 
-  labs(x = "Observado", y = "Predicho", fill = "Proporción") 
-
-
-
+  geom_tile() +
+  coord_equal() +
+  scale_fill_distiller(palette = "Greens", direction = 1) +
+  geom_text(aes(label = round(proportion, 2)), color = "black", size = 3) +
+  labs(x = "Observado", y = "Predicho", fill = "Proporción")
 ```
 
 ::: {.alert .alert-info}
@@ -715,7 +681,5 @@ Para este ejercicio puedo utilizar el código del ejercicio 1 para la evaluació
 # Información de la sesión {.unnumbered .unlisted}
 
 ```{r session info, echo=F}
-
 sessionInfo()
-
 ```

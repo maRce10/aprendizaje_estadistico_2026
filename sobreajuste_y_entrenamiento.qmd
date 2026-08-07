@@ -7,9 +7,9 @@ editor_options:
 ```{r}
 #| warning: false
 #| echo: false
- 
-options("digits"=5)
-options("digits.secs"=3)
+
+options("digits" = 5)
+options("digits.secs" = 3)
 library(knitr)
 library(ggplot2)
 library(viridis)
@@ -22,17 +22,16 @@ library(themis)
 # ggplot settings
 geom_histogram <- function(...) ggplot2::geom_histogram(..., fill = viridis(10, alpha = 0.5)[8], show.legend = FALSE, bins = 20, color = "black")
 
-geom_smooth <- function(...) ggplot2::geom_smooth(..., color = viridis(10,  alpha = 0.5)[8])
+geom_smooth <- function(...) ggplot2::geom_smooth(..., color = viridis(10, alpha = 0.5)[8])
 
 geom_boxplot <- function(...) ggplot2::geom_boxplot(..., fill = viridis(10, alpha = 0.5)[7])
 
-geom_pointrange <- function(...) ggplot2::geom_pointrange(..., show.legend = FALSE, color = viridis(10, alpha = 0.5)[7], size = 2) 
+geom_pointrange <- function(...) ggplot2::geom_pointrange(..., show.legend = FALSE, color = viridis(10, alpha = 0.5)[7], size = 2)
 
 theme_set(theme_classic(base_size = 20))
 
 
 fill <- list(alert = "#cff4fc", success = "#d1e7dd")
-
 ```
 
 ::: {.alert .alert-info}
@@ -48,29 +47,26 @@ fill <- list(alert = "#cff4fc", success = "#d1e7dd")
 Paquetes a utilizar en este manual:
 
 ```{r}
-
 # instalar/cargar paquetes
 sketchy::load_packages(
-  c("ggplot2", 
-    "viridis", 
+  c(
+    "ggplot2",
+    "viridis",
     "caret",
     "MuMIn",
     "nnet",
     "themis"
-   )
   )
-
+)
 ```
 
 Funcion personalizada a utilizar en este manual:
 
 ```{r}
-
-r2_lm <- function(model, data, response = "y"){
+r2_lm <- function(model, data, response = "y") {
   pred <- predict(model, newdata = data)
   caret::R2(pred, data[, response])
-  }
-
+}
 ```
 
 # Entrenamiento de modelos
@@ -91,45 +87,44 @@ Los modelos más complejos tienden a sobreajustar más que lo modelos más simpl
 #| eval: false
 
 repeticiones <- 100 # Número de repeticiones
-n <- 100  # Número de observaciones
-p <- 20  # Número de predictores
+n <- 100 # Número de observaciones
+p <- 20 # Número de predictores
 
 expr <- expression({
-# Generar datos sintéticos
+  # Generar datos sintéticos
 
 
-# Crear variables predictoras aleatorias
-datos <- as.data.frame(matrix(rnorm(n * p), n, p))
-colnames(datos) <- paste0("x", 1:p)
+  # Crear variables predictoras aleatorias
+  datos <- as.data.frame(matrix(rnorm(n * p), n, p))
+  colnames(datos) <- paste0("x", 1:p)
 
-# Crear variable de respuesta con una combinación de algunas variables
-datos$y <-
-  3 * datos$x1 - 2 * datos$x2 + 1 * datos$x3 + rnorm(n, 0, 2)
+  # Crear variable de respuesta con una combinación de algunas variables
+  datos$y <-
+    3 * datos$x1 - 2 * datos$x2 + 1 * datos$x3 + rnorm(n, 0, 2)
 
-# Dividir en conjunto de entrenamiento y prueba
-entren_indice <- createDataPartition(datos$y, p = 0.9, list = FALSE)
-datos_entren <- datos[entren_indice, ]
-datos_prueba <- datos[-entren_indice, ]
+  # Dividir en conjunto de entrenamiento y prueba
+  entren_indice <- createDataPartition(datos$y, p = 0.9, list = FALSE)
+  datos_entren <- datos[entren_indice, ]
+  datos_prueba <- datos[-entren_indice, ]
 
 
-resultados_lista <- lapply(1:(ncol(datos) - 1), function(z) {
-  # Ajustar modelo de regresión lineal
-  modelo <-
-    lm(y ~ ., data = datos_entren[, c("y", paste0("x", 1:z))])
-  
-  r2_entren <- r2_lm(modelo, datos_entren)
-  r2_prueba <- r2_lm(modelo, datos_prueba)
-  
-  resultados <-
-    data.frame(
-       r2 = c(r2_prueba, r2_entren)
-    )
-  
-  return(resultados)
-  
-})
+  resultados_lista <- lapply(1:(ncol(datos) - 1), function(z) {
+    # Ajustar modelo de regresión lineal
+    modelo <-
+      lm(y ~ ., data = datos_entren[, c("y", paste0("x", 1:z))])
 
-resultados_df <- do.call(rbind, resultados_lista)
+    r2_entren <- r2_lm(modelo, datos_entren)
+    r2_prueba <- r2_lm(modelo, datos_prueba)
+
+    resultados <-
+      data.frame(
+        r2 = c(r2_prueba, r2_entren)
+      )
+
+    return(resultados)
+  })
+
+  resultados_df <- do.call(rbind, resultados_lista)
 })
 
 # repetir x veces
@@ -140,11 +135,11 @@ r2 <- apply(as.data.frame(reps), 1, mean)
 
 
 resultados_promedio <-
-    data.frame(
-      n_predictores = rep(1:p, each = 2),
-      Tipo = c("Prueba", "Entrenamiendo"),
-      r2 = r2
-    )
+  data.frame(
+    n_predictores = rep(1:p, each = 2),
+    Tipo = c("Prueba", "Entrenamiendo"),
+    r2 = r2
+  )
 
 saveRDS(resultados_promedio, "resultados_promedio.rds")
 
@@ -152,21 +147,23 @@ ggplot(resultados_promedio, aes(x = n_predictores, y = r2, color = Tipo)) +
   geom_line(lwd = 2) +
   scale_x_continuous(breaks = seq(0, p, 1)) +
   scale_color_viridis_d(end = 0.9) +
-  labs(x = "Número de predictores",
-       y = bquote('Coeficiente de determinación' ~ R ^ 2)) +
+  labs(
+    x = "Número de predictores",
+    y = bquote("Coeficiente de determinación" ~ R^2)
+  ) +
   theme(
     legend.background = element_rect(fill = "#fff3cd"),
     legend.position = c(0.5, 0.2),
     panel.background = element_rect(fill = "#fff3cd"),
     plot.background = element_rect(fill = "#fff3cd", colour = NA)
-  )    
+  )
 ```
 
 ```{r}
 #| echo: false
 #| warning: false
 
-p <- 20  # Número de predictores
+p <- 20 # Número de predictores
 
 resultados_promedio <- readRDS("resultados_promedio.rds")
 
@@ -174,14 +171,16 @@ ggplot(resultados_promedio, aes(x = n_predictores, y = r2, color = Tipo)) +
   geom_line(lwd = 2) +
   scale_x_continuous(breaks = seq(0, p, 1)) +
   scale_color_viridis_d(end = 0.9) +
-  labs(x = "Número de predictores",
-       y = bquote('Coeficiente de determinación' ~ R ^ 2)) +
+  labs(
+    x = "Número de predictores",
+    y = bquote("Coeficiente de determinación" ~ R^2)
+  ) +
   theme(
     legend.background = element_rect(fill = "#fff3cd"),
     legend.position = c(0.5, 0.2),
     panel.background = element_rect(fill = "#fff3cd"),
     plot.background = element_rect(fill = "#fff3cd", colour = NA)
-  )    
+  )
 ```
 
 Podemos ver como en ambos casos el coeficiente de determinación (R^2^) aumenta en los primeros 3 predictores. Esto es de esperar ya que estos son los predictores asociados a la respuesta. Sin embargo, luego de este punto el R^2^ aumenta para los datos de entrenamiento, pero no para los datos de prueba. Esto es un claro indicio de sobreajuste.
@@ -193,44 +192,43 @@ En la siguiente simulación podemos ver mas claramente como el R^2^ calculado so
 #| eval: false
 
 repeticiones <- 100 # Número de repeticiones
-n <- 100  # Número de observaciones
-p <- 20  # Número de predictores
+n <- 100 # Número de observaciones
+p <- 20 # Número de predictores
 
 expr <- expression({
-# Generar datos sintéticos
+  # Generar datos sintéticos
 
 
-# Crear variables predictoras aleatorias
-datos <- as.data.frame(matrix(rnorm(n * p), n, p))
-colnames(datos) <- paste0("x", 1:p)
+  # Crear variables predictoras aleatorias
+  datos <- as.data.frame(matrix(rnorm(n * p), n, p))
+  colnames(datos) <- paste0("x", 1:p)
 
-# Crear variable de respuesta con una combinación de algunas variables
-datos$y <- rnorm(n, 0, 2)
+  # Crear variable de respuesta con una combinación de algunas variables
+  datos$y <- rnorm(n, 0, 2)
 
-# Dividir en conjunto de entrenamiento y prueba
-entren_indice <- createDataPartition(datos$y, p = 0.9, list = FALSE)
-datos_entren <- datos[entren_indice, ]
-datos_prueba <- datos[-entren_indice, ]
+  # Dividir en conjunto de entrenamiento y prueba
+  entren_indice <- createDataPartition(datos$y, p = 0.9, list = FALSE)
+  datos_entren <- datos[entren_indice, ]
+  datos_prueba <- datos[-entren_indice, ]
 
 
-resultados_lista <- lapply(1:(ncol(datos) - 1), function(z) {
-  # Ajustar modelo de regresión lineal
-  modelo <-
-    lm(y ~ ., data = datos_entren[, c("y", paste0("x", 1:z))])
-  
-  r2_entren <- r2_lm(modelo, datos_entren)
-  r2_prueba <- r2_lm(modelo, datos_prueba)
-  
-  resultados <-
-    data.frame(
-       r2 = c(r2_prueba, r2_entren)
-    )
-  
-  return(resultados)
-  
-})
+  resultados_lista <- lapply(1:(ncol(datos) - 1), function(z) {
+    # Ajustar modelo de regresión lineal
+    modelo <-
+      lm(y ~ ., data = datos_entren[, c("y", paste0("x", 1:z))])
 
-resultados_df <- do.call(rbind, resultados_lista)
+    r2_entren <- r2_lm(modelo, datos_entren)
+    r2_prueba <- r2_lm(modelo, datos_prueba)
+
+    resultados <-
+      data.frame(
+        r2 = c(r2_prueba, r2_entren)
+      )
+
+    return(resultados)
+  })
+
+  resultados_df <- do.call(rbind, resultados_lista)
 })
 
 # repetir x veces
@@ -241,11 +239,11 @@ r2 <- apply(as.data.frame(reps), 1, mean)
 
 
 resultados_promedio_aleatorio <-
-    data.frame(
-      n_predictores = rep(1:p, each = 2),
-      Tipo = c("Prueba", "Entrenamiendo"),
-      r2 = r2
-    )
+  data.frame(
+    n_predictores = rep(1:p, each = 2),
+    Tipo = c("Prueba", "Entrenamiendo"),
+    r2 = r2
+  )
 
 saveRDS(resultados_promedio_aleatorio, "resultados_promedio_aleatorio.rds")
 
@@ -253,21 +251,23 @@ ggplot(resultados_promedio_aleatorio, aes(x = n_predictores, y = r2, color = Tip
   geom_line(lwd = 2) +
   scale_x_continuous(breaks = seq(0, p, 1)) +
   scale_color_viridis_d(end = 0.9) +
-  labs(x = "Número de predictores",
-       y = bquote('Coeficiente de determinación' ~ R ^ 2)) +
+  labs(
+    x = "Número de predictores",
+    y = bquote("Coeficiente de determinación" ~ R^2)
+  ) +
   theme(
     legend.background = element_rect(fill = "#fff3cd"),
     legend.position = c(0.7, 0.2),
     panel.background = element_rect(fill = "#fff3cd"),
     plot.background = element_rect(fill = "#fff3cd", colour = NA)
-  )    
+  )
 ```
 
 ```{r}
 #| echo: false
 #| warning: false
 
-p <- 20  # Número de predictores
+p <- 20 # Número de predictores
 
 resultados_promedio_aleatorio <- readRDS("resultados_promedio_aleatorio.rds")
 
@@ -275,14 +275,16 @@ ggplot(resultados_promedio_aleatorio, aes(x = n_predictores, y = r2, color = Tip
   geom_line(lwd = 2) +
   scale_x_continuous(breaks = seq(0, p, 1)) +
   scale_color_viridis_d(end = 0.9) +
-  labs(x = "Número de predictores",
-       y = bquote('Coeficiente de determinación' ~ R ^ 2)) +
+  labs(
+    x = "Número de predictores",
+    y = bquote("Coeficiente de determinación" ~ R^2)
+  ) +
   theme(
     legend.background = element_rect(fill = "#fff3cd"),
     legend.position = c(0.7, 0.2),
     panel.background = element_rect(fill = "#fff3cd"),
     plot.background = element_rect(fill = "#fff3cd", colour = NA)
-  ) 
+  )
 ```
 
 Sin embargo, el R^2^ calculado sobre datos de prueba se mantiene constante.
@@ -308,47 +310,46 @@ Podemos ver como el AIC aumenta con la cantidad de predictores en el modelo. En 
 #| warning: false
 
 repeticiones <- 100 # Número de repeticiones
-n <- 100  # Número de observaciones
-p <- 20  # Número de predictores
+n <- 100 # Número de observaciones
+p <- 20 # Número de predictores
 
 expr <- expression({
-# Generar datos sintéticos
+  # Generar datos sintéticos
 
 
-# Crear variables predictoras aleatorias
-datos <- as.data.frame(matrix(rnorm(n * p), n, p))
-colnames(datos) <- paste0("x", 1:p)
+  # Crear variables predictoras aleatorias
+  datos <- as.data.frame(matrix(rnorm(n * p), n, p))
+  colnames(datos) <- paste0("x", 1:p)
 
 
-# Crear variable de respuesta con una combinación de algunas variables
-datos$y <-
-  3 * datos$x1 - 2 * datos$x2 + 1 * datos$x3 + rnorm(n, 0, 2)
+  # Crear variable de respuesta con una combinación de algunas variables
+  datos$y <-
+    3 * datos$x1 - 2 * datos$x2 + 1 * datos$x3 + rnorm(n, 0, 2)
 
-# Dividir en conjunto de entrenamiento y prueba
-entren_indice <- createDataPartition(datos$y, p = 0.9, list = FALSE)
-datos_entren <- datos[entren_indice, ]
-datos_prueba <- datos[-entren_indice, ]
+  # Dividir en conjunto de entrenamiento y prueba
+  entren_indice <- createDataPartition(datos$y, p = 0.9, list = FALSE)
+  datos_entren <- datos[entren_indice, ]
+  datos_prueba <- datos[-entren_indice, ]
 
 
-resultados_lista <- lapply(1:(ncol(datos) - 1), function(z) {
-  # Ajustar modelo de regresión lineal
-   modelo <-
-    lm(y ~ ., data = datos[, c("y", paste0("x", 1:z))])
-  
-  # modelos nulos
-  modelo_nulo <- lm(y ~ 1, data = datos[, c("y", paste0("x", 1:z))])
-  
-  # Calcular AIC
-  aics <- AIC(modelo, modelo_nulo)
-  aics$delta.aic <- aics$AIC - min(aics$AIC)
-  
-  resultados <- aics["modelo_nulo", "delta.aic"]
-  
-  return(resultados)
-  
-})
+  resultados_lista <- lapply(1:(ncol(datos) - 1), function(z) {
+    # Ajustar modelo de regresión lineal
+    modelo <-
+      lm(y ~ ., data = datos[, c("y", paste0("x", 1:z))])
 
-resultados_df <- do.call(rbind, resultados_lista)
+    # modelos nulos
+    modelo_nulo <- lm(y ~ 1, data = datos[, c("y", paste0("x", 1:z))])
+
+    # Calcular AIC
+    aics <- AIC(modelo, modelo_nulo)
+    aics$delta.aic <- aics$AIC - min(aics$AIC)
+
+    resultados <- aics["modelo_nulo", "delta.aic"]
+
+    return(resultados)
+  })
+
+  resultados_df <- do.call(rbind, resultados_lista)
 })
 
 # repetir x veces
@@ -359,10 +360,10 @@ delta_aic <- apply(as.data.frame(reps), 1, mean)
 
 
 resultados_promedio_aic <-
-    data.frame(
-      n_predictores = rep(1:p),
-      delta_aic = delta_aic
-    )
+  data.frame(
+    n_predictores = rep(1:p),
+    delta_aic = delta_aic
+  )
 
 ggplot(resultados_promedio_aic, aes(x = n_predictores, y = delta_aic)) +
   geom_line(lwd = 2, color = viridis(1)) +
@@ -370,7 +371,6 @@ ggplot(resultados_promedio_aic, aes(x = n_predictores, y = delta_aic)) +
   labs(x = "Número de predictores", y = "Delta AIC") +
   theme(legend.position = c(0.5, 0.7)) +
   scale_y_reverse()
-
 ```
 
 Datos donde ningun predictor está asociado:
@@ -379,39 +379,38 @@ Datos donde ningun predictor está asociado:
 #| warning: false
 
 repeticiones <- 100 # Número de repeticiones
-n <- 100  # Número de observaciones
-p <- 20  # Número de predictores
+n <- 100 # Número de observaciones
+p <- 20 # Número de predictores
 
 expr <- expression({
-# Generar datos sintéticos
+  # Generar datos sintéticos
 
-# Crear variables predictoras aleatorias
-datos <- as.data.frame(matrix(rnorm(n * p), n, p))
-colnames(datos) <- paste0("x", 1:p)
+  # Crear variables predictoras aleatorias
+  datos <- as.data.frame(matrix(rnorm(n * p), n, p))
+  colnames(datos) <- paste0("x", 1:p)
 
 
-# Crear variable de respuesta no asociada a los predictores
-datos$y <- rnorm(n, 0, 2)
+  # Crear variable de respuesta no asociada a los predictores
+  datos$y <- rnorm(n, 0, 2)
 
-resultados_lista <- lapply(1:(ncol(datos) - 1), function(z) {
-  # Ajustar modelo de regresión lineal
-   modelo <-
-    lm(y ~ ., data = datos[, c("y", paste0("x", 1:z))])
-  
-  # modelos nulos
-  modelo_nulo <- lm(y ~ 1, data = datos[, c("y", paste0("x", 1:z))])
-  
-  # Calcular AIC
-  aics <- AIC(modelo, modelo_nulo)
-  aics$delta.aic <- aics$AIC - min(aics$AIC)
-  
-  resultados <- aics["modelo_nulo", "delta.aic"]
-  
-  return(resultados)
-  
-})
+  resultados_lista <- lapply(1:(ncol(datos) - 1), function(z) {
+    # Ajustar modelo de regresión lineal
+    modelo <-
+      lm(y ~ ., data = datos[, c("y", paste0("x", 1:z))])
 
-resultados_df <- do.call(rbind, resultados_lista)
+    # modelos nulos
+    modelo_nulo <- lm(y ~ 1, data = datos[, c("y", paste0("x", 1:z))])
+
+    # Calcular AIC
+    aics <- AIC(modelo, modelo_nulo)
+    aics$delta.aic <- aics$AIC - min(aics$AIC)
+
+    resultados <- aics["modelo_nulo", "delta.aic"]
+
+    return(resultados)
+  })
+
+  resultados_df <- do.call(rbind, resultados_lista)
 })
 
 # repetir x veces
@@ -422,18 +421,17 @@ delta_aic <- apply(as.data.frame(reps), 1, mean)
 
 
 resultados_promedio_aic <-
-    data.frame(
-      n_predictores = rep(1:p),
-      delta_aic = delta_aic
-    )
+  data.frame(
+    n_predictores = rep(1:p),
+    delta_aic = delta_aic
+  )
 
 ggplot(resultados_promedio_aic, aes(x = n_predictores, y = delta_aic)) +
-  geom_line(lwd = 2, color = viridis(1)) + 
+  geom_line(lwd = 2, color = viridis(1)) +
   scale_x_continuous(breaks = seq(0, p, 1)) +
   labs(x = "Número de predictores", y = "Delta AIC") +
   theme(legend.position = c(0.5, 0.7)) +
   scale_y_reverse(limits = c(1, -2))
-
 ```
 
 ## Aplicación del AIC
@@ -441,7 +439,6 @@ ggplot(resultados_promedio_aic, aes(x = n_predictores, y = delta_aic)) +
 Como se mencionó anteriormente, el AIC se puede utilizar para seleccionar el mejor modelo de un conjunto de modelos candidatos. El modelo preferido es el que tiene el menor AIC. Por ejemplo, podemos construir un conjunto de modelos de regresión lineal con diferentes predictores y seleccionar el modelo con el menor AIC. En el siguiente ejemplo, se ajustan modelos de regresión lineal a los datos `Titanic` con diferentes predictores y comparemos el ajuste relativo de los modelos con AIC:
 
 ```{r}
-
 # cargar datos
 data("Titanic")
 
@@ -449,7 +446,7 @@ data("Titanic")
 datos_titanic <- as.data.frame(Titanic)
 datos_titanic <- datos_titanic[datos_titanic$Freq > 0, ]
 
-datos_tab_titanic <- do.call(rbind, lapply(1:nrow(datos_titanic), function(x) datos_titanic[rep(x, datos_titanic$Freq[x]),]))
+datos_tab_titanic <- do.call(rbind, lapply(1:nrow(datos_titanic), function(x) datos_titanic[rep(x, datos_titanic$Freq[x]), ]))
 datos_tab_titanic$Freq <- NULL
 
 # explorar datos
@@ -480,7 +477,6 @@ El modelo con la clase como predictor tiene un delta AIC de 0. Por lo tanto este
 En algunos casos donde el número de posibles modelos es alto resulta útil utilizar la funcion `dredge` del paquete `MuMIn` para calcular el AIC de todos los modelos posibles y seleccionar el mejor modelo.
 
 ```{r}
-
 datos_tab_titanic$aleat <- rnorm(n = nrow(datos_tab_titanic))
 
 # crear modelo global
@@ -491,7 +487,6 @@ options(na.action = "na.fail")
 
 # usar la funcion dredge
 dredge(modelo_global)
-
 ```
 
 Esta función usa el AICc para estimar el ajuste del modelo. EL AICc es una versión corregida del AIC para muestras pequeñas. La función calcula el AICc de todos los modelos posibles y selecciona el mejor modelo. Las cruces en las columnas con los nombres de los predictores indican si el predictor está presente en el modelo. En este ejemplo, el modelo con los 3 predictores es el mejor modelo.
@@ -557,7 +552,6 @@ confusion_matrix <- caret::confusionMatrix(predictions, datos_prueba$am)
 
 # Mostrar los resultados
 print(confusion_matrix)
-
 ```
 
 ## Validación cruzada simple (k-fold)
@@ -575,21 +569,18 @@ set.seed(123)
 modelo <- train(
   mpg ~ wt + hp,
   data = mtcars,
-  method = "lm",  # Modelo de regresión lineal
+  method = "lm", # Modelo de regresión lineal
   trControl = control
 )
 
 # Resultados del modelo
 print(modelo)
-
 ```
 
 El argumento "number" controla el numero de subconjuntos (**k**) en los que se divide el conjunto de datos. En este caso, se utiliza un valor de 5. El modelo se ajusta 5 veces, utilizando cada uno de los subconjuntos como conjunto de prueba una vez.
 
 ```{r}
-
 modelo$resample
-
 ```
 
 ```{r}
@@ -607,9 +598,7 @@ mean(modelo$resample$Rsquared)
 También podemos extraer un modelo final. En este caso el modelo final es un modelo ajustado en la totalidad de los datos:
 
 ```{r}
-
 summary(modelo$finalModel)
-
 ```
 
 ## Dejar uno fuera (Leave-One-Out Cross-Validation, LOOCV)
@@ -625,21 +614,18 @@ set.seed(123)
 modelo <- train(
   mpg ~ wt + hp,
   data = mtcars,
-  method = "lm",  # Modelo de regresión lineal
+  method = "lm", # Modelo de regresión lineal
   trControl = control
 )
 
 # Resultados del modelo
 print(modelo)
-
 ```
 
 Este método no devuelve los valores individuales por iteración, pero podemos obtener el modelo final ajustado:
 
 ```{r}
-
 summary(modelo$finalModel)
-
 ```
 
 ## Validación cruzada repetida
@@ -655,19 +641,16 @@ set.seed(123)
 modelo <- train(
   mpg ~ wt + hp,
   data = mtcars,
-  method = "lm",  # Modelo de regresión lineal
+  method = "lm", # Modelo de regresión lineal
   trControl = control
 )
 
 # Resultados del modelo
 print(modelo)
-
 ```
 
 ```{r}
-
 modelo$resample
-
 ```
 
 ## Validación de remuestreo con reemplazo ("bootstrap")
@@ -683,19 +666,16 @@ set.seed(123)
 modelo <- train(
   mpg ~ wt + hp,
   data = mtcars,
-  method = "lm",  # Modelo de regresión lineal
+  method = "lm", # Modelo de regresión lineal
   trControl = control
 )
 
 # Resultados del modelo
 print(modelo)
-
 ```
 
 ```{r}
-
 modelo$resample
-
 ```
 
 ## Validación cruzada balanceada
@@ -707,7 +687,6 @@ Hay dos formas basicas en las que se puede balancear los datos durante las itera
 Para muestrear hacia abajo, simplemente definimos el argumento `sampling = "up"` en la función `trainControl`:
 
 ```{r}
-
 # Configurar validación cruzada con 10 folds
 control <- caret::trainControl(
   method = "cv",
@@ -731,7 +710,6 @@ modelo <- caret::train(
 
 # Resultados del modelo
 print(modelo)
-
 ```
 
 Podemos ver las categorías no estaban perfectamente balanceada en los datos originales:
@@ -743,16 +721,13 @@ table(mtcars$am_f)
 Sin embargo, la proporción de clases se mantiene constante durante el entrenamiento y para cada categoría el número de observaciones es igual al de la clase mas numerosa:
 
 ```{r}
-
 # ver frecuencia de clases en el modelo final
 table(modelo$finalModel$data$.outcome)
-
 ```
 
 
 Para muestrear hacia abajo, definimos el argumento `sampling = "down"`:
 ```{r}
-
 # Configurar validación cruzada con 10 folds
 control <- caret::trainControl(
   method = "cv",
@@ -773,7 +748,6 @@ modelo <- caret::train(
 
 # Resultados del modelo
 print(modelo)
-
 ```
 
 Podemos ver nuevamente como la proporción de clases se mantiene constante durante en el entrenamieto, pero en este caso con el número de observaciones en la categoría menos numerosa:
@@ -781,14 +755,12 @@ Podemos ver nuevamente como la proporción de clases se mantiene constante duran
 ```{r}
 # ver frecuencia de clases en el modelo final
 table(modelo$finalModel$data$.outcome)
-
 ```
 
 Tambien se han desarrollado metodos hibridos que combinan "up-sampling" y "down-sampling". El método híbrido "smote" puede ser utilizado de esta forma:
 
 Para muestrear hacia abajo, definimos el argumento `sampling = "down"`:
 ```{r}
-
 # Configurar validación cruzada con 10 folds
 control <- caret::trainControl(
   method = "cv",
@@ -809,7 +781,6 @@ modelo <- caret::train(
 
 # Resultados del modelo
 print(modelo)
-
 ```
 
 
@@ -820,12 +791,14 @@ print(modelo)
 
 # Crear el data frame con la información de los métodos de validación cruzada
 metodos_validacion <- data.frame(
-    Método = c("Validación cruzada (k-fold)", 
-             "Balanceada", 
-             "LOOCV (Leave-One-Out)", 
-             "Repetida (repeatedcv)", 
-             # "Anidada", 
-             "Bootstrap"),
+  Método = c(
+    "Validación cruzada (k-fold)",
+    "Balanceada",
+    "LOOCV (Leave-One-Out)",
+    "Repetida (repeatedcv)",
+    # "Anidada",
+    "Bootstrap"
+  ),
   Descripcion = c(
     "Divide el conjunto de datos en *k* partes y usa cada una de ellas como conjunto de prueba una vez.",
     "Similar a k-fold, pero mantiene las proporciones de clases en cada fold.",
@@ -847,8 +820,6 @@ metodos_validacion <- data.frame(
 
 # Ver el data frame
 metodos_validacion
-
-
 ```
 
 Cada uno de estos métodos tiene sus ventajas y desventajas, y la elección del método dependerá del tamaño de los datos y de las características del problema (por ejemplo, si es un problema de clasificación o regresión).
@@ -859,12 +830,14 @@ Cada uno de estos métodos tiene sus ventajas y desventajas, y la elección del 
 
 # Crear el data frame con la tabla
 validacion_cruzada <- data.frame(
-    Método = c("Validación cruzada (k-fold)", 
-             "Balanceada", 
-             "LOOCV (Leave-One-Out)", 
-             "Repetida (repeatedcv)", 
-             # "Anidada", 
-             "Bootstrap"),
+  Método = c(
+    "Validación cruzada (k-fold)",
+    "Balanceada",
+    "LOOCV (Leave-One-Out)",
+    "Repetida (repeatedcv)",
+    # "Anidada",
+    "Bootstrap"
+  ),
   Ventajas = c(
     "Rápido y fácil de implementar.",
     "Mejora estabilidad en clasificación.",
@@ -886,7 +859,6 @@ validacion_cruzada <- data.frame(
 
 # Ver el data frame
 validacion_cruzada
-
 ```
 
 ::: {.alert .alert-info}
@@ -897,9 +869,8 @@ validacion_cruzada
 El siguiente código simula un juego de datos donde solo los primeros 3 predictores están asociados a la variable respuesta.
 
 ```{r}
-
-n <- 100  # Número de observaciones
-p <- 20  # Número de predictores
+n <- 100 # Número de observaciones
+p <- 20 # Número de predictores
 
 # Crear variables predictoras aleatorias
 datos <- as.data.frame(matrix(rnorm(n * p), n, p))
@@ -940,25 +911,30 @@ La elección entre el **AIC (Criterio de Información de Akaike)** (o selección
 
 # Crear el data.frame con la comparación
 comparacion_metodos <- data.frame(
-  Característica = c("Objetivo", "Naturaleza de los datos", "Computación", 
-                     "Tamaño de muestra", "Medida de evaluación", "Ejemplos de Modelos"),
-  AIC = c("Equilibrar ajuste y complejidad del modelo.",
-          "Modelos paramétricos bien especificados.",
-          "Rápida y eficiente.",
-          "Moderado a grande.",
-          "Basada en la verosimilitud penalizada.",
-          "Regresiónes: lineal, generalizada, mixta, logística ..."),
-  Validacion_Cruzada = c("Maximizar capacidad predictiva.",
-                         "Modelos complejos o no paramétricos.",
-                         "Más costosa computacionalmente.",
-                         "Pequeño a grande.",
-                         "Basada en error promedio en datos no usados.",
-                         "Random Forest, XGBoost, Support Vector Machines (SVM).")
+  Característica = c(
+    "Objetivo", "Naturaleza de los datos", "Computación",
+    "Tamaño de muestra", "Medida de evaluación", "Ejemplos de Modelos"
+  ),
+  AIC = c(
+    "Equilibrar ajuste y complejidad del modelo.",
+    "Modelos paramétricos bien especificados.",
+    "Rápida y eficiente.",
+    "Moderado a grande.",
+    "Basada en la verosimilitud penalizada.",
+    "Regresiónes: lineal, generalizada, mixta, logística ..."
+  ),
+  Validacion_Cruzada = c(
+    "Maximizar capacidad predictiva.",
+    "Modelos complejos o no paramétricos.",
+    "Más costosa computacionalmente.",
+    "Pequeño a grande.",
+    "Basada en error promedio en datos no usados.",
+    "Random Forest, XGBoost, Support Vector Machines (SVM)."
+  )
 )
 
 # Imprimir el data.frame
 comparacion_metodos
-
 ```
 
 ### **Recomendación**
@@ -979,7 +955,5 @@ Existen otros métodos que permiten evitar el sobreajuste. Algunos de estos son:
 # Información de la sesión {.unnumbered .unlisted}
 
 ```{r session info, echo=F}
-
 sessionInfo()
-
 ```

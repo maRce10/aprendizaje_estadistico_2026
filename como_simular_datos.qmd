@@ -3,14 +3,11 @@ title: <font size="7"><b>Simulación de datos</b></font>
 ---
 
 ```{r,echo=FALSE,message=FALSE}
-
-options("digits"=5)
-options("digits.secs"=3)
-
+options("digits" = 5)
+options("digits.secs" = 3)
 ```
 
 ```{r, echo = FALSE, message=FALSE}
-  
 library(knitr)
 library(ggplot2)
 library(viridis)
@@ -18,16 +15,15 @@ library(viridis)
 # ggplot settings
 geom_histogram <- function(...) ggplot2::geom_histogram(..., fill = viridis(10, alpha = 0.5)[8], show.legend = FALSE, bins = 20, color = "black")
 
-geom_smooth <- function(...) ggplot2::geom_smooth(..., color = viridis(10,  alpha = 0.5)[8])
+geom_smooth <- function(...) ggplot2::geom_smooth(..., color = viridis(10, alpha = 0.5)[8])
 
 geom_boxplot <- function(...) ggplot2::geom_boxplot(..., fill = viridis(10, alpha = 0.5)[7])
 
-geom_pointrange <- function(...) ggplot2::geom_pointrange(..., show.legend = FALSE, color = viridis(10, alpha = 0.5)[7], size = 2) 
+geom_pointrange <- function(...) ggplot2::geom_pointrange(..., show.legend = FALSE, color = viridis(10, alpha = 0.5)[7], size = 2)
 
 plot_model <- function(...) sjPlot::plot_model(xy_mod, type = "diag", colors = viridis(10, alpha = 0.5)[7])
 
 theme_set(theme_classic(base_size = 20))
-
 ```
 
  
@@ -47,15 +43,14 @@ theme_set(theme_classic(base_size = 20))
 Paquetes a utilizar en este manual:
 
 ```{r}
-
 # instalar/cargar paquetes
 
 sketchy::load_packages(
-  c("ggplot2", 
+  c(
+    "ggplot2",
     "viridis"
-    )
   )
-
+)
 ```
 
  
@@ -71,16 +66,12 @@ La estadística nos permite inferir patrones en los datos. Solemos utilizar conj
 R ofrece algunas funciones básicas para la simulación de datos. Las más utilizadas son las funciones generadoras de números aleatorios. Los nombres de estas funciones comienzan con *r* (`r____()`). Por ejemplo, `runif()`:
 
 ```{r, echo=FALSE}
-
 set.seed(7)
-
 ```
 
 ```{r}
-
 # simular variable uniforme
 unif_var <- runif(n = 100, min = 0, max = 10)
-
 ```
 
  
@@ -88,10 +79,8 @@ unif_var <- runif(n = 100, min = 0, max = 10)
 El resultado es un vector numérico de longitud 100 (`n = 100`):
 
 ```{r}
-
 # imprimir variable
 unif_var
-
 ```
 
  
@@ -99,10 +88,9 @@ unif_var
 Podemos explorar el resultado graficando un histograma:
 
 ```{r}
-
 # crear histograma
-ggplot(data = data.frame(unif_var), mapping = aes(x = unif_var)) + geom_histogram()
-
+ggplot(data = data.frame(unif_var), mapping = aes(x = unif_var)) +
+  geom_histogram()
 ```
 
  
@@ -112,13 +100,12 @@ Muestra una distribución uniforme que va de 0 a 10.
 También podemos simular números aleatorios procedentes de una distribución normal utilizando `rnorm()`:
 
 ```{r}
-
 # crear una variable normal
 norm_var <- rnorm(n = 1000, mean = 2, sd = 1)
 
 # graficar histograma
-ggplot(data = data.frame(norm_var), mapping = aes(x = norm_var)) + geom_histogram() 
-
+ggplot(data = data.frame(norm_var), mapping = aes(x = norm_var)) +
+  geom_histogram()
 ```
 
  
@@ -128,13 +115,11 @@ Tenga en cuenta que todas las funciones generadoras de números aleatorios tiene
 Las variables continuas (es decir, los vectores numéricos) pueden convertirse en variables discretas (es decir, números enteros) simplemente redondeándolas:
 
 ```{r}
-
 v1 <- rnorm(n = 5, mean = 10, sd = 3)
 
 v1
 
 round(x = v1, digits = 0)
-
 ```
 
  
@@ -156,9 +141,7 @@ round(x = v1, digits = 0)
 La forma más sencilla de generar variables categóricas es utilizar el vector de ejemplo `letters' (o`LETTERS') para asignar niveles de categoría. Podemos hacerlo utilizando la función `rep()`. Por ejemplo, el siguiente código crea un vector categórico (caracteres) con dos niveles, cada uno con 4 observaciones:
 
 ```{r}
-
 rep(letters[1:2], each = 4)
-
 ```
 
  
@@ -166,9 +149,7 @@ rep(letters[1:2], each = 4)
 También podemos replicar este patrón utilizando el argumento 'times'. Este código replica el vector anterior 2 veces:
 
 ```{r}
-
 rep(letters[1:2], each = 4, times = 2)
-
 ```
 
  
@@ -196,9 +177,7 @@ categ_var
 La otra herramienta importante de R para jugar con datos simulados es `sample()`. Esta función permite tomar muestras de tamaños específicos de vectores. Por ejemplo, tomemos el ejemplo del vector 'letters':
 
 ```{r}
-
 letters
-
 ```
 
  
@@ -206,10 +185,8 @@ letters
 Podemos tomar una muestra de este vector como es:
 
 ```{r}
-
 # tomar muestra
 sample(x = letters, size = 10)
-
 ```
 
  
@@ -217,9 +194,7 @@ sample(x = letters, size = 10)
 El argumento 'size' nos permite determinar el tamaño de la muestra. Tenga en cuenta que obtendremos un error si el tamaño es mayor que el propio vector:
 
 ```{r, error=TRUE}
-
 sample(x = letters, size = 30)
-
 ```
 
  
@@ -227,9 +202,7 @@ sample(x = letters, size = 30)
 Esto sólo puede hacerse cuando el muestreo es con reemplazo (replacement). El muestreo con reemplazo puede aplicarse estableciendo el argumento `replace = TRUE`:
 
 ```{r}
-
 sample(x = letters, size = 30, replace = TRUE)
-
 ```
 
  
@@ -239,7 +212,6 @@ sample(x = letters, size = 30, replace = TRUE)
 A menudo, las simulaciones deben repetirse varias veces para descartar resultados espurios debidos al azar o simplemente para probar diferentes parámetros. Las funciones de simulación de datos mencionadas anteriormente pueden ejecutarse varias veces (por ejemplo, iteradas) utilizando la función `replicate()`:
 
 ```{r}
-
 # replicar
 repl_rnorm <- replicate(n = 3, expr = rnorm(2), simplify = FALSE)
 
@@ -257,13 +229,11 @@ repl_rnorm
 El último truco que necesitamos para ejecutar simulaciones en R es la capacidad de reproducir una simulación (es decir, obtener exactamente los mismos datos y resultados simulados). Esto puede ser útil para que otros investigadores puedan ejecutar nuestros análisis exactamente de la misma manera. Esto puede hacerse fácilmente con la función `set.seed()`. Pruebe a ejecutar el siguiente código. Debería obtener la misma salida:
 
 ```{r}
-
 # definir semilla
 set.seed(10)
 
 # crear variable uniforme
 runif(n = 2)
-
 ```
 
 ------------------------------------------------------------------------
@@ -275,7 +245,6 @@ runif(n = 2)
 Ahora que sabemos cómo simular variables continuas y categóricas. Podemos juntarlas para crear conjuntos de datos simulados. Esto se puede hacer utilizando la función `data.frame()`:
 
 ```{r}
-
 # crear variable categorica
 grupo <- rep(letters[1:2], each = 3)
 
@@ -287,13 +256,11 @@ df <- data.frame(grupo, tamano)
 
 # imprimir
 df
-
 ```
 
 Por supuesto, podríamos añadir más variables a este cuadro de datos:
 
 ```{r}
-
 # crear variable categorica
 grupo <- rep(letters[1:2], each = 3)
 individuo <- rep(LETTERS[1:6])
@@ -307,7 +274,6 @@ df <- data.frame(grupo, individuo, tamano, peso)
 
 # imprimir
 df
-
 ```
 
 Y eso es un juego de datos simulados en su forma más básica. Se parece mucho al tipo de datos con los que trabajamos en biología.
@@ -325,13 +291,12 @@ El [Teorema del Límite Central](https://en.wikipedia.org/wiki/Central_limit_the
 Para comprobar si esas afirmaciones básicas sobre el Teorema del Límite Central son ciertas, podemos utilizar datos simulados en R. Vamos a simular una población de 1000 observaciones con una distribución uniforme:
 
 ```{r, eval=FALSE}
-
 # simular popublacion uniforme
 unif_pop <- runif(1000, min = 0, max = 10)
 
 # ver histograma
-ggplot(data = data.frame(unif_pop), mapping = aes(x = unif_pop)) + geom_histogram() 
-
+ggplot(data = data.frame(unif_pop), mapping = aes(x = unif_pop)) +
+  geom_histogram()
 ```
 
 ```{r, echo=FALSE}
@@ -341,9 +306,8 @@ set.seed(10)
 unif_pop <- runif(1000, min = 0, max = 10)
 
 # ver distribucion
-ggplot(data = data.frame(unif_pop), mapping = aes(x = unif_pop)) + geom_histogram() 
-
-
+ggplot(data = data.frame(unif_pop), mapping = aes(x = unif_pop)) +
+  geom_histogram()
 ```
 
  
@@ -351,9 +315,7 @@ ggplot(data = data.frame(unif_pop), mapping = aes(x = unif_pop)) + geom_histogra
 Podemos tomar muestras aleatorias usando `sample()` así:
 
 ```{r}
-
 sample(x = unif_pop, size = 30)
-
 ```
 
  
@@ -361,10 +323,8 @@ sample(x = unif_pop, size = 30)
 Este proceso puede ser replicado varias veces con `replicate()`:
 
 ```{r}
-
 # replicar
 samples <- replicate(n = 100, expr = mean(sample(x = unif_pop, size = 30)))
-
 ```
 
  
@@ -372,18 +332,15 @@ samples <- replicate(n = 100, expr = mean(sample(x = unif_pop, size = 30)))
 El código anterior toma 100 muestras con 30 valores cada una. Ahora podemos comprobar la distribución de las muestras:
 
 ```{r, eval=FALSE}
-
 # ver distribucion/ histograma
-ggplot(data = data.frame(samples), mapping = aes(x = samples)) + geom_histogram() 
-
-
+ggplot(data = data.frame(samples), mapping = aes(x = samples)) +
+  geom_histogram()
 ```
 
 ```{r, echo=FALSE}
-
 # ver distribucion
-ggplot(data = data.frame(samples), mapping = aes(x = samples)) + geom_histogram() 
-
+ggplot(data = data.frame(samples), mapping = aes(x = samples)) +
+  geom_histogram()
 ```
 
  
@@ -391,9 +348,7 @@ ggplot(data = data.frame(samples), mapping = aes(x = samples)) + geom_histogram(
 ... asi como el promedio:
 
 ```{r}
-
 mean(samples)
-
 ```
 
  
@@ -401,9 +356,7 @@ mean(samples)
 Como era de esperar, las muestras siguen una distribución normal con una media cercana a la media de la población, que es:
 
 ```{r}
-
 mean(unif_pop)
-
 ```
 
  
@@ -411,7 +364,6 @@ mean(unif_pop)
 Probemos con una distribución más compleja. Por ejemplo, una distribución bimodal:
 
 ```{r, eval=FALSE}
-
 # usar semilla
 set.seed(123)
 
@@ -423,12 +375,11 @@ norm2 <- rnorm(n = 1000, mean = 20, sd = 3)
 bimod_pop <- c(norm1, norm2)
 
 # ver histograma
-ggplot(data = data.frame(bimod_pop), mapping = aes(x = bimod_pop)) + geom_histogram() 
-
+ggplot(data = data.frame(bimod_pop), mapping = aes(x = bimod_pop)) +
+  geom_histogram()
 ```
 
 ```{r, echo=FALSE}
-
 # definir semilla
 set.seed(123)
 
@@ -438,26 +389,25 @@ norm2 <- rnorm(n = 1000, mean = 20, sd = 3)
 bimod_pop <- c(norm1, norm2)
 
 # ver distribucion
-ggplot(data = data.frame(bimod_pop), mapping = aes(x = bimod_pop)) + geom_histogram() 
+ggplot(data = data.frame(bimod_pop), mapping = aes(x = bimod_pop)) +
+  geom_histogram()
 ```
 
 ```{r, eval=FALSE}
-
 # replicar muestreo
 samples <- replicate(200, mean(sample(bimod_pop, 10)))
 
 # ver histograma
-ggplot(data = data.frame(samples), mapping = aes(x = samples)) + geom_histogram() 
-
+ggplot(data = data.frame(samples), mapping = aes(x = samples)) +
+  geom_histogram()
 ```
 
 ```{r, echo=FALSE}
-
 samples <- replicate(200, mean(sample(bimod_pop, 10)))
 
 # ver distribucion
-ggplot(data = data.frame(samples), mapping = aes(x = samples)) + geom_histogram() 
-
+ggplot(data = data.frame(samples), mapping = aes(x = samples)) +
+  geom_histogram()
 ```
 
 ```{r}
@@ -499,7 +449,5 @@ mean(bimod_pop)
 # Información de la sesión {.unnumbered .unlisted}
 
 ```{r session info, echo=F}
-
 sessionInfo()
-
 ```
