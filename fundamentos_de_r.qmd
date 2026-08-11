@@ -89,7 +89,7 @@ flowchart LR
     BF --> BA(Funciones Básicas)
     BF --> OP(Operadores)
     F --> PF(Paquetes)
-    F --> UF(Funciones Definidas por el Usuario)
+    F --> UF("Funciones Definidas<br>por el Usuario")
 
     class R,D,D1,D2,F largeText;
 
@@ -443,7 +443,7 @@ flowchart LR
     BF --> OP(Operadores)
     BF --> BA(Funciones Básicas)
     F --> PF(Paquetes)
-    F --> UF(Funciones Definidas por el Usuario)
+    F --> UF("Funciones Definidas<br>por el Usuario")
 
     class R,D,D1,D2,F largeText;
 
