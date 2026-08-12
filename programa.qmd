@@ -10,7 +10,7 @@ format:
 ------------------------------------------------------------------------
 
 ::: {.alert .alert-info}
-[Programa del curso en PDF](https://github.com/maRce10/aprendizaje_estadistico_2026/blob/master/additional_files/programa_SP_3068_aprendizaje_de_maquinas.pdf)
+[Programa del curso en PDF](https://github.com/maRce10/aprendizaje_estadistico_2026/blob/master/programa_SP_3068_aprendizaje_de_maquinas.pdf)
 :::
 
 ::: {.alert .alert-success}
@@ -62,17 +62,18 @@ format:
 ::: {.alert .alert-info}
 # Tarea 1
 
-**Fecha de entrega: 10 de septiembre**
+**Fecha de entrega: 16 de septiembre**
 
 *Deben subir a mediación virtual el código con las respuestas en un archivo .R, .Rmd o .qmd*
 
+```{r, eval = FALSE, echo = FALSE}
 1.  Genere un conjunto de datos con 100 observaciones y 5 variables, donde una de ellas sea una variable categórica con 3 niveles. Cada variable cuantitativa debe ser generada con una distriución diferente (e.g. normal,log-normal, gamma, etc)
 
 2.  Cree 100 replicas aleatorias del conjunto de datos del punto 1.
 
 *Pista:*
 
-```{r, eval = FALSE}
+ ```{r, eval = FALSE}
 replicate(
   n = 3, expr = {
     v1 <- sample(letters, 2)
@@ -81,6 +82,7 @@ replicate(
   },
   simplify = FALSE
 )
+ ```
 ```
 :::
 
@@ -122,13 +124,17 @@ replicate(
 ::: {.alert .alert-info}
 # Tarea 2
 
+```{r, eval = FALSE, echo = FALSE}
 1.  Investigue el efecto del tamaño de muestra en la estimación de parámetros de un modelo de regresión lineal simple. ¿Qué sucede con la precisión de los coeficientes a medida que aumenta el tamaño de muestra?. Genere gŕaficos de tamano de muestra (de 5 a 100 observaciones) vs. la distancia entre coeficientes estimados y simulados y explique sus observaciones.
 
 2.  Investigue el efecto de la multicolinealidad en la estimación de parámetros de un modelo de regresión lineal múltiple. ¿Qué sucede con la precisión de los coeficientes a medida que aumenta la correlación entre variables?. Genere gŕaficos de correlación (de 0 a 0.9) vs. la distancia entre coeficientes estimados y simulados y explique sus observaciones.
 
 3.  Haga el mismo ejercicio para un modelo de regresión logística y evalúe el efecto de la multicolinealidad en la estimación de coeficientes y la precisión del modelo.
+
+```
 :::
 
+  
 # Día 7
 
 **Métodos de Remuestreo y Evaluación de Modelos (Parte I)** <a href="sobreajuste_y_entrenamiento.qmd" class="btn btn-warning btn-xs" role="button">tutorial</a>
@@ -163,8 +169,7 @@ replicate(
 
 # Día 10
 
-**Explorar Espacios Multidimensionales: Reducción de Dimensionalidad** 
-<!-- <a href="" class="btn btn-warning btn-xs" role="button">tutorial</a> -->
+**Explorar Espacios Multidimensionales: Reducción de Dimensionalidad** <!-- <a href="" class="btn btn-warning btn-xs" role="button">tutorial</a> -->
 
 -   Introducción a la reducción de dimensionalidad y su necesidad
 -   Análisis de Componentes Principales (PCA): teoría y aplicación
@@ -174,9 +179,10 @@ replicate(
 ::: {.alert .alert-info}
 # Tarea 3
 
+```{r, eval = FALSE, echo = FALSE}
 Usaremos los datos de Cortez y Silva (2008) sobre el desempeño académico de estudiantes en la clase de matemáticas. Los datos contienen 395 observaciones y 31 variables. La variable respuesta es `G3` (calificación final), y las variables predictoras son las demás variables del conjunto de datos. Pueden econtrar una [descripción detallada de los datos aqui](https://archive.ics.uci.edu/dataset/320/student+performance). El siguiente código carga los datos y remueve las variables `G1` y `G2` (calificaciones parciales) para evitar multicolinealidad:
 
-```{r}
+ ```{r}
 # leer datos
 datos_mate <- read.csv("https://raw.githubusercontent.com/maRce10/aprendizaje_estadistico_2026/refs/heads/master/data/student/student-mat.csv", sep = ";")
 
@@ -184,11 +190,11 @@ datos_mate <- read.csv("https://raw.githubusercontent.com/maRce10/aprendizaje_es
 datos_mate$G1 <- datos_mate$G2 <- NULL
 
 str(datos_mate)
-```
+ ```
 
 1.  Ajuste un modelo de regresión lineal con los datos de `datos_mate` donde la variable respuesta sea `G3`. Utilice su conocimiento del sistema (como estudiante) para escoger las variables predictoras que usted espere tengan un mayor efecto sobre el desempeño académico. Calcule el R^2^ para este modelo.
 
-```{r solucion del ejercicio 1}
+ ```{r solucion del ejercicio 1}
 #| eval: false
 #| echo: false
 
@@ -198,20 +204,20 @@ mod_mate <- lm(G3 ~ school + sex + age + address + famsize + Pstatus, data = dat
 
 # get summary
 summary(mod_mate)
-```
+ ```
 
 2.  Ajuste un modelo de regresión multinomial análogo al del punto anterior (e.g. mismos predictores y misma respuesta).
-
-```{r}
+ 
+ ```{r}
 #| eval: false
 #| echo: false
 
 mod_mult <- multinom(G3 ~ school + sex + age + address + famsize + Pstatus, data = datos_mate)
-```
+ ```
 
 3.  Calcule la matriz de confusión, la exactitud, el área bajo la curva y pérdida logarítmica para el modelo del punto anterior.
 
-```{r}
+ ```{r}
 #| eval: false
 #| echo: false
 
@@ -252,27 +258,27 @@ mat_conf$overall
 roc_multiclass <- multiclass.roc(datos_mate$G3, pred_prob)
 
 roc_multiclass
-```
+ ```
 
 El siguiente código binariza la variable respuesta `G3`. Si la calificación es menor a 9, se considera que el estudiante reprobó (`Reprobado`), de lo contrario, se considera que aprobó (`Aprobado`):
 
-```{r}
+ ```{r}
 datos_mate$G3_bin <- ifelse(datos_mate$G3 < 9, 0, 1)
-```
+ ```
 
 4.  Utilizando la variable binaria `G3_bin` como respuesta, ajuste un modelo de regresión logística con las mismas variables predictoras que el modelo ajustado en el punto 2.
 
-```{r}
+ ```{r}
 #| eval: false
 #| echo: false
 
 # ajustar modelo
 mod_log <- glm(G3_bin ~ school + sex + age + address + famsize + Pstatus, data = datos_mate, family = binomial)
-```
+ ```
 
 5.Calcule la matriz de confusión, la exactitud, precisión, indice F1, area bajo la curva y pérdida logarítmica para el modelo del punto anterior.
 
-```{r}
+ ```{r}
 #| eval: false
 #| echo: false
 
@@ -301,7 +307,7 @@ mat_conf$overall
 roc_curve <- roc(datos_mate$G3_bin, pred_prob, smooth = TRUE)
 
 roc_curve
-```
+ ```
 
 6.  Compare los modelos generados en los puntos 2 y 4. ¿Cual modelo parece tener un mejor desempeño? ¿Por qué?
 
@@ -310,6 +316,10 @@ roc_curve
 ## Referencia
 
 Cortez, P., & Silva, A.M. (2008). Using data mining to predict secondary school student performance. ([enlace](https://www.semanticscholar.org/paper/Using-data-mining-to-predict-secondary-school-Cortez-Silva/61d468d5254730bbecf822c6b60d7d6595d9889c))
+ ```{r, eval = FALSE, echo = FALSE}
+ 
+``` 
+
 :::
 
 ::: {.alert .alert-warning}
@@ -322,8 +332,7 @@ Cortez, P., & Silva, A.M. (2008). Using data mining to predict secondary school 
 
 # Día 11
 
-**Redes Neuronales y Deep Learning (Parte I)** 
-<!-- <a href="" class="btn btn-warning btn-xs" role="button">tutorial</a> -->
+**Redes Neuronales y Deep Learning (Parte I)** <!-- <a href="" class="btn btn-warning btn-xs" role="button">tutorial</a> -->
 
 -   Estructura de una red neuronal: neuronas, capas y activación
 -   Entrenamiento de redes neuronales: forward y backpropagation
@@ -332,8 +341,7 @@ Cortez, P., & Silva, A.M. (2008). Using data mining to predict secondary school 
 
 # Día 12
 
-**Redes Neuronales y Deep Learning (Parte II)** 
-<!-- <a href="" class="btn btn-warning btn-xs" role="button">tutorial</a> -->
+**Redes Neuronales y Deep Learning (Parte II)** <!-- <a href="" class="btn btn-warning btn-xs" role="button">tutorial</a> -->
 
 -   Capas convolucionales y redes neuronales convolucionales (CNNs)
 -   Redes neuronales recurrentes (RNNs) y LSTM
@@ -349,8 +357,7 @@ Cortez, P., & Silva, A.M. (2008). Using data mining to predict secondary school 
 
 # Día 13
 
-**Regularización y Generalización** 
-<!-- <a href="" class="btn btn-warning btn-xs" role="button">tutorial</a> -->
+**Regularización y Generalización** <!-- <a href="" class="btn btn-warning btn-xs" role="button">tutorial</a> -->
 
 -   Conceptos de sobreajuste y subajuste
 -   Regularización: Lasso, Ridge y Elastic Net
@@ -359,8 +366,7 @@ Cortez, P., & Silva, A.M. (2008). Using data mining to predict secondary school 
 
 # Día 14
 
-**Aprendizaje No Supervisado: Clustering** 
-<!-- <a href="" class="btn btn-warning btn-xs" role="button">tutorial</a> -->
+**Aprendizaje No Supervisado: Clustering** <!-- <a href="" class="btn btn-warning btn-xs" role="button">tutorial</a> -->
 
 -   Conceptos básicos de clustering y su importancia
 -   Método k-means: algoritmos y aplicaciones
