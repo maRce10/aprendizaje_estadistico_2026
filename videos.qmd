@@ -1,0 +1,20 @@
+---
+title: <font size="7"><b>Videos</b></font>
+date: ""
+editor_options: 
+  chunk_output_type: console
+---
+
+</br>
+
+## Clase 2 (20-ago-2026)
+
+{{< video https://youtu.be/QjKqo_rouAg >}}
+
+</br>
+
+## Clase 3 (27-ago-2026)
+
+{{< video https://youtu.be/i3xSeP-XF2k >}}
+
+</br>

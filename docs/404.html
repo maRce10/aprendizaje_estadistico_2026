@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -67,14 +67,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="/aprendizaje_estadistico_2026/">
 <script src="/aprendizaje_estadistico_2026/site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="/aprendizaje_estadistico_2026/site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="/aprendizaje_estadistico_2026/site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="/aprendizaje_estadistico_2026/site_libs/quarto-html/popper.min.js"></script>
 <script src="/aprendizaje_estadistico_2026/site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="/aprendizaje_estadistico_2026/site_libs/quarto-html/anchor.min.js"></script>
 <link href="/aprendizaje_estadistico_2026/site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="/aprendizaje_estadistico_2026/site_libs/quarto-html/quarto-syntax-highlighting-ae0b5334a1ec0bf99af3d0c304a697d2.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="/aprendizaje_estadistico_2026/site_libs/quarto-html/quarto-syntax-highlighting-95f147d06fdb9f8ce149f95e323965f4.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="/aprendizaje_estadistico_2026/site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="/aprendizaje_estadistico_2026/site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="/aprendizaje_estadistico_2026/site_libs/bootstrap/bootstrap-a5f0e07c88d63b2cffd0e8312cae9cf7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="/aprendizaje_estadistico_2026/site_libs/bootstrap/bootstrap-d0fa8f86497e588630b828dda5dcb0a2.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -114,6 +115,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="/aprendizaje_estadistico_2026/index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="/aprendizaje_estadistico_2026/index.html">
     <span class="navbar-title">Aprendizaje Estadístico, SEP-UCR 2026</span>
     </a>
@@ -192,6 +195,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Programa</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="/aprendizaje_estadistico_2026/videos.html"> 
+<span class="menu-text">Videos</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="/aprendizaje_estadistico_2026/instructor.html"> 
 <span class="menu-text">Profesor</span></a>
   </li>  
@@ -234,7 +241,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Fecha de publicación</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">7 de agosto de 2026</p>
+      <p class="date">28 de agosto de 2026</p>
     </div>
   </div>
   
@@ -308,13 +315,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -714,7 +722,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     }
   });
   </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Ejecutar el código</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> Page Not Found</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">toc:</span><span class="co"> false</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="an">number-sections:</span><span class="co"> true</span></span>
@@ -731,7 +739,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>You may want to try searching to find the page's new location or <span class="co">[</span><span class="ot">go back to the home page</span><span class="co">](https://marce10.github.io/OTS_BIR_2023/)</span></span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">center</span><span class="dt">&gt;&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"./images/404.png"</span><span class="ot"> alt</span><span class="op">=</span><span class="st">"404"</span><span class="dt">/&gt;&lt;/</span><span class="kw">center</span><span class="dt">&gt;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">center</span><span class="dt">&gt;&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"./images/404.png"</span><span class="ot"> alt</span><span class="op">=</span><span class="st">"404"</span><span class="dt">/&gt;&lt;/</span><span class="kw">center</span><span class="dt">&gt;</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">

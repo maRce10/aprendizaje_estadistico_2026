@@ -49,6 +49,8 @@ website:
         href: https://codefile.io/f/inMsojTFoN
       - text: "Programa"
         href: programa.qmd
+      - text: "Videos"
+        href: videos.qmd
       - text: "Profesor"
         href: instructor.qmd
 
