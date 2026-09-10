@@ -31,9 +31,9 @@ theme_set(theme_classic(base_size = 20))
 ::: {.alert .alert-info}
 # Objetivo del manual {.unnumbered .unlisted}
 
--   Aprender las principales herramientas de simulación de datos en R
+- Aprender las principales herramientas de simulación de datos en R
 
--   Comprender la utlidad de usar datos simulados para entender el comportamiento de las herramientas estadísticas
+- Comprender la utlidad de usar datos simulados para entender el comportamiento de las herramientas estadísticas
 :::
 
  
@@ -127,11 +127,11 @@ round(x = v1, digits = 0)
 ::: {.alert .alert-info}
 <font size="5">Ejercicio 1</font>
 
--   ¿Qué hacen las funciones `rbinom()` y `rexp()`?
+- ¿Qué hacen las funciones `rbinom()` y `rexp()`?
 
--   Ejecútela y haga histogramas de sus resultados
+- Ejecútela y haga histogramas de sus resultados
 
--   ¿Qué hacen los argumentos 'mean' y 'sd' en `rnorm()`? Juegue con diferentes valores y comprueba el histograma para hacerse una idea de su efecto en la simulación
+- ¿Qué hacen los argumentos 'mean' y 'sd' en `rnorm()`? Juegue con diferentes valores y comprueba el histograma para hacerse una idea de su efecto en la simulación
 :::
 
  
@@ -424,25 +424,25 @@ mean(bimod_pop)
 
  
 
--   Intenta explorar el Teorema del Límite Central como en el caso anterior, pero esta vez utilizando:
+- Intenta explorar el Teorema del Límite Central como en el caso anterior, pero esta vez utilizando:
 
-    1.  Una distribución exponencial (`rexp()`)
-    2.  Una distribución log-normal (`rlnorm()`)
+  1.  Una distribución exponencial (`rexp()`)
+  2.  Una distribución log-normal (`rlnorm()`)
 
  
 
--   Para cada distribución: grafique un histograma y compare los promedios de la población y de las muestras
+- Para cada distribución: grafique un histograma y compare los promedios de la población y de las muestras
 :::
 
 ## Referencias
 
--   [R's rbinom -- Simulate Binomial or Bernoulli trials](https://www.programmingr.com/examples/neat-tricks/sample-r-function/r-rbinom/)
+- [R's rbinom -- Simulate Binomial or Bernoulli trials](https://www.programmingr.com/examples/neat-tricks/sample-r-function/r-rbinom/)
 
--   [R's rnorm -- selecting values from a normal distribution](https://www.programmingr.com/examples/neat-tricks/sample-r-function/r-rnorm/)
+- [R's rnorm -- selecting values from a normal distribution](https://www.programmingr.com/examples/neat-tricks/sample-r-function/r-rnorm/)
 
--   [R's exp -- Simulating Exponential Distributions](https://www.programmingr.com/examples/neat-tricks/sample-r-function/rexp/)
+- [R's exp -- Simulating Exponential Distributions](https://www.programmingr.com/examples/neat-tricks/sample-r-function/rexp/)
 
--   [Simulating data in R](https://aosmith.rbind.io/2018/08/29/getting-started-simulating-data/)
+- [Simulating data in R](https://aosmith.rbind.io/2018/08/29/getting-started-simulating-data/)
 
 ------------------------------------------------------------------------
 
