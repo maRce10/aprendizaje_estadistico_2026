@@ -62,28 +62,24 @@ format:
 ::: {.alert .alert-info}
 # Tarea 1
 
-**Fecha de entrega: 16 de septiembre**
+**Fecha de entrega: 23 de septiembre**
 
 *Deben subir a mediación virtual el código con las respuestas en un archivo .R, .Rmd o .qmd*
 
-```{r, eval = FALSE, echo = FALSE}
-1.  Genere un conjunto de datos con 100 observaciones y 5 variables, donde una de ellas sea una variable categórica con 3 niveles. Cada variable cuantitativa debe ser generada con una distriución diferente (e.g. normal,log-normal, gamma, etc)
 
-2.  Cree 100 replicas aleatorias del conjunto de datos del punto 1.
+1.  (8 pts) Genere un conjunto de datos con 100 observaciones y 5 variables, donde una de ellas sea una variable categórica con 3 niveles. Cada variable cuantitativa debe ser generada con una distriución diferente (e.g. normal,log-normal, gamma, etc) 
 
-*Pista:*
+2. (12 pts) Explore el Teorema del Límite Central utilizando:
+        
+    - Una distribución exponencial (rexp())
+    - Una distribución log-normal (rlnorm())
 
- ```{r, eval = FALSE}
-replicate(
-  n = 3, expr = {
-    v1 <- sample(letters, 2)
-    v2 <- runif(3)
-    l1 <- list(v1, v2)
-  },
-  simplify = FALSE
-)
- ```
-```
+ Para cada distribución: 
+ 
+  - Grafique un histograma de la poblacion total
+  - Grafique un histograma de los promedios de las muestras 
+  - Compare los promedios de la población y de las muestras (¿Son similares?) 
+
 :::
 
 # Día 4
