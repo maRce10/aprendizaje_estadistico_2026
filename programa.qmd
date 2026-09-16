@@ -62,7 +62,7 @@ format:
 ::: {.alert .alert-info}
 # Tarea 1
 
-**Fecha de entrega: 23 de septiembre**
+**Fecha de entrega: 25 de septiembre**
 
 *Deben subir a mediación virtual el código con las respuestas en un archivo .R, .Rmd o .qmd*
 
