@@ -26,19 +26,14 @@ number-sections: false
 
 </br>
 
-
 ## Clase 5 (9-sep-2026)
 
 {{< video https://youtu.be/8XgZeZw3kqw >}}
 
 </br>
 
-
 ## Clase 6 (16-sep-2026)
 
 {{< video https://youtu.be/xFEU38b5Ork >}}
 
 </br>
-
-
-
