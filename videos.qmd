@@ -37,3 +37,9 @@ number-sections: false
 {{< video https://youtu.be/xFEU38b5Ork >}}
 
 </br>
+
+## Clase 7 (23-sep-2026)
+
+{{< video https://youtu.be/vTRZAj2Zh1Y >}}
+
+</br>
