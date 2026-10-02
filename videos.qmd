@@ -43,3 +43,11 @@ number-sections: false
 {{< video https://youtu.be/vTRZAj2Zh1Y >}}
 
 </br>
+
+## Clase 8 (30-sep-2026)
+
+{{< video https://youtu.be/Bejw-B-HJOY >}}
+
+</br>
+
+
