@@ -50,4 +50,9 @@ number-sections: false
 
 </br>
 
+## Clase 9 (7-oct-2026)
+
+{{< video https://youtu.be/iBq844CvNQs >}}
+
+</br>
 
