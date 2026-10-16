@@ -118,16 +118,37 @@ format:
 :::
 
 ::: {.alert .alert-info}
+
 # Tarea 2
 
-```{r, eval = FALSE, echo = FALSE}
-1.  Investigue el efecto del tamaño de muestra en la estimación de parámetros de un modelo de regresión lineal simple. ¿Qué sucede con la precisión de los coeficientes a medida que aumenta el tamaño de muestra?. Genere gŕaficos de tamano de muestra (de 5 a 100 observaciones) vs. la distancia entre coeficientes estimados y simulados y explique sus observaciones.
+El conjunto de datos `ToothGrowth`, incluido en R, contiene información sobre el crecimiento dental de 60 cobayos que recibieron diferentes dosis de vitamina C mediante dos métodos de administración. El objetivo del experimento fue evaluar cómo la dosis y el tipo de suplemento se relacionan con la longitud de los odontoblastos.
 
-2.  Investigue el efecto de la multicolinealidad en la estimación de parámetros de un modelo de regresión lineal múltiple. ¿Qué sucede con la precisión de los coeficientes a medida que aumenta la correlación entre variables?. Genere gŕaficos de correlación (de 0 a 0.9) vs. la distancia entre coeficientes estimados y simulados y explique sus observaciones.
+El conjunto de datos contiene tres variables:
 
-3.  Haga el mismo ejercicio para un modelo de regresión logística y evalúe el efecto de la multicolinealidad en la estimación de coeficientes y la precisión del modelo.
+- `len`: longitud de los odontoblastos, medida en una escala continua. Esta será la variable respuesta en los modelos de regresión.
+- `dose`: dosis de vitamina C administrada (0.5, 1 o 2 mg). Esta variable puede utilizarse como predictora numérica o categórica.
+- `supp`: tipo de suplemento administrado: jugo de naranja (`OJ`) o ácido ascórbico (`VC`). Esta es una variable categórica.
+
+```{r}
+
+data(ToothGrowth)
+
+head(ToothGrowth)
 
 ```
+
+
+El conjunto de datos permite explorar relaciones entre variables numéricas y categóricas mediante regresiones lineales simples y múltiples, así como evaluar interacciones entre variables predictoras.
+
+1. Utilice el conjunto de datos `ToothGrowth` de R para realizar una regresión lineal simple que evalúe la relación entre la dosis de vitamina C y la longitud de los odontoblastos. Grafique la relación entre ambas variables e interprete los coeficientes estimados.
+
+2. Utilice el conjunto de datos `ToothGrowth` para realizar una regresión lineal simple que evalúe las diferencias en la longitud de los odontoblastos entre los dos tipos de suplemento administrados (`OJ` y `VC`). Grafique la relación entre ambas variables e interprete los coeficientes estimados. 
+
+3. Utilice el conjunto de datos `ToothGrowth` para realizar una regresión lineal múltiple que evalúe la asociación de la dosis de vitamina C y el tipo de suplemento con la longitud de los odontoblastos. Grafique la relación entre ambas variables, interprete los coeficientes estimados y explique cómo se interpreta el efecto de cada predictor en una regresión multiple.
+
+4. Utilice el conjunto de datos `ToothGrowth` para evaluar si la relación entre la dosis de vitamina C y la longitud de los odontoblastos depende del tipo de suplemento administrado. Ajuste un modelo de regresión lineal múltiple que incluya la interacción entre ambas variables. Interprete los coeficientes estimados y explique qué representa la interacción. 
+
+
 :::
 
   

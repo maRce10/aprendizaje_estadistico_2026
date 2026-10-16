@@ -56,3 +56,10 @@ number-sections: false
 
 </br>
 
+## Clase 10 (14-oct-2026)
+
+{{< video https://youtu.be/ikSx4_4ufzw >}}
+
+</br>
+
+
