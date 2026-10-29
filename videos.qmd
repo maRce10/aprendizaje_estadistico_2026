@@ -62,4 +62,15 @@ number-sections: false
 
 </br>
 
+## Clase 11 (21-oct-2026)
+
+{{< video https://youtu.be/MaIdYNblKGE >}}
+
+</br>
+
+## Clase 12 (28-oct-2026)
+
+{{< video  https://youtu.be/23rSPRCWY5o >}}
+
+</br>
 
