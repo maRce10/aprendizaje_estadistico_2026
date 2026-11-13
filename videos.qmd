@@ -70,7 +70,10 @@ number-sections: false
 
 ## Clase 12 (28-oct-2026)
 
-{{< video  https://youtu.be/23rSPRCWY5o >}}
+{{< video https://youtu.be/23rSPRCWY5o >}}
 
 </br>
 
+## Clase 13 (12-nov-2026)
+
+{{< video https://youtu.be/erocdpQCLTs >}}
