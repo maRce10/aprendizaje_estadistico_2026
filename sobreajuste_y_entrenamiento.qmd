@@ -78,6 +78,56 @@ El objetivo de los modelos de aprendizaje estadístico es el de obtener patrones
 
 El sobreajuste ocurre cuando un modelo se ajusta demasiado bien a los datos de entrenamiento, capturando tanto los patrones verdaderos como el ruido o variaciones aleatorias de los datos. Como resultado, el modelo funciona bien en el conjunto de entrenamiento, pero tiene un rendimiento deficiente en nuevos datos (pobre capacidad de generalización). **El sobreajuste se refiere a cuando modelo está tan ajustado a los datos de entrenamiento que afecta su capacidad de generalización**. El sobreajuste se produce cuando un sistema de aprendizaje automático se entrena demasiado o con datos (levemente) sesgados, que hace que el algoritmo **aprenda** patrones que no son generales. Aprende características especificas pero no los patrones generales, el concepto.
 
+```{r}
+#| echo: false
+#| fig-width: 12
+#| fig-height: 4.5
+
+set.seed(7)
+
+# simular datos con una relacion en forma de U
+x <- seq(0, 10, length.out = 30) + runif(30, -0.1, 0.1)
+y <- 0.25 * (x - 4.5)^2 + rnorm(30, sd = 1)
+datos_ajuste <- data.frame(x, y)
+
+# secuencia para graficar las predicciones
+x_pred <- seq(min(x), max(x), length.out = 300)
+
+# subajuste: regresion lineal simple
+pred_sub <- predict(lm(y ~ x), newdata = data.frame(x = x_pred))
+
+# buen ajuste: polinomio de grado 2
+pred_bueno <- predict(lm(y ~ poly(x, 2)), newdata = data.frame(x = x_pred))
+
+# sobreajuste: curva que pasa por todos los puntos
+pred_sobre <- spline(x, y, xout = x_pred, method = "natural")$y
+
+niveles <- c("Subajuste", "Buen ajuste", "Sobreajuste")
+
+curvas <- data.frame(
+  x = rep(x_pred, 3),
+  y = c(pred_sub, pred_bueno, pred_sobre),
+  ajuste = factor(rep(niveles, each = length(x_pred)), levels = niveles)
+)
+
+puntos <- data.frame(
+  x = rep(x, 3),
+  y = rep(y, 3),
+  ajuste = factor(rep(niveles, each = length(x)), levels = niveles)
+)
+
+ggplot(puntos, aes(x = x, y = y)) +
+  geom_point(size = 2.5) +
+  geom_line(data = curvas, color = viridis(10)[8], linetype = "dashed", linewidth = 1) +
+  facet_wrap(~ajuste) +
+  labs(x = "Predictor", y = "Respuesta") +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    strip.background = element_blank()
+  )
+```
+
 Una forma de evaluar la capacidad de generalización de un modelo es mediante la división de los datos en dos conjuntos: entrenamiento y prueba. El modelo se ajusta a los datos de entrenamiento y se evalúa en los datos de prueba. El sobreajuste se puede detectar cuando el error en los datos de prueba es mucho mayor que el error en los datos de entrenamiento.
 
 Los modelos más complejos tienden a sobreajustar más que lo modelos más simples. Además, ante un mismo modelo, a menor cantidad de datos es más posible que ese modelo se sobreajuste. Existen varios métodos para evaluar cuándo un modelo está sobreajustando. En la simulación que se muestra a continuación, se ajusta un modelo de regresión lineal con diferentes cantidades de predictores (p). Se calcula el error cuadrático medio en los datos de entrenamiento y en los datos de prueba.
