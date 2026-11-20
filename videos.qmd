@@ -74,6 +74,20 @@ number-sections: false
 
 </br>
 
-## Clase 13 (12-nov-2026)
+## Clase 13 (10-nov-2026)
 
 {{< video https://youtu.be/erocdpQCLTs >}}
+
+
+</br>
+
+## Clase 14 (17-nov-2026)
+
+{{< video https://youtu.be/b9M1P3UXg6I >}}
+
+
+
+
+
+
+
