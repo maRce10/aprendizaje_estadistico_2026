@@ -194,7 +194,9 @@ El conjunto de datos permite explorar relaciones entre variables numéricas y ca
 -   Comparación con otros métodos como t-SNE
 
 ::: {.alert .alert-info}
+
 # Tarea 3
+
 
 ```{r, eval = FALSE, echo = FALSE}
 Usaremos los datos de Cortez y Silva (2008) sobre el desempeño académico de estudiantes en la clase de matemáticas. Los datos contienen 395 observaciones y 31 variables. La variable respuesta es `G3` (calificación final), y las variables predictoras son las demás variables del conjunto de datos. Pueden econtrar una [descripción detallada de los datos aqui](https://archive.ics.uci.edu/dataset/320/student+performance). El siguiente código carga los datos y remueve las variables `G1` y `G2` (calificaciones parciales) para evitar multicolinealidad:
@@ -336,6 +338,146 @@ Cortez, P., & Silva, A.M. (2008). Using data mining to predict secondary school 
  ```{r, eval = FALSE, echo = FALSE}
  
 ``` 
+
+
+
+```{r, echo = FALSE, message=FALSE}
+library(knitr)
+library(ggplot2)
+library(viridis)
+library(glmnet)
+library(caret)
+library(pROC)
+library(nnet)
+library(Metrics)
+
+theme_set(theme_classic(base_size = 20))
+```
+
+
+Usaremos los datos de Cortez et al. (2009) sobre la calidad de vinos tintos portugueses de la variedad "Vinho Verde". Los datos contienen 1599 observaciones de vinos, cada una caracterizada por 11 variables fisicoquímicas (acidez, azúcar residual, sulfatos, alcohol, etc.) y una variable respuesta, `quality`, que corresponde a la calificación de calidad otorgada por un panel de catadores (escala de 0 a 10, aunque en la práctica los valores observados van de 3 a 8). Pueden encontrar una [descripción detallada de los datos aquí](https://archive.ics.uci.edu/dataset/186/wine+quality). El siguiente código carga los datos y limpia los nombres de las columnas (remplaza los espacios por guiones bajos para facilitar su uso en fórmulas de R):
+
+```{r}
+# leer datos
+datos_vino <- read.csv("https://raw.githubusercontent.com/plotly/datasets/refs/heads/master/winequality-red.csv")
+
+# limpiar nombres de columnas
+names(datos_vino) <- gsub(" ", "_", names(datos_vino))
+
+str(datos_vino)
+```
+
+1.  Ajuste un modelo de regresión lineal con los datos de `datos_vino` donde la variable respuesta sea `quality`. Utilice su conocimiento del sistema (o una búsqueda rápida sobre los factores fisicoquímicos que afectan la calidad del vino) para escoger las variables predictoras que usted espere tengan un mayor efecto sobre la calidad. Calcule el R^2^ para este modelo.
+
+```{r solucion del ejercicio 1}
+#| eval: false
+#| echo: false
+
+# ajustar modelo
+mod_vino <- lm(quality ~ alcohol + volatile_acidity + sulphates + citric_acid, data = datos_vino)
+
+# get summary
+summary(mod_vino)
+```
+
+2.  Ajuste un modelo de regresión multinomial análogo al del punto anterior (e.g. mismos predictores y misma respuesta).
+
+```{r}
+#| eval: false
+#| echo: false
+
+mod_mult <- multinom(quality ~ alcohol + volatile_acidity + sulphates + citric_acid, data = datos_vino)
+```
+
+3.  Calcule la matriz de confusión, la exactitud, el área bajo la curva y la pérdida logarítmica para el modelo del punto anterior.
+
+```{r}
+#| eval: false
+#| echo: false
+
+# predecir probabilidades
+pred_prob <- predict(mod_mult, newdata = datos_vino, type = "probs")
+
+# convertir respuesta a factor
+datos_vino$quality_f <- as.factor(datos_vino$quality)
+
+# convertir las etiquetas reales a una matriz de indicadores (one-hot encoding)
+y_obs <- model.matrix(~ quality_f - 1, data = datos_vino)
+
+# calcular el log-loss
+log_loss_value <- logLoss(y_obs, pred_prob)
+
+log_loss_value
+
+# hacer la matriz de confusion
+# predecir categorias
+pred_cat <- predict(mod_mult, newdata = datos_vino)
+
+mat_conf <-
+  confusionMatrix(factor(pred_cat), factor(datos_vino$quality))
+
+mat_conf$table
+
+mat_conf$overall["Accuracy"]
+
+mat_conf$overall
+
+# area bajo la curva
+roc_multiclass <- multiclass.roc(datos_vino$quality, pred_prob)
+
+roc_multiclass
+```
+
+El siguiente código binariza la variable respuesta `quality`. Si la calificación es de 7 o más, se considera que el vino es de "buena calidad" (`Bueno`), de lo contrario, se considera que no lo es (`No bueno`):
+
+```{r}
+datos_vino$quality_bin <- ifelse(datos_vino$quality >= 7, 1, 0)
+```
+
+4.  Utilizando la variable binaria `quality_bin` como respuesta, ajuste un modelo de regresión logística con las mismas variables predictoras que el modelo ajustado en el punto 2.
+
+```{r}
+#| eval: false
+#| echo: false
+
+# ajustar modelo
+mod_log <- glm(quality_bin ~ alcohol + volatile_acidity + sulphates + citric_acid, data = datos_vino, family = binomial)
+```
+
+5.  Calcule la matriz de confusión, la exactitud, precisión, índice F1, área bajo la curva y pérdida logarítmica para el modelo del punto anterior.
+
+```{r}
+#| eval: false
+#| echo: false
+
+# predecir probabilidades
+pred_prob <- predict(mod_log, newdata = datos_vino, type = "response")
+
+# calcular log-loss
+log_loss_value <- logLoss(datos_vino$quality_bin, pred_prob)
+
+log_loss_value
+
+# hacer la matriz de confusion
+# binarizar prediccion
+pred_cat <- ifelse(pred_prob > 0.5, 1, 0)
+
+mat_conf <-
+  confusionMatrix(factor(pred_cat), factor(datos_vino$quality_bin))
+
+mat_conf$table
+
+mat_conf$overall["Accuracy"]
+
+mat_conf$overall
+
+# area bajo la curva
+roc_curve <- roc(datos_vino$quality_bin, pred_prob, smooth = TRUE)
+
+roc_curve
+```
+
+6.  Compare los modelos generados en los puntos 2 y 4. ¿Cuál modelo parece tener un mejor desempeño? ¿Por qué?
 
 :::
 
